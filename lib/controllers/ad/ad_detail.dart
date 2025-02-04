@@ -1,0 +1,410 @@
+import 'package:afrahdz/core/constants/api.dart';
+import 'package:afrahdz/core/constants/color.dart';
+import 'package:afrahdz/core/constants/size.dart';
+import 'package:afrahdz/core/services/ad_service.dart';
+import 'package:afrahdz/core/services/homepage_service.dart';
+import 'package:afrahdz/core/services/reservation_service.dart';
+import 'package:afrahdz/data/models/full_ad_details.dart';
+import 'package:afrahdz/views/widgets/addetail/type_fete_popup_reservation.dart';
+import 'package:afrahdz/views/widgets/edit/date_picker.dart';
+import 'package:afrahdz/views/widgets/homepage/custom_textfield.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
+import 'package:video_player/video_player.dart';
+
+class AdDetailController extends GetxController
+    with GetSingleTickerProviderStateMixin {
+  final AdService adService = AdService(); // Instance of AdService
+  final ReservationService reservationService =
+      ReservationService(); // instance of reservation service
+  final HomepageService homepageService =
+      HomepageService(); // instance of reservation service
+  late PageController pageController;
+  VideoPlayerController? videoController; // Make it nullable
+  final GetStorage storage = GetStorage();
+
+  DateTime? beginReservationDate;
+  DateTime? endReservationDate;
+  String? selectedFete;
+
+  bool get isLoggedIn => storage.read('token') != null;
+
+  var currentPage = 0.obs;
+
+  var isLoading = true.obs; // Observable loading state
+
+  var selectedAdDetails = FullAdDetails(
+    id: 0,
+    name: '',
+    category: '',
+    eventType: '',
+    city: '',
+    address: '',
+    creationDate: '',
+    mobile: '',
+    price: 0,
+    visits: 0,
+    likes: 0,
+    idmobmre: 0,
+    imageFullPath: '',
+    videoFullPath: '',
+    boost: {"": ""},
+    images: [],
+  ).obs; // Observable selected ad details
+
+  // Textediting controllers
+
+  late TextEditingController namecontroller;
+  late TextEditingController emailcontroller;
+  late TextEditingController phonecontroller;
+
+  @override
+  void onInit() {
+    super.onInit();
+    pageController = PageController();
+    namecontroller = TextEditingController();
+    emailcontroller = TextEditingController();
+    phonecontroller = TextEditingController();
+  }
+
+  void onPageChanged(int page) {
+    currentPage.value = page;
+
+    // Play the video if the user scrolls to the video page
+    if (selectedAdDetails.value.videoFullPath.isNotEmpty &&
+        page == selectedAdDetails.value.images.length + 1) {
+      videoController?.play();
+      videoController?.setLooping(true); // Loop the video
+    } else if (selectedAdDetails.value.videoFullPath.isNotEmpty) {
+      videoController?.pause(); // Pause the video when scrolling away
+    }
+  }
+
+  @override
+  void onClose() {
+    pageController.dispose();
+    if (selectedAdDetails.value.videoFullPath.isNotEmpty) {
+      videoController?.dispose();
+    }
+
+    super.onClose();
+  }
+
+  // Function to fetch full ad details by ID
+  Future<void> fetchFullAdDetails(int adId) async {
+    try {
+      isLoading(true); // Set loading to true
+      final adDetails = await adService
+          .getFullAdDetails(adId); // Call AdService to fetch ad details
+      selectedAdDetails.value = adDetails;
+      if (selectedAdDetails.value.videoFullPath.isNotEmpty) {
+        final videoUrl =
+            '${ApiLinkNames.server}${selectedAdDetails.value.videoFullPath}';
+
+        videoController = VideoPlayerController.networkUrl(
+          Uri.parse(videoUrl),
+        )..initialize().then((_) {
+            update(); // Notify listeners after video is initialized
+          }).catchError((error) {});
+      }
+    } catch (e) {
+      Get.snackbar(
+          'Erreur', "Impossible de récupérer les détails de l'annonce");
+    } finally {
+      isLoading(false); // Set loading to false
+    }
+  }
+
+  // Like an ad and add it to favorites
+  Future<void> likeAd(int adId) async {
+    try {
+      await adService.likeAd(adId);
+    } catch (e) {
+      Get.snackbar('Erreur', "Impossible d'aimer l'annonce");
+    }
+  }
+
+  Future<void> selectBeginDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: beginReservationDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Appcolors.primaryColor, // Header background color
+              onPrimary: Colors.white, // Header text color
+              surface: Colors.white, // Calendar background color
+              onSurface: Colors.black, // Calendar text color
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null && picked != beginReservationDate) {
+      beginReservationDate = picked;
+      update();
+    }
+  }
+
+  Future<void> selectEndDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: endReservationDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Appcolors.primaryColor, // Header background color
+              onPrimary: Colors.white, // Header text color
+              surface: Colors.white, // Calendar background color
+              onSurface: Colors.black, // Calendar text color
+            ),
+            dialogBackgroundColor: Colors.white,
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null && picked != endReservationDate) {
+      endReservationDate = picked;
+      update();
+    }
+  }
+
+  // Function to create a reservation
+  Future<void> createReservation() async {
+    final userId = homepageService.getUserIdFromToken();
+    // Get the current date and time
+    DateTime now = DateTime.now();
+
+    // Format the date to 'Y-m-d'
+    String formattedDate = DateFormat('yyyy-MM-dd').format(now);
+    try {
+      isLoading(true); // Set loading to true
+      await reservationService.createReservation(
+          reservationDate:
+              DateFormat('yyyy-MM-dd').format(beginReservationDate!),
+          finalReservationDate:
+              DateFormat('yyyy-MM-dd').format(endReservationDate!),
+          name: namecontroller.text,
+          email: emailcontroller.text,
+          phone: phonecontroller.text,
+          type: selectedFete!,
+          date: formattedDate,
+          idMember: selectedAdDetails.value.idmobmre.toString(),
+          idAnnonce: selectedAdDetails.value.id.toString(),
+          idClient: userId.toString());
+      Get.snackbar('Success', 'Réservation créée avec succès');
+      namecontroller.clear();
+      emailcontroller.clear();
+      phonecontroller.clear();
+    } catch (e) {
+      Get.snackbar('Erreur', 'Échec de la création de la réservation');
+    } finally {
+      isLoading(false); // Set loading to false
+    }
+  }
+
+  void showReserveForm() {
+    Get.bottomSheet(
+      isScrollControlled: true,
+      isDismissible: true,
+      persistent: true,
+      SizedBox(
+        height: AppSize.appheight * .9,
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: AppSize.appheight * .03,
+              bottom: AppSize.appheight * .01,
+              left: AppSize.appwidth * .04,
+              right: AppSize.appwidth * .04),
+          child: Stack(
+            children: [
+              ListView(
+                children: [
+                  const Center(
+                    child: Text(
+                      'Reserver',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20,
+                        fontFamily: 'Mulish',
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: AppSize.appheight * .03,
+                  ),
+                  const Text(
+                    'Date de reservation',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: AppSize.appheight * .01,
+                  ),
+                  const BeginReservationpicker(),
+                  SizedBox(
+                    height: AppSize.appheight * .03,
+                  ),
+                  const Text(
+                    'Date de fin reservation',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: AppSize.appheight * .01,
+                  ),
+                  const EndReservationpicker(),
+                  SizedBox(
+                    height: AppSize.appheight * .03,
+                  ),
+                  const Text(
+                    'Nom',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: AppSize.appheight * .01,
+                  ),
+                  ReservationTextfield(
+                    hint: "Ton nom",
+                    controller: namecontroller,
+                  ),
+                  SizedBox(
+                    height: AppSize.appheight * .03,
+                  ),
+                  const Text(
+                    'Email',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: AppSize.appheight * .01,
+                  ),
+                  ReservationTextfield(
+                    keyboardtype: TextInputType.emailAddress,
+                    hint: "test@gmail.com",
+                    controller: emailcontroller,
+                  ),
+                  SizedBox(
+                    height: AppSize.appheight * .03,
+                  ),
+                  const Text(
+                    'Numero telephone',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: AppSize.appheight * .01,
+                  ),
+                  ReservationTextfield(
+                    keyboardtype: TextInputType.number,
+                    hint: "05456945964",
+                    controller: phonecontroller,
+                  ),
+                  SizedBox(
+                    height: AppSize.appheight * .03,
+                  ),
+                  const Text(
+                    'Type de fete',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(
+                    height: AppSize.appheight * .01,
+                  ),
+                  const TypeFetePopupReservation(),
+                  SizedBox(
+                    height: AppSize.appheight * .1,
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Obx(
+                  () => Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: AppSize.appheight * .01),
+                    child: AnimatedContainer(
+                      duration: 300.milliseconds,
+                      width: isLoading.value
+                          ? AppSize.appwidth * .2
+                          : AppSize.appwidth * .9,
+                      curve: Curves.fastLinearToSlowEaseIn,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              padding:
+                                  EdgeInsets.zero, // Remove default padding
+                              shadowColor:
+                                  Colors.black, // Remove default shadow
+                              elevation: 4),
+                          onPressed: () => createReservation(),
+                          child: Ink(
+                            height: AppSize.appheight * .06,
+                            decoration: BoxDecoration(
+                                gradient: Appcolors.primaryGradient,
+                                borderRadius: BorderRadius.circular(30)),
+                            child: Center(
+                              child: isLoading.value
+                                  ? const CircularProgressIndicator.adaptive(
+                                      backgroundColor: Colors.white,
+                                    )
+                                  : const Text(
+                                      'Reserver',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        color: Color(0xFFFBFBFB),
+                                        fontSize: 20,
+                                        fontFamily: 'Mulish',
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                            ),
+                          )),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      backgroundColor: Colors.white,
+    );
+  }
+}
