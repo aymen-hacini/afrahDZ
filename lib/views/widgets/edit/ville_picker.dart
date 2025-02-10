@@ -97,7 +97,7 @@ class _ProvincePopupMenuButtonState extends State<ProvincePopupMenuButton> {
             Text(
               controller.selectedWilaya != null
                   ? '${controller.selectedWilaya}'
-                  : 'choose a wilaya',
+                  : 'choosewilaya'.tr,
               style: const TextStyle(
                 color: Color(0xFF534C4C),
                 fontSize: 14,
@@ -389,7 +389,7 @@ class _TypeFetePopupState extends State<TypeFetePopup> {
             Text(
               controller.selectedFete != null
                   ? '${controller.selectedFete}'
-                  : 'choose a type',
+                  : 'chooseEvent'.tr,
               style: const TextStyle(
                 color: Color(0xFF534C4C),
                 fontSize: 14,
@@ -477,6 +477,7 @@ class _EditTypeFetePopupState extends State<EditTypeFetePopup> {
     );
   }
 }
+
 class CategoriePopup extends StatefulWidget {
   const CategoriePopup({super.key});
 
@@ -488,13 +489,25 @@ class _CategoriePopupState extends State<CategoriePopup> {
   // List of all fetes in Algeria
   final List<String> categories = const [
     "Salle des fetes",
-    "Dj",
-    "Automobiles",
-    "Motos",
-    "Costumes",
     "Negafats",
-    "Photographe",
-    "Kaftan"
+    "Location voiture",
+    "Dj",
+    "Chedda et robes",
+    "Gateaux et Tartes",
+    "Groupes musicales",
+    "Motos",
+    "voyage de noces",
+    "Costumes",
+    "Camera Man",
+    "Cuisiner",
+    "Coiffure",
+    "Cheval et barnous",
+    "Decor et Fleurs",
+    "Hotels et nuit de noces",
+    "Bijoux accessoires",
+    "Groupes photos interdit",
+    "Trousseau",
+    "Organisateur"
   ];
 
   @override
@@ -530,7 +543,7 @@ class _CategoriePopupState extends State<CategoriePopup> {
                 controller.selectedCategorie != null
                     ? controller.selectedCategorie!
                     // Display the selected category name
-                    : 'Choose a category',
+                    : 'chooseCategory'.tr,
                 style: const TextStyle(
                   color: Color(0xFF534C4C),
                   fontSize: 14,
@@ -555,13 +568,25 @@ class EditCategoriePopup extends GetView<EditAnnonceController> {
 // List of all fetes in Algeria
   final List<String> categories = const [
     "Salle des fetes",
-    "Dj",
-    "Automobiles",
-    "Motos",
-    "Costumes",
     "Negafats",
-    "Photographe",
-    "Kaftan"
+    "Location voiture",
+    "Dj",
+    "Chedda et robes",
+    "Gateaux et Tartes",
+    "Groupes musicales",
+    "Motos",
+    "voyage de noces",
+    "Costumes",
+    "Camera Man",
+    "Cuisiner",
+    "Coiffure",
+    "Cheval et barnous",
+    "Decor et Fleurs",
+    "Hotels et nuit de noces",
+    "Bijoux accessoires",
+    "Groupes photos interdit",
+    "Trousseau",
+    "Organisateur"
   ];
   @override
   Widget build(BuildContext context) {

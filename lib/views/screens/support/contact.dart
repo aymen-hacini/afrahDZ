@@ -30,7 +30,7 @@ class Contact extends GetView<ContactController> {
                       EdgeInsets.symmetric(vertical: AppSize.appheight * .01),
                   child: Center(
                     child: GradientText(
-                      text: "Contactez nous",
+                      text: "ContactTitle".tr,
                       gradient: Appcolors.primaryGradient,
                       style: const TextStyle(
                         fontSize: 20,
@@ -40,10 +40,10 @@ class Contact extends GetView<ContactController> {
                     ),
                   ),
                 ),
-                const Center(
+                Center(
                   child: Text(
-                    'N’hesitez pas a nous contacter',
-                    style: TextStyle(
+                    "ContactHeader".tr,
+                    style: const TextStyle(
                       color: Color(0xDD525252),
                       fontSize: 14,
                       fontFamily: 'Inter',
@@ -59,9 +59,9 @@ class Contact extends GetView<ContactController> {
                   child: ListView(
                     physics: const ClampingScrollPhysics(),
                     children: [
-                      const Text(
-                        'Nom ',
-                        style: TextStyle(
+                      Text(
+                        "EditprofileName".tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -83,7 +83,7 @@ class Contact extends GetView<ContactController> {
                         ),
                         decoration: InputDecoration(
                             hintStyle: const TextStyle(color: Colors.grey),
-                            hintText: "Aymen",
+                            hintText: "Nom",
                             enabledBorder: OutlineInputBorder(
                                 borderSide:
                                     const BorderSide(color: Colors.grey),
@@ -96,9 +96,9 @@ class Contact extends GetView<ContactController> {
                       SizedBox(
                         height: AppSize.appheight * .01,
                       ),
-                      const Text(
-                        'Email ',
-                        style: TextStyle(
+                      Text(
+                        'EditprofileEmail'.tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -133,9 +133,9 @@ class Contact extends GetView<ContactController> {
                       SizedBox(
                         height: AppSize.appheight * .01,
                       ),
-                      const Text(
-                        'Sujet',
-                        style: TextStyle(
+                      Text(
+                        "ContactSubject".tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -170,9 +170,9 @@ class Contact extends GetView<ContactController> {
                       SizedBox(
                         height: AppSize.appheight * .01,
                       ),
-                      const Text(
-                        'Numero telephone',
-                        style: TextStyle(
+                      Text(
+                        'EditprofilePhone'.tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -195,7 +195,7 @@ class Contact extends GetView<ContactController> {
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                             hintStyle: const TextStyle(color: Colors.grey),
-                            hintText: "0560577688",
+                            hintText: "055 00 55 55",
                             enabledBorder: OutlineInputBorder(
                                 borderSide:
                                     const BorderSide(color: Colors.grey),
@@ -208,9 +208,9 @@ class Contact extends GetView<ContactController> {
                       SizedBox(
                         height: AppSize.appheight * .01,
                       ),
-                      const Text(
-                        'Description',
-                        style: TextStyle(
+                      Text(
+                        'AdDescription'.tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -233,7 +233,7 @@ class Contact extends GetView<ContactController> {
                         ),
                         decoration: InputDecoration(
                             hintStyle: const TextStyle(color: Colors.grey),
-                            hintText: "ajouter votre description de sujet",
+                            hintText: "...",
                             enabledBorder: OutlineInputBorder(
                                 borderSide:
                                     const BorderSide(color: Colors.grey),
@@ -274,10 +274,10 @@ class Contact extends GetView<ContactController> {
                                           .adaptive(
                                           backgroundColor: Colors.white,
                                         )
-                                      : const Text(
-                                          'Envoyer',
+                                      : Text(
+                                          "ContactBtn".tr,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Color(0xFFFBFBFB),
                                             fontSize: 20,
                                             fontFamily: 'Mulish',

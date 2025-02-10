@@ -5,7 +5,7 @@ import 'package:afrahdz/core/constants/routes_names.dart';
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/views/screens/details/ad_detail.dart';
 import 'package:afrahdz/views/screens/edit/edit_profile.dart';
-import 'package:afrahdz/views/widgets/auth/gradient_text.dart';
+import 'package:afrahdz/views/screens/homepage/all_ads.dart';
 import 'package:afrahdz/views/widgets/categorie/categorie_card.dart';
 import 'package:afrahdz/views/widgets/homepage/categorie_title.dart';
 import 'package:afrahdz/views/widgets/homepage/custom_tile.dart';
@@ -15,6 +15,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -66,49 +67,56 @@ class Homepage extends GetView<HomePageController> {
                           SizedBox(
                             height: AppSize.appheight * .01,
                           ),
-                          controller.userDetails.value != null
-                              ? Padding(
-                                  padding: EdgeInsets.only(
-                                      left: AppSize.appwidth * .05),
-                                  child: Text(
-                                    " ${controller.userDetails.value!.name}",
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 16,
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                )
-                              : const SizedBox.shrink(),
-                          controller.userDetails.value != null
-                              ? Padding(
-                                  padding: EdgeInsets.only(
-                                      left: AppSize.appwidth * .055),
-                                  child: Text(
-                                    controller.userDetails.value!.wilaya,
-                                    style: const TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 12,
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w200,
-                                    ),
-                                  ),
-                                )
-                              : Padding(
-                                  padding: const EdgeInsets.only(left: 20),
-                                  child: GestureDetector(
-                                    onTap: () =>
-                                        Get.toNamed(AppRoutesNames.login),
-                                    child: GradientText(
-                                      text: "Log In",
-                                      gradient: Appcolors.primaryGradient,
-                                      style: const TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w600),
-                                    ),
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: AppSize.appwidth * .05),
+                                child: Text(
+                                  " ${controller.userDetails.value!.name}",
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w500,
                                   ),
                                 ),
+                              ),
+                              const Spacer(),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    right: AppSize.appwidth * .05),
+                                child: IconButton(
+                                    onPressed: () {
+                                      final box = GetStorage();
+                                      var newLocale =
+                                          Get.locale?.languageCode == 'ar'
+                                              ? const Locale('fr', 'FR')
+                                              : const Locale('ar', 'EG');
+
+                                      Get.updateLocale(newLocale);
+                                      box.write(
+                                          'locale',
+                                          newLocale
+                                              .languageCode); // Save locale
+                                    },
+                                    icon: const Icon(Icons.language)),
+                              )
+                            ],
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsets.only(left: AppSize.appwidth * .055),
+                            child: Text(
+                              controller.userDetails.value!.wilaya,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w200,
+                              ),
+                            ),
+                          ),
                           SizedBox(
                             height: AppSize.appheight * .005,
                           ),
@@ -119,40 +127,40 @@ class Homepage extends GetView<HomePageController> {
                               endIndent: AppSize.appwidth * .04),
                           CustomTile(
                             ontap: () => Get.toNamed(AppRoutesNames.favorites),
-                            title: "Favorites",
+                            title: "HomepageFavoriteTile".tr,
                             svg: "assets/svg/cat.svg",
                           ),
                           controller.isMemberLoggedIn
                               ? CustomTile(
                                   ontap: () =>
                                       Get.toNamed(AppRoutesNames.addannonce),
-                                  title: "Ajouter Annonce",
+                                  title: "HomepageAddAd".tr,
                                   svg: "assets/svg/add.svg")
                               : const SizedBox.shrink(),
                           controller.isMemberLoggedIn
                               ? CustomTile(
                                   ontap: () => Get.toNamed(
                                       AppRoutesNames.boosterAnnonce),
-                                  title: "Booster Annonce",
+                                  title: "HomepageBoostAdTile".tr,
                                   svg: "assets/svg/boost.svg")
                               : const SizedBox.shrink(),
                           controller.isMemberLoggedIn
                               ? CustomTile(
                                   ontap: () =>
                                       Get.toNamed(AppRoutesNames.mesannonces),
-                                  title: "Mes Annonces",
+                                  title: "HomepageMyAdsTile".tr,
                                   svg: "assets/svg/mesannonces.svg")
                               : const SizedBox.shrink(),
                           CustomTile(
                             ontap: () => Get.toNamed(controller.isMemberLoggedIn
                                 ? AppRoutesNames.memberReservations
                                 : AppRoutesNames.clientReservations),
-                            title: "Mes reservations",
+                            title: "HomepageMyreservationsTile".tr,
                             svg: "assets/svg/reserve.svg",
                           ),
                           CustomTile(
                             ontap: () => Get.toNamed(AppRoutesNames.planning),
-                            title: "Mon planning",
+                            title: "HomepageMyplaningTile".tr,
                             svg: "assets/svg/planning.svg",
                           ),
                           SizedBox(
@@ -165,12 +173,12 @@ class Homepage extends GetView<HomePageController> {
                               endIndent: AppSize.appwidth * .04),
                           CustomTile(
                             ontap: () => Get.toNamed(AppRoutesNames.contact),
-                            title: "Contact",
+                            title: "HomepageContactTile".tr,
                             svg: "assets/svg/contact.svg",
                           ),
                           CustomTile(
                             ontap: () => Get.toNamed(AppRoutesNames.about),
-                            title: "About",
+                            title: "HomepageAboutTile".tr,
                             svg: "assets/svg/about.svg",
                           ),
                           SizedBox(
@@ -183,7 +191,7 @@ class Homepage extends GetView<HomePageController> {
                               endIndent: AppSize.appwidth * .04),
                           CustomTile(
                             ontap: () => controller.logout(),
-                            title: "Deconnexion",
+                            title: "HomepageLogoutTile".tr,
                             svg: "assets/svg/exit.svg",
                           ),
                           const Spacer(),
@@ -237,33 +245,28 @@ class Homepage extends GetView<HomePageController> {
                 children: [
                   Obx(
                     () => controller.userDetails.value == null
-                        ? Builder(builder: (context) {
-                            return IconButton(
-                                onPressed: () =>
-                                    Get.toNamed(AppRoutesNames.login),
-                                icon: const Icon(
-                                  Icons.login_rounded,
-                                  color: Colors.black,
-                                ));
-                          })
+                        ? Align(
+                            alignment: Alignment.topRight,
+                            child: Builder(builder: (context) {
+                              return IconButton(
+                                  onPressed: () =>
+                                      Get.toNamed(AppRoutesNames.login),
+                                  icon: const Icon(
+                                    Icons.person_outline,
+                                    color: Colors.black,
+                                  ));
+                            }),
+                          )
                         : Align(
                             alignment: Alignment.topLeft,
                             child: Builder(builder: (context) {
-                              return controller.userDetails.value == null
-                                  ? IconButton(
-                                      onPressed: () =>
-                                          Get.toNamed(AppRoutesNames.login),
-                                      icon: const Icon(
-                                        Icons.login_rounded,
-                                        color: Colors.black,
-                                      ))
-                                  : IconButton(
-                                      onPressed: () {
-                                        Scaffold.of(context).openDrawer();
-                                      },
-                                      icon: const Icon(
-                                        Icons.menu,
-                                      ));
+                              return IconButton(
+                                  onPressed: () {
+                                    Scaffold.of(context).openDrawer();
+                                  },
+                                  icon: const Icon(
+                                    Icons.menu,
+                                  ));
                             }),
                           ),
                   ),
@@ -284,39 +287,60 @@ class Homepage extends GetView<HomePageController> {
               SizedBox(
                 height: AppSize.appheight * .025,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text.rich(
-                  TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'Découvrir les ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                        ),
+              GestureDetector(
+                onTap: () => Get.to(() => const AllVipAds(),
+                    transition: Transition.upToDown),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: AnimatedBuilder(
+                    animation: controller.animation,
+                    builder: (context, child) => Transform.translate(
+                      offset: Offset(-controller.animation.value, 0),
+                      child: Row(
+                        children: [
+                          Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: "HomepageTitlepart1".tr,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "HomepageTitlepart2".tr,
+                                  style: const TextStyle(
+                                    color: Color(0xFFC628BC),
+                                    fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: "HomepageTitlepart3".tr,
+                                  style: const TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 14,
+                                    fontFamily: 'Poppins',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          const Icon(
+                            Icons.arrow_forward_ios,
+                            size: 12,
+                          )
+                        ],
                       ),
-                      TextSpan(
-                        text: 'Tops',
-                        style: TextStyle(
-                          color: Color(0xFFC628BC),
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      TextSpan(
-                        text: ' salles des fêtes',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
               ),
@@ -330,7 +354,7 @@ class Homepage extends GetView<HomePageController> {
                         options: CarouselOptions(
                           autoPlayAnimationDuration: 100.milliseconds,
                           animateToClosest: true,
-                          viewportFraction: .7,
+                          viewportFraction: .65,
                           enlargeStrategy: CenterPageEnlargeStrategy.zoom,
                           padEnds: true,
                           enlargeFactor: .45,
@@ -348,8 +372,8 @@ class Homepage extends GetView<HomePageController> {
                       ));
                 } else {
                   return controller.vipAds.isEmpty
-                      ? const Center(
-                          child: Text("There is no ads"),
+                      ? Center(
+                          child: Text("Noads".tr),
                         )
                       : AnimatedOpacity(
                           duration: 400.milliseconds,
@@ -400,10 +424,10 @@ class Homepage extends GetView<HomePageController> {
               SizedBox(
                 height: AppSize.appheight * .02,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: CategorieTitle(
-                  title: "Categories",
+                  title: "CategorieTitle".tr,
                 ),
               ),
               SizedBox(height: AppSize.appheight * .02),
@@ -431,7 +455,7 @@ class Homepage extends GetView<HomePageController> {
                                 ))),
                       ));
                 } else if (controller.categories.isEmpty) {
-                  return const Center(child: Text('No categories found.'));
+                  return Center(child: Text('Noads'.tr));
                 } else {
                   return SingleChildScrollView(
                     child: Column(

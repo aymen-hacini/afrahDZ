@@ -11,6 +11,7 @@ import 'package:afrahdz/views/widgets/homepage/profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class PlanningCard extends GetView<PlanningController> {
   final PlanningModel selectedPlanning;
@@ -32,13 +33,27 @@ class PlanningCard extends GetView<PlanningController> {
         horizontal: AppSize.appwidth * .02,
       ),
       decoration: ShapeDecoration(
-        color: Colors.white,
+        color: selectedPlanning.reservation.startDate ==
+                DateFormat('yyyy-MM-dd').format(DateTime.now())
+            ? const Color.fromARGB(255, 255, 146, 138).withOpacity(.3)
+            : selectedPlanning.reservation.startDate ==
+                    DateFormat('yyyy-MM-dd')
+                        .format(DateTime.now().add(const Duration(days: 1)))
+                ? Colors.red.withOpacity(.05)
+                : Colors.white,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(12),
         ),
         shadows: [
           BoxShadow(
-              color: Colors.black.withOpacity(.2),
+              color: selectedPlanning.reservation.startDate ==
+                      DateFormat('yyyy-MM-dd').format(DateTime.now())
+                  ? const Color.fromARGB(255, 255, 146, 138).withOpacity(.2)
+                  : selectedPlanning.reservation.startDate ==
+                          DateFormat('yyyy-MM-dd').format(
+                              DateTime.now().add(const Duration(days: 1)))
+                      ? Colors.red.withOpacity(.05)
+                      : Colors.black.withOpacity(.2),
               blurStyle: BlurStyle.normal,
               blurRadius: 10,
               offset: const Offset(0, 8),
@@ -189,9 +204,16 @@ class PlanningCard extends GetView<PlanningController> {
                   width: 5,
                 ),
                 Text(
-                  selectedPlanning.reservation.startDate,
+                  selectedPlanning.reservation.startDate ==
+                          DateFormat('yyyy-MM-dd').format(DateTime.now())
+                      ? "Today".tr
+                      : selectedPlanning.reservation.startDate ==
+                              DateFormat('yyyy-MM-dd').format(
+                                  DateTime.now().add(const Duration(days: 1)))
+                          ? "Tommorow".tr
+                          : selectedPlanning.reservation.startDate,
                   style: const TextStyle(
-                    color: Colors.grey,
+                    color: Colors.black,
                     fontSize: 12,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,

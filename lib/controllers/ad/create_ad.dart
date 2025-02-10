@@ -73,7 +73,7 @@ class CreateAdController extends GetxController {
   // Create the ad
   Future<void> createAd() async {
     if (images.isEmpty) {
-      Get.snackbar('Error', 'Please select at least one image and a video');
+      Get.snackbar('Erreur'.tr, 'Aderreur2'.tr);
       return;
     }
 
@@ -97,9 +97,9 @@ class CreateAdController extends GetxController {
           price: priceController.text,
           description: descriptionController.text
           );
-      Get.snackbar('Success', 'Annonce créée avec succès');
+      Get.snackbar('Success'.tr, 'Adsuccess'.tr);
     } catch (e) {
-      Get.snackbar('Error', "Impossible de créer l'annonce");
+      Get.snackbar('Erreur'.tr, "Aderreur".tr);
     } finally {
       isLoading(false);
     }
@@ -132,7 +132,7 @@ class CreateAdController extends GetxController {
           children: [
             ListTile(
               leading: const Icon(Icons.camera),
-              title: const Text('Choose pictures'),
+              title:  Text('Choisir des images'.tr),
               onTap: () {
                 pickImages();
                 Get.back(); // Close the bottom sheet
@@ -140,7 +140,7 @@ class CreateAdController extends GetxController {
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text('Choose video'),
+              title:  Text('Choisir la vidéo'.tr),
               onTap: () {
                 pickVideo();
                 Get.back(); // Close the bottom sheet

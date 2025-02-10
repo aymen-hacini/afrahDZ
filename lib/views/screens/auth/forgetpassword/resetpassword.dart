@@ -42,7 +42,7 @@ class ResetPasswordScreen extends GetView<ForgetPasswordController> {
                   ),
                   Flexible(
                     child: GradientText(
-                      text: "Réinitialiser mot de passe",
+                      text: "Réinitialiser mot de passe".tr,
                       gradient: Appcolors.primaryGradient,
                       style: const TextStyle(
                           fontWeight: FontWeight.w600, fontSize: 18),
@@ -50,15 +50,16 @@ class ResetPasswordScreen extends GetView<ForgetPasswordController> {
                   ),
                 ],
               ),
-              const Text("Veuillez entrer votre nouveau mot de passe",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              Text("Veuillez entrer votre nouveau mot de passe".tr,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w500)),
               SizedBox(
                 height: AppSize.appheight * .02,
               ),
               TextField(
                 controller: controller.newPasswordController,
                 decoration: InputDecoration(
-                    labelText: 'Nouveau mot de passe',
+                    labelText: 'Nouveau mot de passe'.tr,
                     enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.grey),
                         borderRadius: BorderRadius.circular(10)),
@@ -69,15 +70,16 @@ class ResetPasswordScreen extends GetView<ForgetPasswordController> {
               SizedBox(
                 height: AppSize.appheight * .03,
               ),
-              const Text("Veuillez confirmer votre nouveau mot de passe",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+              Text("Veuillez confirmer votre nouveau mot de passe".tr,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.w500)),
               SizedBox(
                 height: AppSize.appheight * .02,
               ),
               TextField(
                 controller: controller.confirmNewPasswordController,
                 decoration: InputDecoration(
-                    labelText: 'Confirmer mot de passe',
+                    labelText: 'Confirmer mot de passe'.tr,
                     enabledBorder: OutlineInputBorder(
                         borderSide: const BorderSide(color: Colors.grey),
                         borderRadius: BorderRadius.circular(10)),
@@ -111,10 +113,10 @@ class ResetPasswordScreen extends GetView<ForgetPasswordController> {
                             ? const CircularProgressIndicator.adaptive(
                                 backgroundColor: Colors.white,
                               )
-                            : const Text(
-                                'Confirmer',
+                            : Text(
+                                'resetbtn'.tr,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   color: Color(0xFFFBFBFB),
                                   fontSize: 20,
                                   fontFamily: 'Mulish',

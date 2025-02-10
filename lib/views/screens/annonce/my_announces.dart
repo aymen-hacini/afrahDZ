@@ -35,7 +35,7 @@ class MyAnnounces extends GetView<MyAnnoncesController> {
                     padding: EdgeInsets.only(top: AppSize.appheight * .03),
                     child: Center(
                       child: GradientText(
-                        text: "Mes Annonces",
+                        text:"MyAdsTitle".tr,
                         gradient: Appcolors.primaryGradient,
                         style: const TextStyle(
                           fontSize: 20,

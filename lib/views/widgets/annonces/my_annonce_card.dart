@@ -46,51 +46,64 @@ class MyAnnonceCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              SvgPicture.asset("assets/svg/check.svg"),
-              const SizedBox(
-                width: 5,
+              const Text(
+                'Le',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 12,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                ),
               ),
-              Column(
-                children: [
-                  const Text(
-                    'Listed at',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 12,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Text(
-                    DateFormat('yyyy-MM-dd').format(selectedAd.date),
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 10,
-                      fontFamily: 'Poppins',
-                      fontWeight: FontWeight.w300,
-                    ),
-                  )
-                ],
+              const SizedBox(
+                width: 10,
+              ),
+              Text(
+                DateFormat('yyyy-MM-dd').format(selectedAd.date),
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 10,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w300,
+                ),
               ),
               const Spacer(),
               selectedAd.type == 'gold'
-                  ? GradientText(
-                      text: "Gold",
-                      gradient: Appcolors.primaryGradient,
-                      style: const TextStyle(
+                  ? const GradientText(
+                      text: "Silver",
+                      gradient: LinearGradient(
+                        end: Alignment.topLeft, // Adjust based on your angle
+                        begin:
+                            Alignment.bottomRight, // Adjust based on your angle
+                        colors: [
+                          Color(
+                              0xFFF0F0F0), // Example color, replace with actual color
+                          Color.fromARGB(255, 157, 157,
+                              157), // Example color, replace with actual color
+                        ],
+                      ),
+                      style: TextStyle(
                         fontSize: 12,
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
                       ),
                     )
                   : selectedAd.type == 'vip'
-                      ? GradientText(
-                          text: "VIP",
-                          gradient: Appcolors.primaryGradient,
-                          style: const TextStyle(
+                      ? const GradientText(
+                          text: "Gold",
+                          gradient: LinearGradient(
+                            end:
+                                Alignment.topLeft, // Adjust based on your angle
+                            begin: Alignment
+                                .bottomRight, // Adjust based on your angle
+                            colors: [
+                              Color(
+                                  0xFFFCC201), // Example color, replace with actual color
+                              Color(
+                                  0xFFB78628), // Example color, replace with actual color
+                            ],
+                          ),
+                          style: TextStyle(
                             fontSize: 12,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w600,

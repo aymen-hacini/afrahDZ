@@ -21,56 +21,62 @@ class Signup2 extends GetView<LoginController> {
         color: Colors.white,
         padding: EdgeInsets.symmetric(horizontal: width * .08, vertical: 20),
         child: Obx(
-          ()=>controller.isLoading.value ? Center(child: CircularProgressIndicator.adaptive(backgroundColor: Appcolors.primaryColor,)) : Stack(
-            children: [
-              Column(
-                children: [
-                  const Center(
-                    child: Text(
-                      "Commencez",
-                      style: TextStyle(fontSize: 27, fontWeight: FontWeight.w700),
+          () => controller.isLoading.value
+              ? Center(
+                  child: CircularProgressIndicator.adaptive(
+                  backgroundColor: Appcolors.primaryColor,
+                ))
+              : Stack(
+                  children: [
+                    Column(
+                      children: [
+                        Center(
+                          child: Text(
+                            "SignupTitle1".tr,
+                            style: const TextStyle(
+                                fontSize: 27, fontWeight: FontWeight.w700),
+                          ),
+                        ),
+                        Center(
+                          child: Text(
+                            "SignupTitle2".tr,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.grey,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                        SizedBox(
+                          height: height * .03,
+                        ),
+                        SizedBox(
+                          height: height * .67,
+                          width: width,
+                          child: Column(children: [
+                            controller.tabController.index == 0
+                                ? signup2Views.first
+                                : signup2Views.last
+                          ]),
+                        )
+                      ],
                     ),
-                  ),
-                  const Center(
-                    child: Text(
-                      "en créant un compte gratuit",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w300),
+                    InkWell(
+                      onTap: () => Get.back(),
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: ShapeDecoration(
+                            shape: const CircleBorder(eccentricity: 0),
+                            gradient: Appcolors.backbuttonGradient),
+                        child: const Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: height * .03,
-                  ),
-                  SizedBox(
-                    height: height * .67,
-                    width: width,
-                    child: Column(children: [
-                      controller.tabController.index == 0
-                          ? signup2Views.first
-                          : signup2Views.last
-                    ]),
-                  )
-                ],
-              ),
-              InkWell(
-                onTap: () => Get.back(),
-                child: Container(
-                  height: 40,
-                  width: 40,
-                  decoration: ShapeDecoration(
-                      shape: const CircleBorder(eccentricity: 0),
-                      gradient: Appcolors.backbuttonGradient),
-                  child: const Icon(
-                    Icons.arrow_back_ios_new_rounded,
-                    color: Colors.white,
-                  ),
+                  ],
                 ),
-              ),
-            ],
-          ),
         ),
       )),
     );

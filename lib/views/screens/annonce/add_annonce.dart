@@ -35,7 +35,7 @@ class AddAnnonce extends GetView<CreateAdController> {
                       EdgeInsets.symmetric(vertical: AppSize.appheight * .02),
                   child: Center(
                     child: GradientText(
-                      text: "Ajouter une annonce",
+                      text: "AddAdTitle".tr,
                       gradient: Appcolors.primaryGradient,
                       style: const TextStyle(
                         fontSize: 20,
@@ -68,13 +68,12 @@ class AddAnnonce extends GetView<CreateAdController> {
                           return Stack(
                             children: [
                               PageView.builder(
-                                scrollBehavior:
-                                    const CupertinoScrollBehavior(),
+                                scrollBehavior: const CupertinoScrollBehavior(),
                                 physics: const ClampingScrollPhysics(),
                                 onPageChanged: (index) {
                                   controller.currentContainerPageIndex.value =
                                       index;
-                              
+
                                   // Initialize or dispose video controller based on the current page
                                   if (controller.video.value != null &&
                                       index == controller.images.length) {
@@ -119,8 +118,8 @@ class AddAnnonce extends GetView<CreateAdController> {
                                       if (controller.videoController.value !=
                                           null) {
                                         return ValueListenableBuilder(
-                                          valueListenable: controller
-                                              .videoController.value!,
+                                          valueListenable:
+                                              controller.videoController.value!,
                                           builder: (context,
                                               VideoPlayerValue value, child) {
                                             if (value.isInitialized) {
@@ -211,7 +210,7 @@ class AddAnnonce extends GetView<CreateAdController> {
                               SvgPicture.asset(AppImages.uploadSvg),
                               const SizedBox(height: 8),
                               Text(
-                                'Ajouter des photos et une video',
+                                "Imageplacehoder1".tr,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.black.withOpacity(0.9),
@@ -227,8 +226,7 @@ class AddAnnonce extends GetView<CreateAdController> {
                                 child: Opacity(
                                   opacity: .5,
                                   child: GradientText(
-                                    text:
-                                        "La premier photo sera sélectionnée comme photo de couverture",
+                                    text: "Imageplacehoder2".tr,
                                     gradient: Appcolors.primaryGradient,
                                     style: const TextStyle(
                                       fontSize: 10,
@@ -252,9 +250,9 @@ class AddAnnonce extends GetView<CreateAdController> {
                 Expanded(
                   child: ListView(
                     children: [
-                      const Text(
-                        'Nom Annonce ',
-                        style: TextStyle(
+                      Text(
+                        "AdName".tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -287,9 +285,9 @@ class AddAnnonce extends GetView<CreateAdController> {
                       SizedBox(
                         height: AppSize.appheight * .01,
                       ),
-                      const Text(
-                        'Categories ',
-                        style: TextStyle(
+                      Text(
+                        "AdCategorie".tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -303,9 +301,9 @@ class AddAnnonce extends GetView<CreateAdController> {
                       SizedBox(
                         height: AppSize.appheight * .01,
                       ),
-                      const Text(
-                        'Type de fete ',
-                        style: TextStyle(
+                      Text(
+                        'AdFete'.tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -319,9 +317,9 @@ class AddAnnonce extends GetView<CreateAdController> {
                       SizedBox(
                         height: AppSize.appheight * .01,
                       ),
-                      const Text(
-                        'Wilaya ',
-                        style: TextStyle(
+                      Text(
+                        'Adcity'.tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -335,9 +333,9 @@ class AddAnnonce extends GetView<CreateAdController> {
                       SizedBox(
                         height: AppSize.appheight * .01,
                       ),
-                      const Text(
-                        'Adresse ',
-                        style: TextStyle(
+                      Text(
+                        'EditprofileAddress'.tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -369,9 +367,9 @@ class AddAnnonce extends GetView<CreateAdController> {
                       SizedBox(
                         height: AppSize.appheight * .01,
                       ),
-                      const Text(
-                        'Description ',
-                        style: TextStyle(
+                      Text(
+                        "AdDescription".tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -384,7 +382,7 @@ class AddAnnonce extends GetView<CreateAdController> {
                       TextFormField(
                           controller: controller.descriptionController,
                           cursorColor: Appcolors.primaryColor,
-                          maxLines: 5,
+                          maxLength: 1000,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                   borderSide:
@@ -403,9 +401,9 @@ class AddAnnonce extends GetView<CreateAdController> {
                       SizedBox(
                         height: AppSize.appheight * .01,
                       ),
-                      const Text(
-                        'Price ',
-                        style: TextStyle(
+                      Text(
+                        "Adprice".tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 16,
                           fontFamily: 'Inter',
@@ -466,10 +464,10 @@ class AddAnnonce extends GetView<CreateAdController> {
                                           .adaptive(
                                           backgroundColor: Colors.white,
                                         )
-                                      : const Text(
-                                          'Enregistrer',
+                                      : Text(
+                                          'EditprofilebtnText'.tr,
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Color(0xFFFBFBFB),
                                             fontSize: 20,
                                             fontFamily: 'Mulish',

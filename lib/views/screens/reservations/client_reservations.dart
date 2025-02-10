@@ -14,7 +14,7 @@ class ClientReservations extends GetView<ClientReservationController> {
   Widget build(BuildContext context) {
     Get.lazyPut(() => ClientReservationController());
     return SmartRefresher(
-            controller: RefreshController(),
+      controller: RefreshController(),
       header: WaterDropMaterialHeader(
         backgroundColor: Appcolors.primaryColor,
         color: Colors.white,
@@ -34,7 +34,7 @@ class ClientReservations extends GetView<ClientReservationController> {
                     padding: EdgeInsets.only(top: AppSize.appheight * .02),
                     child: Center(
                       child: GradientText(
-                        text: "Mes Reservations",
+                        text: "ClientReservaitonsTitle".tr,
                         gradient: Appcolors.primaryGradient,
                         style: const TextStyle(
                           fontSize: 20,
@@ -58,8 +58,9 @@ class ClientReservations extends GetView<ClientReservationController> {
                       } else if (controller.reservations.isNotEmpty) {
                         return ListView.separated(
                             itemBuilder: (context, index) {
-                              final reservation = controller.reservations[index];
-      
+                              final reservation =
+                                  controller.reservations[index];
+
                               return ReservationCard(
                                 isValidated: reservation.etat,
                                 selectedReservation: reservation,
@@ -70,7 +71,7 @@ class ClientReservations extends GetView<ClientReservationController> {
                                 ),
                             itemCount: controller.reservations.length);
                       } else {
-                        return const Center(child: Text('No reservations found'));
+                        return Center(child: Text("noreservations".tr));
                       }
                     }),
                   )

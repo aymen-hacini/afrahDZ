@@ -2,8 +2,6 @@ import 'package:afrahdz/controllers/planning/planning_controller.dart';
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/views/widgets/auth/gradient_text.dart';
-import 'package:afrahdz/views/widgets/planning/begin_datepicker.dart';
-import 'package:afrahdz/views/widgets/planning/end_datepicker.dart';
 import 'package:afrahdz/views/widgets/planning/planning_card.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +29,7 @@ class Planning extends GetView<PlanningController> {
                             vertical: AppSize.appheight * .02),
                         child: Center(
                           child: GradientText(
-                            text: "Mon planning",
+                            text: "PlanningTitle".tr,
                             gradient: Appcolors.primaryGradient,
                             style: const TextStyle(
                               fontSize: 20,
@@ -41,47 +39,7 @@ class Planning extends GetView<PlanningController> {
                           ),
                         ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            "From : ",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                          const Flexible(flex: 6, child: BeginDatepicker()),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Text(
-                            "To : ",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                          const Flexible(flex: 6, child: EndDatepicker()),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Flexible(
-                            flex: 3,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    padding:
-                                        const EdgeInsets.symmetric(vertical: 6),
-                                    backgroundColor: Appcolors.primaryColor,
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(24))),
-                                onPressed: () =>
-                                    controller.fetchReservationswithDateRange(),
-                                child: const Text(
-                                  "Voire",
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w600),
-                                )),
-                          )
-                        ],
-                      ),
+                    
                       Expanded(child: Obx(
                         () {
                           if (controller.isLoading.value) {
@@ -92,8 +50,8 @@ class Planning extends GetView<PlanningController> {
                             );
                           } else {
                             return controller.plannings.isEmpty
-                                ? const Center(
-                                    child: Text("There is no plannings "),
+                                ?  Center(
+                                    child: Text("NoPlans".tr),
                                   )
                                 : ListView.builder(
                                     itemCount: controller.plannings.length,

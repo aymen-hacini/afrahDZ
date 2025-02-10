@@ -9,11 +9,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:afrahdz/main.dart';
+import 'package:get_storage/get_storage.dart';
 
 void main() {
+  final box = GetStorage();
+
+  String? langCode = box.read('locale'); // Read saved locale
+  Locale locale =
+      langCode != null ? Locale(langCode) : const Locale('fr', 'FR');
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(const MyApp());
+    await tester.pumpWidget(MyApp(locale: locale));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

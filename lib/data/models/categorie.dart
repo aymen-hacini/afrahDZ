@@ -1,10 +1,12 @@
 class CategorieModel {
   final String name;
+  final String arabname;
   final int number;
   final String image;
 
   CategorieModel({
     required this.name,
+    required this.arabname,
     required this.number,
     required this.image,
   });
@@ -17,6 +19,7 @@ class CategorieModel {
     }
     return CategorieModel(
       name: json['name'],
+      arabname: json['name_ar'],
       number: json['number'],
       image: imagePath,
     );

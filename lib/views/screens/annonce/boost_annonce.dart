@@ -47,7 +47,7 @@ class BoostAnnonce extends StatelessWidget {
                     width: AppSize.appwidth * .1,
                   ),
                   GradientText(
-                    text: "Booster une annonce",
+                    text: "boostadTitle".tr,
                     gradient: Appcolors.primaryGradient,
                     style: const TextStyle(
                       fontSize: 20,
@@ -64,27 +64,27 @@ class BoostAnnonce extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  const BoostCard(
-                      isVIP: true,
-                      type: 'VIP',
-                      desc:
-                          'Offre VIP Mariage – Mettez Votre Annonce Sous les Projecteurs !',
-                      advantages: [
-                        "Mise en Avant sur Notre Page Principale",
-                        "Visiteurs 100% Ciblés",
-                        "Gagner le temps et publier votre\n annonce a grande echelle",
-                        "Partage sur Nos Réseaux Sociaux"
-                      ],price: 200000.00,),
+                  BoostCard(
+                    isVIP: true,
+                    type: 'Gold',
+                    desc: "GoldDesc".tr,
+                    advantages: [
+                      "avantage1".tr,
+                      "avantage2".tr,
+                      "avantage3".tr,
+                      "avantage4".tr,
+                    ],
+                    price: 200000.00,
+                  ),
                   SizedBox(
                     height: AppSize.appheight * .03,
                   ),
-                  const BoostCard(
-                    type: "Gold",
-                    desc:
-                        "Offre Gold Mariage – Mettez Votre Annonce Sous les Projecteurs !",
+                  BoostCard(
+                    type: "Silver",
+                    desc: "SilverDesc".tr,
                     advantages: [
-                      "Mise en Avant sur Notre Page Seconder",
-                      "Visiteurs 50% Ciblés"
+                      "Silveravantage1".tr,
+                      "Silveravantage2".tr,
                     ],
                     isVIP: false,
                     price: 10000.00,

@@ -1,3 +1,4 @@
+import 'package:afrahdz/controllers/ad/ad_detail.dart';
 import 'package:afrahdz/controllers/favorites/favorites_controller.dart';
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/size.dart';
@@ -8,8 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-class Favorites extends GetView<FavoritesController> {
-  const Favorites({super.key});
+class MemberAds extends GetView<AdDetailController> {
+  const MemberAds({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class Favorites extends GetView<FavoritesController> {
         backgroundColor: Appcolors.primaryColor,
         color: Colors.white,
       ),
-      onRefresh: () => controller.fetchMyFavoriteAds(),
+      onRefresh: () => controller.fetchMemberAds(controller.selectedAdDetails.value.idmobmre),
       child: Scaffold(
         extendBodyBehindAppBar: true,
         body: SafeArea(
@@ -37,7 +38,7 @@ class Favorites extends GetView<FavoritesController> {
                   ),
                   Center(
                       child: GradientText(
-                    text: "FavoritesTitle".tr,
+                    text: "Annonces De membre".tr,
                     gradient: Appcolors.primaryGradient,
                     style: const TextStyle(
                         fontWeight: FontWeight.w600, fontSize: 24),
@@ -48,7 +49,7 @@ class Favorites extends GetView<FavoritesController> {
                   Obx(() {
                     if (controller.isLoading.value) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (controller.favoriteAds.isEmpty) {
+                    } else if (controller.memberAds.isEmpty) {
                       return Center(child: Text("Nofavs".tr));
                     } else {
                       return Expanded(
@@ -57,16 +58,15 @@ class Favorites extends GetView<FavoritesController> {
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
-                              final ad = controller.favoriteAds[index];
+                              final ad = controller.memberAds[index];
                               return Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: AppSize.appwidth * .03),
                                 child: GestureDetector(
                                   onTap: () => Get.to(AdDetail(adId: ad.id),
                                       transition: Transition.fadeIn),
-                                  child: FavoritesFulldetails(
+                                  child: FullDetails(
                                     selectedad: ad,
-                                    press: () => controller.likeAd(ad.id),
                                   ),
                                 ),
                               );
@@ -74,7 +74,7 @@ class Favorites extends GetView<FavoritesController> {
                             separatorBuilder: (context, index) => SizedBox(
                                   height: AppSize.appheight * .015,
                                 ),
-                            itemCount: controller.favoriteAds.length),
+                            itemCount: controller.memberAds.length),
                       );
                     }
                   }),

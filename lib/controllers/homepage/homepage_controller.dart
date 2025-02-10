@@ -17,7 +17,7 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class HomePageController extends GetxController
-    with GetSingleTickerProviderStateMixin {
+    with GetTickerProviderStateMixin {
   final HomepageService homepageService = HomepageService();
   final AdService adService = AdService();
   final CategorieService categoryService = CategorieService();
@@ -31,13 +31,17 @@ class HomePageController extends GetxController
   var goldAds = <AdModel>[].obs; // Observable list of gold ads
   var normalAds = <AdModel>[].obs; // Observable list of normal ads
 
+
+
   final RxBool isLoading = false.obs;
 
   RxString selectedWilaya = ''.obs;
+  RxString selectedFete = ''.obs;
   String? selectedCat;
 
   // AnimationController to manage the animation
   late AnimationController animationController;
+  late Animation<double> animation;
 
   final ScrollController scrollController = ScrollController();
   final RxDouble carouselScale = 1.0.obs;
@@ -57,7 +61,14 @@ class HomePageController extends GetxController
     // Initialize the AnimationController
     animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1), // Animation duration
+      duration: const Duration(milliseconds: 800), // Animation duration
+    )..repeat(reverse: true);
+
+    animation = Tween<double>(begin: 0.0, end: 10.0).animate(
+      CurvedAnimation(
+        parent: animationController,
+        curve: Curves.elasticOut,
+      ),
     );
   }
 
@@ -114,8 +125,9 @@ class HomePageController extends GetxController
     }
   }
 
+
   // Function to fetch gold ads
-  Future<void> fetchGoldads(String location, String cat) async {
+  Future<void> fetchGoldads(String location, String cat, String fete) async {
     goldAds.clear();
     if (goldAds.isNotEmpty) {
       return;
@@ -123,7 +135,7 @@ class HomePageController extends GetxController
       try {
         isLoading(true); // Set loading to true
         final fetchedAds = await adService.getGoldads(
-            location, cat); // Call AdService to fetch ads
+            location, cat, fete); // Call AdService to fetch ads
         goldAds.value = fetchedAds; // Update the observable list
       } catch (e) {
         Get.snackbar('Erreur', 'Impossible de récupérer les annonces');
@@ -134,12 +146,13 @@ class HomePageController extends GetxController
   }
 
   // Function to fetch normal ads
-  Future<void> fetchNormalads(String location, String catname) async {
+  Future<void> fetchNormalads(
+      String location, String catname, String fete) async {
     normalAds.clear();
     try {
       isLoading(true); // Set loading to true
       final fetchedAds = await adService.getNormalads(
-          location, catname); // Call AdService to fetch ads
+          location, catname, fete); // Call AdService to fetch ads
       normalAds.value = fetchedAds; // Update the observable list
     } catch (e) {
       Get.snackbar('Error', 'Impossible de récupérer les annonces normales');
@@ -195,14 +208,14 @@ class HomePageController extends GetxController
       backgroundColor: Colors.white,
       persistent: false,
       Container(
-        height: AppSize.appheight * .35,
+        height: AppSize.appheight * .5,
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              'Choose a wilaya',
-              style: TextStyle(
+            Text(
+              "choosewilaya".tr,
+              style: const TextStyle(
                 color: Colors.black,
                 fontSize: 18.63,
                 fontFamily: 'Inter',
@@ -213,6 +226,22 @@ class HomePageController extends GetxController
               height: AppSize.appheight * .02,
             ),
             LocationPicker(),
+            SizedBox(
+              height: AppSize.appheight * .02,
+            ),
+            Text(
+              'chooseEvent'.tr,
+              style: const TextStyle(
+                color: Colors.black,
+                fontSize: 18.63,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            SizedBox(
+              height: AppSize.appheight * .02,
+            ),
+            EventPicker(),
             SizedBox(
               height: AppSize.appheight * .06,
             ),
@@ -235,10 +264,10 @@ class HomePageController extends GetxController
                           color: Colors.white,
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.circular(11)),
-                      child: const Text(
-                        'Annuler',
+                      child: Text(
+                        'Cancelbtn'.tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 12,
                           color: Colors.black,
                           fontFamily: 'Mulish',
@@ -253,8 +282,10 @@ class HomePageController extends GetxController
                         elevation: 4),
                     onPressed: () {
                       Get.back();
-                      fetchGoldads(selectedWilaya.value, categoryname);
-                      fetchNormalads(selectedWilaya.value, categoryname);
+                      fetchGoldads(selectedWilaya.value, categoryname,
+                          selectedFete.value);
+                      fetchNormalads(selectedWilaya.value, categoryname,
+                          selectedFete.value);
                       Get.to(const HomepageAllproducts(),
                           transition: Transition.fadeIn);
                     },
@@ -270,10 +301,10 @@ class HomePageController extends GetxController
                           ? const CircularProgressIndicator.adaptive(
                               backgroundColor: Colors.white,
                             )
-                          : const Text(
-                              'Valider',
+                          : Text(
+                              'Validbtn'.tr,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
                                 fontFamily: 'Mulish',
@@ -309,8 +340,10 @@ class HomePageController extends GetxController
   @override
   void dispose() {
     animationController.dispose();
+
     scrollController.removeListener(_onScroll);
     scrollController.dispose();
+    refreshController.dispose(); // Dispose SmartRefresher controller
 
 // Dispose the controller
     super.dispose();

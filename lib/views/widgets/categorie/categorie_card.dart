@@ -43,33 +43,8 @@ class CategorieCard extends StatelessWidget {
                     end: AlignmentDirectional.topCenter)),
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: AppSize.appwidth * .02),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    InkWell(
-                      onTap: () => Get.back(),
-                      child: Container(
-                          alignment: Alignment.center,
-                          height: 40,
-                          width: 40,
-                          margin: const EdgeInsets.all(10),
-                          decoration: const ShapeDecoration(
-                              shape: CircleBorder(eccentricity: 0),
-                              color: Colors.white),
-                          child: Text(
-                            selectedCat.number.toString(),
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.w500),
-                          )),
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(),
               Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: AppSize.appheight * .02,
@@ -79,7 +54,7 @@ class CategorieCard extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Text(
-                        selectedCat.name,
+                       Get.locale!.languageCode == "ar" ? selectedCat.arabname : selectedCat.name,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,

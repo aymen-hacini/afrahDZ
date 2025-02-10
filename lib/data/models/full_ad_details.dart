@@ -18,6 +18,9 @@ class FullAdDetails {
   final String videoFullPath;
   final Map<String, dynamic> boost; // Updated to Map<String, dynamic>
   final List<AdImage> images;
+  final List<String> actions; // New field
+  final bool allowed; // New field
+  final bool liked; // New field
 
   FullAdDetails({
     required this.id,
@@ -39,6 +42,9 @@ class FullAdDetails {
     required this.videoFullPath,
     required this.boost, // Updated to Map<String, dynamic>
     required this.images,
+    required this.actions, // New field
+    required this.allowed, // New field
+    required this.liked, // New field
   });
 
   // Factory method to create an instance from JSON
@@ -80,10 +86,14 @@ class FullAdDetails {
       idmobmre: json['idmobmre'],
       imageFullPath: imagePath, // Use the modified image path
       videoFullPath: videoPath, // Use the modified video path
-      boost: boostData, // Use the handled boost data
+      boost: boostData,
+      // Use the handled boost data
       images: (json['images'] as List)
           .map((image) => AdImage.fromJson(image))
           .toList(),
+      actions: List<String>.from(json['actions'] ?? []), // New field
+      allowed: json['allowed'] ?? false, // New field
+      liked: json['liked'] ?? false, // New field
     );
   }
 }

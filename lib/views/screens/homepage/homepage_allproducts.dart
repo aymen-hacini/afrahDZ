@@ -19,8 +19,11 @@ class HomepageAllproducts extends GetView<HomePageController> {
     Get.put(HomePageController());
     return SmartRefresher(
       controller: RefreshController(),
-      onRefresh: ()=>controller.fetchNormalads(controller.selectedWilaya.value,controller.selectedCat ?? ""),
-     header:  WaterDropMaterialHeader(
+      onRefresh: () => controller.fetchNormalads(
+          controller.selectedWilaya.value,
+          controller.selectedCat ?? "",
+          controller.selectedFete.value),
+      header: WaterDropMaterialHeader(
         backgroundColor: Appcolors.primaryColor,
         color: Colors.white,
       ),
@@ -84,7 +87,7 @@ class HomepageAllproducts extends GetView<HomePageController> {
                           flex: 6,
                           child: CustomTextfield2(
                             prefixIcon: const Icon(Icons.search_outlined),
-                            hint: "Search ...",
+                            hint: "SearchHint".tr,
                             search: (name) {
                               controller.searchByname(
                                   name, controller.selectedCat!);
@@ -114,8 +117,9 @@ class HomepageAllproducts extends GetView<HomePageController> {
                         final ad = controller.vipAds[i];
                         return AnimatedOpacity(
                             duration: 100.milliseconds,
-                            opacity:
-                                i == controller.currentPageIndex.value ? 1 : 0.5,
+                            opacity: i == controller.currentPageIndex.value
+                                ? 1
+                                : 0.5,
                             child: GestureDetector(
                                 onTap: () => Get.to(
                                     () => AdDetail(
@@ -131,11 +135,11 @@ class HomepageAllproducts extends GetView<HomePageController> {
                     ),
                     controller.goldAds.isEmpty
                         ? const SizedBox.shrink()
-                        : const Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
+                        : Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
-                              'Découvrir les meilleures choix',
-                              style: TextStyle(
+                              "GoldTitleText".tr,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 14,
                                 fontFamily: 'Poppins',
@@ -176,11 +180,11 @@ class HomepageAllproducts extends GetView<HomePageController> {
                                 autoPlayCurve: Curves.easeInOut,
                                 scrollDirection: Axis.horizontal)),
                     SizedBox(height: AppSize.appheight * .02),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
-                        "Decouvrir des autres annonces",
-                        style: TextStyle(
+                        "NormalTitleText".tr,
+                        style: const TextStyle(
                           color: Colors.black,
                           fontSize: 14,
                           fontFamily: 'Poppins',
@@ -200,7 +204,7 @@ class HomepageAllproducts extends GetView<HomePageController> {
                                 () => AdDetail(
                                       adId: ad.id,
                                     ),
-                                    arguments: {"id":ad.id},
+                                arguments: {"id": ad.id},
                                 transition: Transition.rightToLeftWithFade),
                             child: Padding(
                               padding: const EdgeInsets.all(8.0),

@@ -41,7 +41,7 @@ class Forgetpassword extends GetView<ForgetPasswordController> {
                 Flexible(
                     flex: 6,
                     child: GradientText(
-                      text: "Récupérer mot de passe",
+                      text: "forgetTitle".tr,
                       gradient: Appcolors.primaryGradient,
                       style: const TextStyle(
                           fontWeight: FontWeight.w600, fontSize: 18),
@@ -52,7 +52,7 @@ class Forgetpassword extends GetView<ForgetPasswordController> {
               height: AppSize.appheight * .03,
             ),
             Text(
-              "Entrez votre adresse e-mail et nous vous enverrons un code pour réinitialiser votre mot de passe",
+              "forgettext".tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.black.withOpacity(0.699999988079071),
@@ -71,7 +71,7 @@ class Forgetpassword extends GetView<ForgetPasswordController> {
                 controller: controller.emailController,
                 cursorColor: Appcolors.primaryColor,
                 decoration: InputDecoration(
-                  labelText: 'Email',
+                  labelText: 'emailHinttext'.tr,
                   enabledBorder: OutlineInputBorder(
                       borderSide: const BorderSide(color: Colors.grey),
                       borderRadius: BorderRadius.circular(10)),
@@ -117,10 +117,10 @@ class Forgetpassword extends GetView<ForgetPasswordController> {
                                 backgroundColor: Colors.white,
                               ),
                             )
-                          : const Text(
-                              'Suivant',
+                          : Text(
+                              'NextBtnText'.tr,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xFFFBFBFB),
                                 fontSize: 20,
                                 fontFamily: 'Mulish',

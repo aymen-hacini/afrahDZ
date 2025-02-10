@@ -1,5 +1,5 @@
 class ApiLinkNames {
-  static String server = "http://192.168.0.42:8000";
+  static String server = "http://192.168.1.5:8000";
   // static String server = "http://localhost:8000";
   static String signupclient = "$server/client";
   static String signupmember = "$server/membre";
@@ -25,6 +25,7 @@ class ApiLinkNames {
   static String editAd = "$server/annonce";
   static String getAllads = "$server/annonce";
   static String getVipads = "$server/annonce/vip";
+  static String getMemberAds = "$server/annoncebymembre";
   static String getGoldads = "$server/annonce/gold";
   static String getadsBycityFilter = "$server/annonce?city";
   static String getMyAds = "$server/myannonce";

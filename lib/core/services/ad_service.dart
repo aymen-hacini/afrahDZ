@@ -192,11 +192,37 @@ class AdService {
     }
   }
 
-  // Function to fetch gold ads
-  Future<List<AdModel>> getGoldads(String location, String category) async {
+  // Function to fetch vip ads
+  Future<List<AdModel>> getMemberAds(int memberId) async {
     try {
       final response = await dio.get(
-        "${ApiLinkNames.getGoldads}?city=$location&category=$category", // Replace with your API endpoint
+        "${ApiLinkNames.getMemberAds}/$memberId", // Replace with your API endpoint
+      );
+
+      // Check the response status code
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Parse the JSON response
+        final Map<String, dynamic> responseBody = response.data;
+        final List<dynamic> data = responseBody['data'];
+
+        // Convert JSON data to a list of AdModel objects
+        final List<AdModel> ads =
+            data.map((ad) => AdModel.fromJson(ad)).toList();
+        return ads;
+      } else {
+        throw Exception('Impossible de récupérer les annonces ');
+      }
+    } catch (e) {
+      throw Exception('Impossible de récupérer les annonces');
+    }
+  }
+
+  // Function to fetch gold ads
+  Future<List<AdModel>> getGoldads(
+      String location, String category, String fete) async {
+    try {
+      final response = await dio.get(
+        "${ApiLinkNames.getGoldads}?city=$location&category=$category&eventType=$fete", // Replace with your API endpoint
       );
 
       // Check the response status code
@@ -218,10 +244,11 @@ class AdService {
   }
 
   // Function to fetch all ads
-  Future<List<AdModel>> getNormalads(String location, String category) async {
+  Future<List<AdModel>> getNormalads(
+      String location, String category, String fete) async {
     try {
       final response = await dio.get(
-        "${ApiLinkNames.getAllads}?city=$location&category=$category", // Replace with your API endpoint
+        "${ApiLinkNames.getAllads}?city=$location&category=$category&eventType=$fete", // Replace with your API endpoint
       );
 
       // Check the response status code
@@ -270,13 +297,16 @@ class AdService {
 
   // Function to fetch full ad details by ID
   Future<FullAdDetails> getFullAdDetails(int adId) async {
+    bool isLoggedIn = storage.read('token') != null;
+
     try {
-    
       dio.interceptors.add(LogInterceptor(
           request: true, requestBody: true, error: true, responseBody: true));
       // Send the GET request to fetch ad details
       final response = await dio.get(
-        '${ApiLinkNames.getAdDetails}/$adId', // Replace with your API endpoint
+        isLoggedIn
+            ? '${ApiLinkNames.getAdDetailswithVisite}/$adId'
+            : '${ApiLinkNames.getAdDetails}/$adId', // Replace with your API endpoint
         options: Options(headers: {}, preserveHeaderCase: true),
       );
 

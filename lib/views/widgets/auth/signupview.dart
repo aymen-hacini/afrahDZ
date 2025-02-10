@@ -45,7 +45,7 @@ class Signupview extends GetView<LoginController> {
               ),
               CustomTextField(
                 controller: controller.membercommericalnameController,
-                hint: "Nom commercial",
+                hint: "SignupCommercialName".tr,
                 image: AppImages.userIcon,
               ),
               SizedBox(
@@ -54,7 +54,7 @@ class Signupview extends GetView<LoginController> {
               CustomTextField(
                 controller: controller.memberemailController,
                 keyboardtype: TextInputType.emailAddress,
-                hint: "Email",
+                hint: "emailHinttext".tr,
                 image: AppImages.mailIcon,
               ),
               SizedBox(
@@ -62,7 +62,7 @@ class Signupview extends GetView<LoginController> {
               ),
               CustomTextField(
                 controller: controller.memberpasswordController,
-                hint: "Mot de passe",
+                hint: "passwordHintText".tr,
                 keyboardtype: TextInputType.visiblePassword,
                 image: AppImages.lockIcon,
               ),
@@ -71,7 +71,7 @@ class Signupview extends GetView<LoginController> {
               ),
               CustomTextField(
                 controller: controller.memberrepeatpasswordController,
-                hint: "repeter mot de passe",
+                hint: "RepeatPasswordText".tr,
                 image: AppImages.lockIcon,
               ),
               SizedBox(
@@ -93,23 +93,23 @@ class Signupview extends GetView<LoginController> {
                       decoration: BoxDecoration(
                           gradient: Appcolors.primaryGradient,
                           borderRadius: BorderRadius.circular(11)),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Suivant',
+                            "NextBtnText".tr,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFFFBFBFB),
                               fontSize: 20,
                               fontFamily: 'Mulish',
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
-                          Icon(
+                          const Icon(
                             Icons.arrow_forward_ios,
                             color: Colors.white,
                             size: 20,
@@ -133,9 +133,9 @@ class Signupview extends GetView<LoginController> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const TextSpan(
-                      text: 'Connectez-vous.',
-                      style: TextStyle(
+                    TextSpan(
+                      text: "ConnectNow".tr,
+                      style: const TextStyle(
                         color: Color(0xFFC628BC),
                         fontSize: 14.77,
                         fontFamily: 'Mulish',
@@ -170,7 +170,7 @@ class Signupview extends GetView<LoginController> {
               ),
               CustomTextField(
                 controller: controller.nameController,
-                hint: "Nom d’utilisateur",
+                hint: "SignupName".tr,
                 image: AppImages.userIcon,
               ),
               SizedBox(
@@ -178,7 +178,7 @@ class Signupview extends GetView<LoginController> {
               ),
               CustomTextField(
                 controller: controller.emailController,
-                hint: "Email",
+                hint: "emailHinttext".tr,
                 image: AppImages.mailIcon,
               ),
               SizedBox(
@@ -186,7 +186,7 @@ class Signupview extends GetView<LoginController> {
               ),
               CustomTextField(
                 controller: controller.passwordController,
-                hint: "Mot de passe",
+                hint: "passwordHintText".tr,
                 image: AppImages.lockIcon,
               ),
               SizedBox(
@@ -194,7 +194,7 @@ class Signupview extends GetView<LoginController> {
               ),
               CustomTextField(
                 controller: controller.repeatpasswordController,
-                hint: "repeter mot de passe",
+                hint: "RepeatPasswordText".tr,
                 image: AppImages.lockIcon,
               ),
               SizedBox(
@@ -216,23 +216,23 @@ class Signupview extends GetView<LoginController> {
                       decoration: BoxDecoration(
                           gradient: Appcolors.primaryGradient,
                           borderRadius: BorderRadius.circular(11)),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Suivant',
+                            'NextBtnText'.tr,
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Color(0xFFFBFBFB),
                               fontSize: 20,
                               fontFamily: 'Mulish',
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             width: 8,
                           ),
-                          Icon(
+                          const Icon(
                             Icons.arrow_forward_ios,
                             color: Colors.white,
                             size: 20,
@@ -256,9 +256,9 @@ class Signupview extends GetView<LoginController> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const TextSpan(
-                      text: 'Connectez-vous.',
-                      style: TextStyle(
+                    TextSpan(
+                      text: 'ConnectNow'.tr,
+                      style: const TextStyle(
                         color: Color(0xFFC628BC),
                         fontSize: 14.77,
                         fontFamily: 'Mulish',

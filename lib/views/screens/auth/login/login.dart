@@ -22,65 +22,61 @@ class Login extends GetView<LoginController> {
         width: width,
         color: Colors.white,
         padding: EdgeInsets.symmetric(horizontal: width * .04),
-        child: 
-              
-              Column(
-                  children: [
-                    SizedBox(
-                      height: height * .08,
-                    ),
-                    Center(
-                      child: FittedBox(
-                        child: GradientText(
-                          text: "Bienvenue à nouveau.",
-                          gradient: Appcolors.primaryGradient,
-                          style: const TextStyle(
-                              fontSize: 27, fontWeight: FontWeight.w700),
-                        ),
-                      ),
-                    ),
-                    const Center(
-                      child: Text(
-                        "Connectez-vous pour accéder à\n votre compte.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w300),
-                      ),
-                    ),
-                    SizedBox(
-                      height: height * .01,
-                    ),
-                    TabBar(
-                        tabAlignment: TabAlignment.center,
-                        controller: controller.tabController,
-                        indicatorColor: Colors.black,
-                        indicatorWeight: 2,
-                        dividerHeight: 0,
-                        splashBorderRadius: BorderRadius.circular(10),
-                        isScrollable: false,
-                        unselectedLabelColor: Colors.grey,
-                        labelStyle: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontFamily: 'Mulish',
-                          fontWeight: FontWeight.w700,
-                        ),
-                        tabs: tabs),
-                    SizedBox(
-                      height: height * .02,
-                    ),
-                    SizedBox(
-                      height: height * .5,
-                      width: width,
-                      child: TabBarView(
-                          controller: controller.tabController,
-                          children: views),
-                    )
-                  ],
+        child: Column(
+          children: [
+            SizedBox(
+              height: height * .08,
+            ),
+            Center(
+              child: FittedBox(
+                child: GradientText(
+                  text: "LoginWelcome".tr,
+                  gradient: Appcolors.primaryGradient,
+                  style: const TextStyle(
+                      fontSize: 27, fontWeight: FontWeight.w700),
                 ),
-        
+              ),
+            ),
+            Center(
+              child: Text(
+                "LoginHeader".tr,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                    fontSize: 15,
+                    color: Colors.grey,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            SizedBox(
+              height: height * .01,
+            ),
+            TabBar(
+                tabAlignment: TabAlignment.center,
+                controller: controller.tabController,
+                indicatorColor: Colors.black,
+                indicatorWeight: 2,
+                dividerHeight: 0,
+                splashBorderRadius: BorderRadius.circular(10),
+                isScrollable: false,
+                unselectedLabelColor: Colors.grey,
+                labelStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'Mulish',
+                  fontWeight: FontWeight.w700,
+                ),
+                tabs: tabs),
+            SizedBox(
+              height: height * .02,
+            ),
+            SizedBox(
+              height: height * .5,
+              width: width,
+              child: TabBarView(
+                  controller: controller.tabController, children: views),
+            )
+          ],
+        ),
       )),
     );
   }

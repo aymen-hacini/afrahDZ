@@ -1,4 +1,4 @@
-import 'package:afrahdz/controllers/favorites/favorites_controller.dart';
+import 'package:afrahdz/controllers/homepage/homepage_controller.dart';
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/views/screens/details/ad_detail.dart';
@@ -8,19 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
-class Favorites extends GetView<FavoritesController> {
-  const Favorites({super.key});
+class AllVipAds extends GetView<HomePageController> {
+  const AllVipAds({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Get.put(FavoritesController(), permanent: false);
     return SmartRefresher(
       controller: RefreshController(),
       header: WaterDropMaterialHeader(
         backgroundColor: Appcolors.primaryColor,
         color: Colors.white,
       ),
-      onRefresh: () => controller.fetchMyFavoriteAds(),
+      onRefresh: () => controller.fetchVipAds(),
       child: Scaffold(
         extendBodyBehindAppBar: true,
         body: SafeArea(
@@ -37,7 +36,7 @@ class Favorites extends GetView<FavoritesController> {
                   ),
                   Center(
                       child: GradientText(
-                    text: "FavoritesTitle".tr,
+                    text: "Top Annonces",
                     gradient: Appcolors.primaryGradient,
                     style: const TextStyle(
                         fontWeight: FontWeight.w600, fontSize: 24),
@@ -48,8 +47,9 @@ class Favorites extends GetView<FavoritesController> {
                   Obx(() {
                     if (controller.isLoading.value) {
                       return const Center(child: CircularProgressIndicator());
-                    } else if (controller.favoriteAds.isEmpty) {
-                      return Center(child: Text("Nofavs".tr));
+                    } else if (controller.vipAds.isEmpty) {
+                      return const Center(
+                          child: Text('Aucune annonce Gold trouvée.'));
                     } else {
                       return Expanded(
                         child: ListView.separated(
@@ -57,16 +57,17 @@ class Favorites extends GetView<FavoritesController> {
                             shrinkWrap: true,
                             physics: const BouncingScrollPhysics(),
                             itemBuilder: (context, index) {
-                              final ad = controller.favoriteAds[index];
+                              final ad = controller.vipAds[index];
                               return Padding(
                                 padding: EdgeInsets.symmetric(
                                     horizontal: AppSize.appwidth * .03),
                                 child: GestureDetector(
                                   onTap: () => Get.to(AdDetail(adId: ad.id),
-                                      transition: Transition.fadeIn),
-                                  child: FavoritesFulldetails(
+                                      transition:
+                                          Transition.fadeIn),
+                                  child: FullDetails(
                                     selectedad: ad,
-                                    press: () => controller.likeAd(ad.id),
+                                   
                                   ),
                                 ),
                               );
@@ -74,7 +75,7 @@ class Favorites extends GetView<FavoritesController> {
                             separatorBuilder: (context, index) => SizedBox(
                                   height: AppSize.appheight * .015,
                                 ),
-                            itemCount: controller.favoriteAds.length),
+                            itemCount: controller.vipAds.length),
                       );
                     }
                   }),

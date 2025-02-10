@@ -35,7 +35,7 @@ class MemberReservations extends GetView<MemberReservationController> {
                       padding: EdgeInsets.only(top: AppSize.appheight * .02),
                       child: Center(
                         child: GradientText(
-                          text: "Mes Reservations",
+                          text:"ClientReservaitonsTitle".tr,
                           gradient: Appcolors.primaryGradient,
                           style: const TextStyle(
                             fontSize: 20,

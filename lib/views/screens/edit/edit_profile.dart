@@ -50,7 +50,7 @@ class EditProfile extends GetView<EditProfileController> {
                                   vertical: AppSize.appheight * .01),
                               child: Center(
                                 child: GradientText(
-                                  text: "Edit profile",
+                                  text: "EditprofileTitle".tr,
                                   gradient: Appcolors.primaryGradient,
                                   style: const TextStyle(
                                     fontSize: 20,
@@ -88,9 +88,9 @@ class EditProfile extends GetView<EditProfileController> {
                             SizedBox(
                               height: AppSize.appheight * .03,
                             ),
-                            const Text(
-                              'Nom ',
-                              style: TextStyle(
+                            Text(
+                              "EditprofileName".tr,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontFamily: 'Inter',
@@ -125,9 +125,9 @@ class EditProfile extends GetView<EditProfileController> {
                             SizedBox(
                               height: AppSize.appheight * .01,
                             ),
-                            const Text(
-                              'Email ',
-                              style: TextStyle(
+                            Text(
+                              "EditprofileEmail".tr,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontFamily: 'Inter',
@@ -163,9 +163,9 @@ class EditProfile extends GetView<EditProfileController> {
                             SizedBox(
                               height: AppSize.appheight * .01,
                             ),
-                            const Text(
-                              'Phone ',
-                              style: TextStyle(
+                            Text(
+                              "EditprofilePhone".tr,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontFamily: 'Inter',
@@ -202,9 +202,9 @@ class EditProfile extends GetView<EditProfileController> {
                               height: AppSize.appheight * .01,
                             ),
                             controller.isMemberLoggedIn
-                                ? const Text(
-                                    'Fixe ',
-                                    style: TextStyle(
+                                ? Text(
+                                    'EditprofileFixe'.tr,
+                                    style: const TextStyle(
                                       color: Colors.black,
                                       fontSize: 16,
                                       fontFamily: 'Inter',
@@ -248,9 +248,9 @@ class EditProfile extends GetView<EditProfileController> {
                             SizedBox(
                               height: AppSize.appheight * .01,
                             ),
-                            const Text(
-                              'Date of Birth',
-                              style: TextStyle(
+                            Text(
+                              'EditprofileDateofbirth'.tr,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontFamily: 'Inter',
@@ -269,9 +269,9 @@ class EditProfile extends GetView<EditProfileController> {
                             SizedBox(
                               height: AppSize.appheight * .01,
                             ),
-                            const Text(
-                              'Ville',
-                              style: TextStyle(
+                            Text(
+                              'EditprofileCity'.tr,
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 16,
                                 fontFamily: 'Inter',
@@ -325,10 +325,10 @@ class EditProfile extends GetView<EditProfileController> {
                                                 .adaptive(
                                                 backgroundColor: Colors.white,
                                               )
-                                            : const Text(
-                                                'Enregistrer',
+                                            : Text(
+                                                "EditprofilebtnText".tr,
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Color(0xFFFBFBFB),
                                                   fontSize: 20,
                                                   fontFamily: 'Mulish',

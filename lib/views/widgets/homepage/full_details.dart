@@ -254,3 +254,4 @@ class FavoritesFulldetails extends StatelessWidget {
     );
   }
 }
+

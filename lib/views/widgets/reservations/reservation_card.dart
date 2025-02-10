@@ -165,10 +165,7 @@ class ReservationCard extends GetView<ClientReservationController> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                        const Spacer(),
-                        IconButton(
-                            onPressed: () {},
-                            icon: SvgPicture.asset("assets/svg/download.svg")),
+                     
                       ],
                     ),
                   )

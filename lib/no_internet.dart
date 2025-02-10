@@ -13,14 +13,9 @@ class NoInternetScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text(
-              "Aucune connexion internet",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 20),
-            const Text(
-              "Cette application nécessite une connexion Internet pour fonctionner.",
-              textAlign: TextAlign.center,
+            Text(
+              "NoInternetTitle".tr,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -35,11 +30,11 @@ class NoInternetScreen extends StatelessWidget {
                   decoration: BoxDecoration(
                       gradient: Appcolors.primaryGradient,
                       borderRadius: BorderRadius.circular(30)),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Réessayer',
+                      "TryAgainbtn".tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFFFBFBFB),
                         fontSize: 20,
                         fontFamily: 'Mulish',

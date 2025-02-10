@@ -21,17 +21,18 @@ class Signup extends GetView<LoginController> {
         padding: EdgeInsets.symmetric(horizontal: width * .08, vertical: 20),
         child: Column(
           children: [
-            const Center(
+            Center(
               child: Text(
-                "Commencez",
-                style: TextStyle(fontSize: 27, fontWeight: FontWeight.w700),
+                "SignupTitle1".tr,
+                style:
+                    const TextStyle(fontSize: 27, fontWeight: FontWeight.w700),
               ),
             ),
-            const Center(
+            Center(
               child: Text(
-                "en créant un compte gratuit",
+                "SignupTitle2".tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                     fontSize: 15,
                     color: Colors.grey,
                     fontWeight: FontWeight.w300),

@@ -29,7 +29,7 @@ class CustomView extends GetView<LoginController> {
       children: [
         CustomTextField(
           controller: emailcontroller,
-          hint: "Enter your email",
+          hint: "emailHinttext".tr,
           keyboardtype: TextInputType.emailAddress,
           image: AppImages.mailIcon,
         ),
@@ -60,7 +60,7 @@ class CustomView extends GetView<LoginController> {
                     fontFamily: 'Mulish',
                     fontWeight: FontWeight.w400,
                   ),
-                  hintText: "Enter your password",
+                  hintText: "passwordHintText".tr,
                   suffixIcon: GestureDetector(
                     onTap: controller.toggleObscure,
                     child: AnimatedSwitcher(
@@ -104,10 +104,10 @@ class CustomView extends GetView<LoginController> {
                 side: const BorderSide(color: Colors.grey),
               ),
             ),
-            const Text(
-              "Se souvenir de moi.",
+            Text(
+              "Rememberme".tr,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xFF6C7278),
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
@@ -121,7 +121,7 @@ class CustomView extends GetView<LoginController> {
                   arguments: {"isMemberSelected": ismemeberSelected},
                   transition: Transition.fadeIn),
               child: Text(
-                'Mot de passe oublié ?',
+                "ForgotPass".tr,
                 textAlign: TextAlign.right,
                 style: TextStyle(
                   color: Appcolors.primaryColor,
@@ -161,23 +161,23 @@ class CustomView extends GetView<LoginController> {
                             backgroundColor: Colors.white,
                           ),
                         )
-                      : const Row(
+                      : Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Se Connecter',
+                              "SigninbtnText".tr,
                               textAlign: TextAlign.center,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color: Color(0xFFFBFBFB),
                                 fontSize: 20,
                                 fontFamily: 'Mulish',
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               width: 8,
                             ),
-                            Icon(
+                            const Icon(
                               Icons.arrow_forward_ios,
                               color: Colors.white,
                               size: 20,
@@ -207,9 +207,9 @@ class CustomView extends GetView<LoginController> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const TextSpan(
-                  text: ' Inscrivez-vous maintenant.',
-                  style: TextStyle(
+                TextSpan(
+                  text: "SignupNowText".tr,
+                  style: const TextStyle(
                     color: Color(0xFFC628BC),
                     fontSize: 14.77,
                     fontFamily: 'Mulish',

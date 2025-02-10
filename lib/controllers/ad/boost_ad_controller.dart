@@ -25,12 +25,11 @@ class BoostAdController extends GetxController {
     try {
       isLoading(true);
       await adService.boostAd(
-        duration: selectedduration!,
-        price: 200000.00,
-        idAnnonce: selectedAd.value!.id,
-        imageUrl: "${ApiLinkNames.server}${selectedAd.value!.imageFullPath}",
-        type: type
-      );
+          duration: selectedduration!,
+          price: 200000.00,
+          idAnnonce: selectedAd.value!.id,
+          imageUrl: "${ApiLinkNames.server}${selectedAd.value!.imageFullPath}",
+          type: type);
       Get.back();
 
       Get.snackbar('Success', 'Annonce boostée avec succès');
@@ -43,7 +42,7 @@ class BoostAdController extends GetxController {
     }
   }
 
-  showBoostOptions(BuildContext context,double price,String type) {
+  showBoostOptions(BuildContext context, double price, String type) {
     Get.bottomSheet(
         isScrollControlled: true,
         isDismissible: true,
@@ -77,10 +76,10 @@ class BoostAdController extends GetxController {
                 SizedBox(
                   height: AppSize.appheight * .01,
                 ),
-                const Center(
+                Center(
                   child: Text(
-                    'Promouvoir',
-                    style: TextStyle(
+                    "Promote".tr,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                       fontFamily: 'Mulish',
@@ -92,7 +91,7 @@ class BoostAdController extends GetxController {
                   height: AppSize.appheight * .03,
                 ),
                 GradientText(
-                  text: "Offre VIP",
+                  text: "Offre VIP".tr,
                   gradient: Appcolors.primaryGradient,
                   style: const TextStyle(
                     fontSize: 24,
@@ -104,9 +103,9 @@ class BoostAdController extends GetxController {
                 SizedBox(
                   height: AppSize.appheight * .03,
                 ),
-                const Text(
-                  'Nom Annonce',
-                  style: TextStyle(
+                Text(
+                  'AdName'.tr,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 16,
                     fontFamily: 'Inter',
@@ -121,9 +120,9 @@ class BoostAdController extends GetxController {
                 SizedBox(
                   height: AppSize.appheight * .02,
                 ),
-                const Text(
-                  'La Durée',
-                  style: TextStyle(
+                Text(
+                  'La Durée'.tr,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 16,
                     fontFamily: 'Inter',
@@ -138,9 +137,9 @@ class BoostAdController extends GetxController {
                 SizedBox(
                   height: AppSize.appheight * .02,
                 ),
-                const Text(
-                  'Tarif',
-                  style: TextStyle(
+                Text(
+                  'Tarif'.tr,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 16,
                     fontFamily: 'Inter',
@@ -198,10 +197,10 @@ class BoostAdController extends GetxController {
                                   ? const CircularProgressIndicator.adaptive(
                                       backgroundColor: Colors.white,
                                     )
-                                  : const Text(
-                                      'Booster',
+                                  : Text(
+                                      'Boost'.tr,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Color(0xFFFBFBFB),
                                         fontSize: 20,
                                         fontFamily: 'Mulish',

@@ -24,6 +24,9 @@ class ClientReservationController extends GetxController {
     videoFullPath: '',
     boost: {},
     images: [],
+    actions: [],
+    allowed: false,
+    liked: false
   ).obs;
 
   Future<void> fetchReservations() async {

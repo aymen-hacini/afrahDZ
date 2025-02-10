@@ -59,10 +59,10 @@ class BoostCard extends GetView<BoostAdController> {
                           borderRadius: BorderRadius.circular(10.93),
                         ),
                       ),
-                      child: const Text(
-                        'PLUS POPULAIRE',
+                      child: Text(
+                        "MostPopularTag".tr,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 8.10,
                           fontFamily: 'Inter',
@@ -78,7 +78,7 @@ class BoostCard extends GetView<BoostAdController> {
             height: AppSize.appheight * .005,
           ),
           GradientText(
-            text: type,
+            text: type.tr,
             gradient: Appcolors.primaryGradient,
             style: const TextStyle(
               fontSize: 43.53,
@@ -113,13 +113,13 @@ class BoostCard extends GetView<BoostAdController> {
                 decoration: BoxDecoration(
                     gradient: Appcolors.primaryGradient,
                     borderRadius: BorderRadius.circular(30)),
-                child: const Row(
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Booster',
+                      'Boostbtn'.tr,
                       textAlign: TextAlign.center,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFFFBFBFB),
                         fontSize: 20,
                         fontFamily: 'Mulish',

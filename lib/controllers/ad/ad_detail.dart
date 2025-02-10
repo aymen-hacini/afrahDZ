@@ -4,6 +4,7 @@ import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/core/services/ad_service.dart';
 import 'package:afrahdz/core/services/homepage_service.dart';
 import 'package:afrahdz/core/services/reservation_service.dart';
+import 'package:afrahdz/data/models/annonce.dart';
 import 'package:afrahdz/data/models/full_ad_details.dart';
 import 'package:afrahdz/views/widgets/addetail/type_fete_popup_reservation.dart';
 import 'package:afrahdz/views/widgets/edit/date_picker.dart';
@@ -13,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AdDetailController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -34,6 +36,7 @@ class AdDetailController extends GetxController
   var currentPage = 0.obs;
 
   var isLoading = true.obs; // Observable loading state
+  var memberAds = <AdModel>[].obs; // Observable list of member ads
 
   var selectedAdDetails = FullAdDetails(
     id: 0,
@@ -52,6 +55,9 @@ class AdDetailController extends GetxController
     videoFullPath: '',
     boost: {"": ""},
     images: [],
+    actions: [],
+    allowed: false,
+    liked: false
   ).obs; // Observable selected ad details
 
   // Textediting controllers
@@ -117,6 +123,20 @@ class AdDetailController extends GetxController
     }
   }
 
+      // Function to fetch vip ads
+  Future<void> fetchMemberAds(int memberId) async {
+    try {
+      isLoading(true); // Set loading to true
+      final fetchedAds =
+          await adService.getMemberAds(memberId); // Call AdService to fetch ads
+      memberAds.value = fetchedAds; // Update the observable list
+    } catch (e) {
+      Get.snackbar('Error', 'Impossible de récupérer les annonces Member');
+    } finally {
+      isLoading(false); // Set loading to false
+    }
+  }
+
   // Like an ad and add it to favorites
   Future<void> likeAd(int adId) async {
     try {
@@ -156,8 +176,10 @@ class AdDetailController extends GetxController
   Future<void> selectEndDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      initialDate: endReservationDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
+      initialDate: endReservationDate ??
+          beginReservationDate ??
+          DateTime.now(), // Ensure initialDate is not before firstDate,
+      firstDate: beginReservationDate!,
       lastDate: DateTime(2101),
       builder: (BuildContext context, Widget? child) {
         return Theme(
@@ -203,14 +225,23 @@ class AdDetailController extends GetxController
           idMember: selectedAdDetails.value.idmobmre.toString(),
           idAnnonce: selectedAdDetails.value.id.toString(),
           idClient: userId.toString());
-      Get.snackbar('Success', 'Réservation créée avec succès');
+      Get.snackbar('Success'.tr, 'reserveSucces'.tr);
       namecontroller.clear();
       emailcontroller.clear();
       phonecontroller.clear();
     } catch (e) {
-      Get.snackbar('Erreur', 'Échec de la création de la réservation');
+      Get.snackbar('Erreur'.tr, 'reserveErreur'.tr);
     } finally {
       isLoading(false); // Set loading to false
+    }
+  }
+
+  void makePhoneCall(String phoneNumber) async {
+    final Uri uri = Uri(scheme: "tel", path: phoneNumber);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw "Could not launch $uri";
     }
   }
 
@@ -231,10 +262,10 @@ class AdDetailController extends GetxController
             children: [
               ListView(
                 children: [
-                  const Center(
+                  Center(
                     child: Text(
-                      'Reserver',
-                      style: TextStyle(
+                      "ReserveTitle".tr,
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 20,
                         fontFamily: 'Mulish',
@@ -245,9 +276,9 @@ class AdDetailController extends GetxController
                   SizedBox(
                     height: AppSize.appheight * .03,
                   ),
-                  const Text(
-                    'Date de reservation',
-                    style: TextStyle(
+                  Text(
+                    "reserveDate".tr,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'Inter',
@@ -261,9 +292,9 @@ class AdDetailController extends GetxController
                   SizedBox(
                     height: AppSize.appheight * .03,
                   ),
-                  const Text(
-                    'Date de fin reservation',
-                    style: TextStyle(
+                  Text(
+                    "Enddate".tr,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'Inter',
@@ -277,9 +308,9 @@ class AdDetailController extends GetxController
                   SizedBox(
                     height: AppSize.appheight * .03,
                   ),
-                  const Text(
-                    'Nom',
-                    style: TextStyle(
+                  Text(
+                    'EditprofileName'.tr,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'Inter',
@@ -290,15 +321,15 @@ class AdDetailController extends GetxController
                     height: AppSize.appheight * .01,
                   ),
                   ReservationTextfield(
-                    hint: "Ton nom",
+                    hint: "EditprofileName".tr,
                     controller: namecontroller,
                   ),
                   SizedBox(
                     height: AppSize.appheight * .03,
                   ),
-                  const Text(
-                    'Email',
-                    style: TextStyle(
+                  Text(
+                    'EditprofileEmail'.tr,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'Inter',
@@ -316,9 +347,9 @@ class AdDetailController extends GetxController
                   SizedBox(
                     height: AppSize.appheight * .03,
                   ),
-                  const Text(
-                    'Numero telephone',
-                    style: TextStyle(
+                  Text(
+                    'EditprofilePhone'.tr,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'Inter',
@@ -336,9 +367,9 @@ class AdDetailController extends GetxController
                   SizedBox(
                     height: AppSize.appheight * .03,
                   ),
-                  const Text(
-                    'Type de fete',
-                    style: TextStyle(
+                  Text(
+                    'AdFete'.tr,
+                    style: const TextStyle(
                       color: Colors.black,
                       fontSize: 16,
                       fontFamily: 'Inter',
@@ -384,10 +415,10 @@ class AdDetailController extends GetxController
                                   ? const CircularProgressIndicator.adaptive(
                                       backgroundColor: Colors.white,
                                     )
-                                  : const Text(
-                                      'Reserver',
+                                  : Text(
+                                      'Reservebtn'.tr,
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         color: Color(0xFFFBFBFB),
                                         fontSize: 20,
                                         fontFamily: 'Mulish',

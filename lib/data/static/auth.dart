@@ -10,25 +10,25 @@ LoginController controller = Get.find();
 final width = AppSize.appwidth;
 final height = AppSize.appheight;
 
-List<Tab> tabs = const [
+List<Tab> tabs =  [
   Tab(
-    text: 'Client',
+    text: "AuthRoleClient".tr,
   ),
   Tab(
-    text: "Espace Member",
+    text: "AuthRoleMember".tr,
   ),
 ];
 
 List<Widget> views = [
   CustomView(
-    text: 'Nouveau Client ? ',
+    text: "ClientHookQst".tr,
     userType: "client",
     emailcontroller: controller.clientloginEmailController,
     passwordcontroller: controller.clientloginPasswordController,
     ismemeberSelected: false,
   ),
   CustomView(
-    text: "Nouveau membre?",
+    text: "MembreHookQst".tr,
     userType: "membre",
     emailcontroller: controller.memberloginEmailController,
     passwordcontroller: controller.memberpasswordController,
@@ -36,23 +36,23 @@ List<Widget> views = [
   )
 ];
 List<Widget> signupViews = [
-  const Signupview(
-    text: "Deja client ? ",
+   Signupview(
+    text: "SignupClientHeader".tr,
     ismember: false,
   ),
-  const Signupview(
-    text: "Deja membre ? ",
+   Signupview(
+    text: "SignupMemberHeader".tr,
     ismember: true,
   ),
 ];
 
 List<Widget> signup2Views = [
-  const Signup2view(
-    text: "Deja client ? ",
+   Signup2view(
+    text: "SignupClientHeader".tr,
     isMember: false,
   ),
-  const Signup2view(
-    text: "Deja membre ? ",
+   Signup2view(
+    text: "SignupMemberHeader".tr,
     isMember: true,
   ),
 ];

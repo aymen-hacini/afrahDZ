@@ -1,4 +1,5 @@
 import 'package:afrahdz/controllers/auth/login_controller.dart';
+import 'package:afrahdz/core/localization/translations.dart';
 import 'package:afrahdz/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,11 +14,19 @@ void main() async {
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
   );
   await GetStorage.init();
-  runApp(const MyApp());
+  final box = GetStorage();
+  String? langCode = box.read('locale'); // Read saved locale
+  Locale locale =
+      langCode != null ? Locale(langCode) : const Locale('fr', 'FR');
+  runApp(MyApp(
+    locale: locale,
+  ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final Locale locale;
+
+  const MyApp({super.key, required this.locale});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +45,9 @@ class MyApp extends StatelessWidget {
           primaryColorDark: Colors.white,
         ),
         title: 'Afrah DZ',
+        translations: MyTranslations(),
+        locale: locale,
+        fallbackLocale: const Locale("fr", "FR"),
         getPages: pages,
         initialBinding: InitialBinding(),
       ),

@@ -22,7 +22,7 @@ class Signup2view extends StatelessWidget {
             children: [
               CustomTextField(
                 controller: controller.memberphoneController,
-                hint: "Tel",
+                hint: "SignupMobile".tr,
                 keyboardtype: TextInputType.number,
                 image: AppImages.phoneIcon,
               ),
@@ -32,8 +32,7 @@ class Signup2view extends StatelessWidget {
               CustomTextField(
                 controller: controller.memberfixeController,
                 keyboardtype: TextInputType.number,
-
-                hint: "tel fixe",
+                hint: "SignupFixe".tr,
                 image: AppImages.phoneIcon,
               ),
               SizedBox(
@@ -41,7 +40,7 @@ class Signup2view extends StatelessWidget {
               ),
               CustomTextField(
                 controller: controller.memberwilayaController,
-                hint: "Ville",
+                hint: "SignupCity".tr,
                 image: AppImages.locationIcon,
               ),
               SizedBox(
@@ -49,7 +48,7 @@ class Signup2view extends StatelessWidget {
               ),
               CustomTextField(
                 controller: controller.memberlocationController,
-                hint: "Adresse",
+                hint: "SignupAdrress".tr,
                 image: AppImages.locationIcon,
               ),
               SizedBox(
@@ -77,11 +76,11 @@ class Signup2view extends StatelessWidget {
                                   backgroundColor: Colors.white,
                                 ),
                               )
-                            : const Center(
+                            : Center(
                                 child: Text(
-                                  "S'inscrire",
+                                  "Signup2BtnText".tr,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color(0xFFFBFBFB),
                                     fontSize: 20,
                                     fontFamily: 'Mulish',
@@ -107,9 +106,9 @@ class Signup2view extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const TextSpan(
-                      text: 'Connectez-vous.',
-                      style: TextStyle(
+                    TextSpan(
+                      text: 'ConnectNow'.tr,
+                      style: const TextStyle(
                         color: Color(0xFFC628BC),
                         fontSize: 14.77,
                         fontFamily: 'Mulish',
@@ -126,7 +125,7 @@ class Signup2view extends StatelessWidget {
             children: [
               CustomTextField(
                 controller: controller.phoneController,
-                hint: "Tel",
+                hint: "SignupMobile".tr,
                 image: AppImages.phoneIcon,
               ),
               SizedBox(
@@ -134,7 +133,7 @@ class Signup2view extends StatelessWidget {
               ),
               CustomTextField(
                 controller: controller.wilayaController,
-                hint: "Ville",
+                hint: "SignupCity".tr,
                 image: AppImages.locationIcon,
               ),
               SizedBox(
@@ -142,7 +141,7 @@ class Signup2view extends StatelessWidget {
               ),
               CustomTextField(
                 controller: controller.ageController,
-                hint: "Age",
+                hint: "SignupAge".tr,
                 image: AppImages.ageIcon,
               ),
               SizedBox(
@@ -170,11 +169,11 @@ class Signup2view extends StatelessWidget {
                                   backgroundColor: Colors.white,
                                 ),
                               )
-                            : const Center(
+                            : Center(
                                 child: Text(
-                                  "S'inscrire",
+                                  "Signup2BtnText".tr,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     color: Color(0xFFFBFBFB),
                                     fontSize: 20,
                                     fontFamily: 'Mulish',
@@ -200,9 +199,9 @@ class Signup2view extends StatelessWidget {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    const TextSpan(
-                      text: 'Connectez-vous.',
-                      style: TextStyle(
+                    TextSpan(
+                      text: 'ConnectNow'.tr,
+                      style: const TextStyle(
                         color: Color(0xFFC628BC),
                         fontSize: 14.77,
                         fontFamily: 'Mulish',
