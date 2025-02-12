@@ -1,5 +1,6 @@
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/images.dart';
+import 'package:afrahdz/core/constants/routes_names.dart';
 import 'package:afrahdz/data/static/auth.dart';
 import 'package:afrahdz/views/widgets/auth/customtextfield.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +19,17 @@ class Signup2view extends StatelessWidget {
   Widget build(BuildContext context) {
     return isMember
         ? Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            //          physics: const ClampingScrollPhysics(),
             children: [
               CustomTextField(
                 controller: controller.memberphoneController,
                 hint: "SignupMobile".tr,
+                validator: (value) {
+                  if (value!.length < 10) {
+                    return "phone non valide".tr;
+                  }
+                  return null;
+                },
                 keyboardtype: TextInputType.number,
                 image: AppImages.phoneIcon,
               ),
@@ -32,6 +39,12 @@ class Signup2view extends StatelessWidget {
               CustomTextField(
                 controller: controller.memberfixeController,
                 keyboardtype: TextInputType.number,
+                validator: (value) {
+                  if (value!.length < 10) {
+                    return "phone non valide".tr;
+                  }
+                  return null;
+                },
                 hint: "SignupFixe".tr,
                 image: AppImages.phoneIcon,
               ),
@@ -94,37 +107,44 @@ class Signup2view extends StatelessWidget {
               SizedBox(
                 height: height * .01,
               ),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: text,
-                      style: const TextStyle(
-                        color: Color(0xFF252525),
-                        fontSize: 14.77,
-                        fontFamily: 'Mulish',
-                        fontWeight: FontWeight.w500,
+              GestureDetector(
+                onTap: () {
+                  controller.clearControllers();
+                  Get.offNamed(AppRoutesNames.login);
+                },
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: text,
+                        style: const TextStyle(
+                          color: Color(0xFF252525),
+                          fontSize: 14.77,
+                          fontFamily: 'Mulish',
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: 'ConnectNow'.tr,
-                      style: const TextStyle(
-                        color: Color(0xFFC628BC),
-                        fontSize: 14.77,
-                        fontFamily: 'Mulish',
-                        fontWeight: FontWeight.w500,
+                      TextSpan(
+                        text: 'ConnectNow'.tr,
+                        style: const TextStyle(
+                          color: Color(0xFFC628BC),
+                          fontSize: 14.77,
+                          fontFamily: 'Mulish',
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],
           )
         : Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            //          physics: const ClampingScrollPhysics(),
             children: [
               CustomTextField(
                 controller: controller.phoneController,
+                keyboardtype: TextInputType.phone,
                 hint: "SignupMobile".tr,
                 image: AppImages.phoneIcon,
               ),
@@ -141,6 +161,7 @@ class Signup2view extends StatelessWidget {
               ),
               CustomTextField(
                 controller: controller.ageController,
+                keyboardtype: TextInputType.number,
                 hint: "SignupAge".tr,
                 image: AppImages.ageIcon,
               ),
@@ -187,28 +208,34 @@ class Signup2view extends StatelessWidget {
               SizedBox(
                 height: height * .01,
               ),
-              Text.rich(
-                TextSpan(
-                  children: [
-                    TextSpan(
-                      text: text,
-                      style: const TextStyle(
-                        color: Color(0xFF252525),
-                        fontSize: 14.77,
-                        fontFamily: 'Mulish',
-                        fontWeight: FontWeight.w500,
+              GestureDetector(
+                onTap: () {
+                  controller.clearControllers();
+                  Get.offNamed(AppRoutesNames.login);
+                },
+                child: Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: text,
+                        style: const TextStyle(
+                          color: Color(0xFF252525),
+                          fontSize: 14.77,
+                          fontFamily: 'Mulish',
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                    TextSpan(
-                      text: 'ConnectNow'.tr,
-                      style: const TextStyle(
-                        color: Color(0xFFC628BC),
-                        fontSize: 14.77,
-                        fontFamily: 'Mulish',
-                        fontWeight: FontWeight.w500,
+                      TextSpan(
+                        text: 'ConnectNow'.tr,
+                        style: const TextStyle(
+                          color: Color(0xFFC628BC),
+                          fontSize: 14.77,
+                          fontFamily: 'Mulish',
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               )
             ],

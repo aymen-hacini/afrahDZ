@@ -128,7 +128,7 @@ class EndReservationpicker extends GetView<AdDetailController> {
               alignment: Alignment.centerLeft,
               child: Text(
                 controller.endReservationDate == null
-                    ? "Choisir une date"
+                    ? "Choisir une date".tr
                     : DateFormat('yyyy/MM/dd')
                         .format(controller.endReservationDate!),
                 style: const TextStyle(

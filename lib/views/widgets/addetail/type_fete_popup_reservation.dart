@@ -13,13 +13,13 @@ class TypeFetePopupReservation extends StatefulWidget {
 
 class _TypeFetePopupState extends State<TypeFetePopupReservation> {
   // List of all fetes in Algeria
-  final List<String> fetes = const [
-    "Marriages",
-    "fiançailles",
-    "Anniversaires",
-    "Henna",
-    "circoncision (Thara)",
-    "Autre celeberation",
+  final List<String> fetes =  [
+    "Marriages".tr,
+    "fiançailles".tr,
+    "Anniversaires".tr,
+    "Henna".tr,
+    "circoncision (Thara)".tr,
+    "Autre celeberation".tr,
   ];
 
   @override
@@ -52,7 +52,7 @@ class _TypeFetePopupState extends State<TypeFetePopupReservation> {
             Text(
               controller.selectedFete != null
                   ? '${controller.selectedFete}'
-                  : 'choose a type',
+                  : 'chooseEvent'.tr,
               style: const TextStyle(
                 color: Color(0xFF534C4C),
                 fontSize: 14,

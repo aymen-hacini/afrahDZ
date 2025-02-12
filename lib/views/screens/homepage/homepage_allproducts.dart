@@ -17,89 +17,83 @@ class HomepageAllproducts extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomePageController());
-    return SmartRefresher(
-      controller: RefreshController(),
-      onRefresh: () => controller.fetchNormalads(
-          controller.selectedWilaya.value,
-          controller.selectedCat ?? "",
-          controller.selectedFete.value),
-      header: WaterDropMaterialHeader(
-        backgroundColor: Appcolors.primaryColor,
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      body: SafeArea(
+          child: Container(
+        height: AppSize.appheight,
+        width: AppSize.appwidth,
         color: Colors.white,
-      ),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        body: SafeArea(
-            child: Container(
-          height: AppSize.appheight,
-          width: AppSize.appwidth,
-          color: Colors.white,
-          child: Obx(
-            () {
-              if (controller.isLoading.value) {
-                return Center(
-                  child: CircularProgressIndicator.adaptive(
-                    backgroundColor: Appcolors.primaryColor,
+        child: Obx(
+          () {
+            if (controller.isLoading.value) {
+              return Center(
+                child: CircularProgressIndicator.adaptive(
+                  backgroundColor: Appcolors.primaryColor,
+                ),
+              );
+            } else {
+              return ListView(
+                children: [
+                  SizedBox(
+                    height: AppSize.appwidth * .02,
                   ),
-                );
-              } else {
-                return ListView(
-                  children: [
-                    SizedBox(
-                      height: AppSize.appwidth * .02,
-                    ),
-                    const Center(
-                      child: Text(
-                        'AFRAH DZ',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 21.05,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w700,
-                        ),
+                  const Center(
+                    child: Text(
+                      'AFRAH DZ',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 21.05,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(
-                      height: AppSize.appwidth * .03,
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: AppSize.appwidth * .045),
-                          child: InkWell(
-                            onTap: () => Get.back(),
-                            child: Container(
-                              height: 40,
-                              width: 40,
-                              margin: const EdgeInsets.all(4),
-                              decoration: ShapeDecoration(
-                                  shape: const CircleBorder(eccentricity: 0),
-                                  gradient: Appcolors.backbuttonGradient),
-                              child: const Icon(
-                                Icons.arrow_back_outlined,
-                                color: Colors.white,
-                              ),
+                  ),
+                  SizedBox(
+                    height: AppSize.appwidth * .03,
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: AppSize.appwidth * .045),
+                        child: InkWell(
+                          onTap: () => Get.back(),
+                          child: Container(
+                            height: 40,
+                            width: 40,
+                            margin: const EdgeInsets.all(4),
+                            decoration: ShapeDecoration(
+                                shape: const CircleBorder(eccentricity: 0),
+                                gradient: Appcolors.backbuttonGradient),
+                            child: const Icon(
+                              Icons.arrow_back_outlined,
+                              color: Colors.white,
                             ),
                           ),
                         ),
-                        Expanded(
-                          flex: 6,
-                          child: CustomTextfield2(
-                            prefixIcon: const Icon(Icons.search_outlined),
-                            hint: "SearchHint".tr,
-                            search: (name) {
-                              controller.searchByname(
-                                  name, controller.selectedCat!);
-                            },
-                          ),
+                      ),
+                      Expanded(
+                        flex: 6,
+                        child: CustomTextfield2(
+                          prefixIcon: const Icon(Icons.search_outlined),
+                          hint: "SearchHint".tr,
+                          search: (name) {
+                            controller.searchByname(
+                                name, controller.selectedCat!);
+                          },
                         ),
-                      ],
-                    ),
-                    CarouselSlider(
+                      ),
+                    ],
+                  ),
+                  SmartRefresher(
+                    controller: RefreshController(),
+                    onLoading: ()=>controller.fetchVipAds(),
+                    child: CarouselSlider(
                       options: CarouselOptions(
                         animateToClosest: true,
-                        viewportFraction: .7,
+                        viewportFraction:
+                            Get.locale!.languageCode == "ar" ? .6 : .7,
                         initialPage: 0,
                         enlargeStrategy: CenterPageEnlargeStrategy.zoom,
                         pageSnapping: false,
@@ -133,26 +127,30 @@ class HomepageAllproducts extends GetView<HomePageController> {
                                 )));
                       }),
                     ),
-                    controller.goldAds.isEmpty
-                        ? const SizedBox.shrink()
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
-                            child: Text(
-                              "GoldTitleText".tr,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontFamily: 'Poppins',
-                                fontWeight: FontWeight.w600,
-                              ),
+                  ),
+                  controller.goldAds.isEmpty
+                      ? const SizedBox.shrink()
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "GoldTitleText".tr,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                    SizedBox(
-                      height: AppSize.appheight * .01,
-                    ),
-                    controller.goldAds.isEmpty
-                        ? const SizedBox.shrink()
-                        : CarouselSlider(
+                        ),
+                  SizedBox(
+                    height: AppSize.appheight * .01,
+                  ),
+                  controller.goldAds.isEmpty
+                      ? const SizedBox.shrink()
+                      : SmartRefresher(
+                        controller: RefreshController(),
+                        onLoading: ()=>controller.fetchGoldads(controller.selectedWilaya.value,controller.selectedCat!,controller.selectedFete.value),
+                        child: CarouselSlider(
                             items: List.generate(
                               controller.goldAds.length,
                               (i) {
@@ -179,50 +177,50 @@ class HomepageAllproducts extends GetView<HomePageController> {
                                 height: AppSize.appheight * .31,
                                 autoPlayCurve: Curves.easeInOut,
                                 scrollDirection: Axis.horizontal)),
-                    SizedBox(height: AppSize.appheight * .02),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text(
-                        "NormalTitleText".tr,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 14,
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.w600,
-                        ),
+                      ),
+                  SizedBox(height: AppSize.appheight * .02),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Text(
+                      "NormalTitleText".tr,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontSize: 14,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    SizedBox(height: AppSize.appheight * .02),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(
-                        controller.normalAds.length,
-                        (i) {
-                          final ad = controller.normalAds[i];
-                          return GestureDetector(
-                            onTap: () => Get.to(
-                                () => AdDetail(
-                                      adId: ad.id,
-                                    ),
-                                arguments: {"id": ad.id},
-                                transition: Transition.rightToLeftWithFade),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: FullDetails(
-                                selectedad: ad,
-                              ),
+                  ),
+                  SizedBox(height: AppSize.appheight * .02),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(
+                      controller.normalAds.length,
+                      (i) {
+                        final ad = controller.normalAds[i];
+                        return GestureDetector(
+                          onTap: () => Get.to(
+                              () => AdDetail(
+                                    adId: ad.id,
+                                  ),
+                              arguments: {"id": ad.id},
+                              transition: Transition.rightToLeftWithFade),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FullDetails(
+                              selectedad: ad,
                             ),
-                          );
-                        },
-                      ),
-                    )
-                  ],
-                );
-              }
-            },
-          ),
-        )),
-      ),
+                          ),
+                        );
+                      },
+                    ),
+                  )
+                ],
+              );
+            }
+          },
+        ),
+      )),
     );
   }
 }

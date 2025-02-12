@@ -224,9 +224,9 @@ void showDeletePopup(BuildContext context, VoidCallback deleteAction) {
               SizedBox(
                 height: AppSize.appheight * .03,
               ),
-              const Text(
-                'Supprimer annonce',
-                style: TextStyle(
+              Text(
+                'Supprimer annonce'.tr,
+                style: const TextStyle(
                   color: Color(0xFF181D27),
                   fontSize: 15.70,
                   fontFamily: 'Inter',
@@ -237,12 +237,12 @@ void showDeletePopup(BuildContext context, VoidCallback deleteAction) {
               SizedBox(
                 height: AppSize.appheight * .01,
               ),
-              const Text.rich(
+              Text.rich(
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: 'Êtes-vous sûr de vouloir ',
-                      style: TextStyle(
+                      text: 'Êtes-vous sûr de vouloir '.tr,
+                      style: const TextStyle(
                         color: Color(0xFF535861),
                         fontSize: 12.21,
                         fontFamily: 'Inter',
@@ -251,22 +251,12 @@ void showDeletePopup(BuildContext context, VoidCallback deleteAction) {
                       ),
                     ),
                     TextSpan(
-                      text: 'Suprimer votre annonce',
-                      style: TextStyle(
+                      text: 'Suprimer votre annonce'.tr,
+                      style: const TextStyle(
                         color: Color(0xFF535861),
                         fontSize: 12.21,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w700,
-                        height: 1.43,
-                      ),
-                    ),
-                    TextSpan(
-                      text: '? Cette action ne peut être annulée.',
-                      style: TextStyle(
-                        color: Color(0xFF535861),
-                        fontSize: 12.21,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w400,
                         height: 1.43,
                       ),
                     ),
@@ -288,7 +278,7 @@ void showDeletePopup(BuildContext context, VoidCallback deleteAction) {
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: const Text('Annulée'),
+              child: Text('Cancelbtn'.tr),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
@@ -301,7 +291,7 @@ void showDeletePopup(BuildContext context, VoidCallback deleteAction) {
                 deleteAction();
                 Navigator.of(context).pop(); // Close the dialog
               },
-              child: const Text('OUI'),
+              child: Text('Validbtn'.tr),
             ),
           ],
         ),

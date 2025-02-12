@@ -180,9 +180,9 @@ class MemberReservationCard extends GetView<MemberReservationController> {
                                   onPressed: () => memberReservationController
                                       .moveReservationToAnnuler(
                                           selectedReservation),
-                                  child: const Text(
-                                    'Annuler',
-                                    style: TextStyle(
+                                  child: Text(
+                                    'Cancelbtn'.tr,
+                                    style: const TextStyle(
                                       color: Color(0xFF525252),
                                       fontSize: 12,
                                       fontFamily: 'Poppins',
@@ -200,9 +200,9 @@ class MemberReservationCard extends GetView<MemberReservationController> {
                                   onPressed: () => memberReservationController
                                       .moveReservationToValide(
                                           selectedReservation),
-                                  child: const Text(
-                                    'Valider',
-                                    style: TextStyle(
+                                  child: Text(
+                                    'Validbtn'.tr,
+                                    style: const TextStyle(
                                       color: Colors.white,
                                       fontSize: 12,
                                       fontWeight: FontWeight.w600,

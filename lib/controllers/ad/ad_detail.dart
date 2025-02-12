@@ -39,26 +39,26 @@ class AdDetailController extends GetxController
   var memberAds = <AdModel>[].obs; // Observable list of member ads
 
   var selectedAdDetails = FullAdDetails(
-    id: 0,
-    name: '',
-    category: '',
-    eventType: '',
-    city: '',
-    address: '',
-    creationDate: '',
-    mobile: '',
-    price: 0,
-    visits: 0,
-    likes: 0,
-    idmobmre: 0,
-    imageFullPath: '',
-    videoFullPath: '',
-    boost: {"": ""},
-    images: [],
-    actions: [],
-    allowed: false,
-    liked: false
-  ).obs; // Observable selected ad details
+          id: 0,
+          name: '',
+          category: '',
+          eventType: '',
+          city: '',
+          address: '',
+          creationDate: '',
+          mobile: '',
+          price: 0,
+          visits: 0,
+          likes: 0,
+          idmobmre: 0,
+          imageFullPath: '',
+          videoFullPath: '',
+          boost: {"": ""},
+          images: [],
+          actions: [],
+          allowed: false,
+          liked: false)
+      .obs; // Observable selected ad details
 
   // Textediting controllers
 
@@ -121,9 +121,11 @@ class AdDetailController extends GetxController
     } finally {
       isLoading(false); // Set loading to false
     }
+
+    print(selectedAdDetails.value.id);
   }
 
-      // Function to fetch vip ads
+  // Function to fetch vip ads
   Future<void> fetchMemberAds(int memberId) async {
     try {
       isLoading(true); // Set loading to true

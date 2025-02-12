@@ -8,7 +8,7 @@ class AuthService {
   final GetStorage storage = GetStorage();
 
   Future<String?> signupClient(String name, String age, String wilaya,
-      String email, String password, String phone, File? image) async {
+      String email, String password, String phone, File? image,String deviceToken) async {
     List<String> errorMessages = [];
 
     try {
@@ -17,6 +17,7 @@ class AuthService {
         'wilaya': wilaya,
         'age': age.toString(),
         'email': email,
+        "fcm" : deviceToken,
         'phone': phone,
         'password': password,
         'image': await MultipartFile.fromFile(image!.path,
@@ -70,7 +71,10 @@ class AuthService {
       String phone,
       String mobile,
       String password,
-      File? image) async {
+      File? image,
+      String deviceToken,
+      
+      ) async {
     try {
       final formData = FormData.fromMap({
         'name': name,
@@ -78,6 +82,8 @@ class AuthService {
         'wilaya': wilaya,
         'location': location,
         'phone': phone,
+        "fcm" : deviceToken,
+
         'mobail': mobile,
         'password': password,
         'image': await MultipartFile.fromFile(image!.path,
@@ -124,11 +130,12 @@ class AuthService {
   }
 
   // Login method
-  Future<String?> loginClient(String email, String password) async {
+  Future<String?> loginClient(String email, String password,String deviceToken) async {
     try {
       final formData = FormData.fromMap({
         'email': email,
         'password': password,
+        "fcm" : deviceToken
       });
 
       final response = await dio.post(
@@ -155,11 +162,13 @@ class AuthService {
   }
 
   // Login method
-  Future<String?> loginMember(String email, String password) async {
+  Future<String?> loginMember(String email, String password,String deviceToken) async {
     try {
       final formData = FormData.fromMap({
         'email': email,
         'password': password,
+        "fcm" : deviceToken
+        
       });
 
       final response = await dio.post(

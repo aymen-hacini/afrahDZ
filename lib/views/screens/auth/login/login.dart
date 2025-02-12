@@ -69,9 +69,9 @@ class Login extends GetView<LoginController> {
             SizedBox(
               height: height * .02,
             ),
-            SizedBox(
-              height: height * .5,
-              width: width,
+            Expanded(
+              // height: height * .5,
+              // width: width,
               child: TabBarView(
                   controller: controller.tabController, children: views),
             )

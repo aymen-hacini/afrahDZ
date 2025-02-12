@@ -17,7 +17,7 @@ import 'package:internet_connection_checker_plus/internet_connection_checker_plu
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 class HomePageController extends GetxController
-    with GetTickerProviderStateMixin {
+    with GetSingleTickerProviderStateMixin {
   final HomepageService homepageService = HomepageService();
   final AdService adService = AdService();
   final CategorieService categoryService = CategorieService();
@@ -31,9 +31,9 @@ class HomePageController extends GetxController
   var goldAds = <AdModel>[].obs; // Observable list of gold ads
   var normalAds = <AdModel>[].obs; // Observable list of normal ads
 
-
-
   final RxBool isLoading = false.obs;
+  int currentPage = 1;
+  bool hasMore = true;
 
   RxString selectedWilaya = ''.obs;
   RxString selectedFete = ''.obs;
@@ -77,6 +77,7 @@ class HomePageController extends GetxController
       // Your refresh logic here
       await fetchUserDetails();
       await fetchVipAds();
+      await fetchCategories();
       refreshController.refreshCompleted();
     } catch (e) {
       refreshController.refreshFailed();
@@ -115,9 +116,10 @@ class HomePageController extends GetxController
   Future<void> fetchVipAds() async {
     try {
       isLoading(true); // Set loading to true
-      final fetchedAds =
-          await adService.getVipAds(); // Call AdService to fetch ads
+      final fetchedAds = await adService.getVipAds(
+          page: currentPage); // Call AdService to fetch ads
       vipAds.value = fetchedAds; // Update the observable list
+      currentPage++;
     } catch (e) {
       Get.snackbar('Error', 'Impossible de récupérer les annonces VIP');
     } finally {
@@ -125,18 +127,17 @@ class HomePageController extends GetxController
     }
   }
 
-
   // Function to fetch gold ads
   Future<void> fetchGoldads(String location, String cat, String fete) async {
-    goldAds.clear();
     if (goldAds.isNotEmpty) {
       return;
     } else {
       try {
         isLoading(true); // Set loading to true
-        final fetchedAds = await adService.getGoldads(
-            location, cat, fete); // Call AdService to fetch ads
+        final fetchedAds = await adService.getGoldads(location, cat, fete,
+            page: currentPage); // Call AdService to fetch ads
         goldAds.value = fetchedAds; // Update the observable list
+        currentPage++;
       } catch (e) {
         Get.snackbar('Erreur', 'Impossible de récupérer les annonces');
       } finally {
@@ -282,6 +283,7 @@ class HomePageController extends GetxController
                         elevation: 4),
                     onPressed: () {
                       Get.back();
+                      goldAds.clear();
                       fetchGoldads(selectedWilaya.value, categoryname,
                           selectedFete.value);
                       fetchNormalads(selectedWilaya.value, categoryname,

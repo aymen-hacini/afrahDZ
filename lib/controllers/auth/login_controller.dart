@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:afrahdz/core/constants/routes_names.dart';
+import 'package:afrahdz/core/functions/getdevicetoken.dart';
 import 'package:afrahdz/core/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ class LoginController extends GetxController
   final tabIndex = 0.obs;
   final RxBool isLoading = false.obs; // Track loading state
   var isObscured = true.obs;
+  var signupisObscured = true.obs;
 
   late TabController tabController;
 
@@ -170,6 +172,8 @@ class LoginController extends GetxController
   }
 
   Future<void> signupClient() async {
+    String? deviceToken = await getDeviceToken();
+
     if (selectedImage.value == null) {
       Get.snackbar('Erreur', 'Veuillez sélectionner une image');
       return;
@@ -184,7 +188,8 @@ class LoginController extends GetxController
             emailController.text,
             passwordController.text,
             phoneController.text,
-            selectedImage.value);
+            selectedImage.value,
+            deviceToken!);
         if (token != null) {
           storage.write('token', token); // Store the token in GetStorage
           Get.snackbar('Success', 'Signup successful!');
@@ -197,11 +202,14 @@ class LoginController extends GetxController
         isLoading(false); // stop loading
       }
     } else {
-      Get.snackbar('Erreur', 'Le mot de passe ne correspond pas, veuillez réessayer.');
+      Get.snackbar(
+          'Erreur', 'Le mot de passe ne correspond pas, veuillez réessayer.');
     }
   }
 
   Future<void> signupMember() async {
+    String? deviceToken = await getDeviceToken();
+
     if (selectedImage.value == null) {
       Get.snackbar('Erreur', 'Veuillez sélectionner une image');
       return;
@@ -217,7 +225,8 @@ class LoginController extends GetxController
             memberfixeController.text,
             memberphoneController.text,
             memberpasswordController.text,
-            selectedImage.value);
+            selectedImage.value,
+            deviceToken!);
         if (token != null) {
           storage.write('token', token); // Store the token in GetStorage
           Get.snackbar('Success', 'Signup successful!');
@@ -230,7 +239,8 @@ class LoginController extends GetxController
         isLoading(false); // stop loading
       }
     } else {
-      Get.snackbar('Erreur', 'Le mot de passe ne correspond pas, veuillez réessayer.');
+      Get.snackbar(
+          'Erreur', 'Le mot de passe ne correspond pas, veuillez réessayer.');
     }
   }
 
@@ -248,18 +258,17 @@ class LoginController extends GetxController
     } else {
       Get.offAllNamed(AppRoutesNames.login);
     }
-
-    // Delete the controller after auto-login is complete
-    Get.delete<LoginController>();
   }
 
   // Login method
   Future<void> login(String email, String password, String userType) async {
     try {
+      String? deviceToken = await getDeviceToken();
+
       isLoading(true); // Start loading
       final token = userType == "client"
-          ? await authService.loginClient(email, password)
-          : await authService.loginMember(email, password);
+          ? await authService.loginClient(email, password, deviceToken!)
+          : await authService.loginMember(email, password, deviceToken!);
 
       if (token != null) {
         storage.write('token', token); // Store the token in GetStorage
@@ -290,7 +299,32 @@ class LoginController extends GetxController
     }
   }
 
+  clearControllers() {
+    memberemailController.clear();
+    memberpasswordController.clear();
+    memberrepeatpasswordController.clear();
+    memberwilayaController.clear();
+    membercommericalnameController.clear();
+    memberfixeController.clear();
+    memberphoneController.clear();
+    memberlocationController.clear();
+    memberloginEmailController.clear();
+    memberloginPasswordController.clear();
+    clientloginEmailController.clear();
+    clientloginPasswordController.clear();
+    nameController.clear();
+    ageController.clear();
+    emailController.clear();
+    wilayaController.clear();
+    passwordController.clear();
+    repeatpasswordController.clear();
+    phoneController.clear();
+  }
+
   void toggleObscure() {
     isObscured.value = !isObscured.value;
+  }
+  void togglesignupObscure() {
+    signupisObscured.value = !signupisObscured.value;
   }
 }

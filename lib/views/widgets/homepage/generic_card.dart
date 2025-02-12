@@ -5,6 +5,7 @@ import 'package:afrahdz/data/models/annonce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
 class GenericServiceCard extends StatelessWidget {
   final AdModel selectedAd;
@@ -50,7 +51,14 @@ class GenericServiceCard extends StatelessWidget {
               ),
               SizedBox(height: AppSize.appheight * .02),
               Padding(
-                padding: EdgeInsets.only(left: AppSize.appwidth * .03),
+                padding: EdgeInsets.only(
+                  left: Get.locale!.languageCode == "ar"
+                      ? 0
+                      : AppSize.appwidth * .03,
+                  right: Get.locale!.languageCode == "ar"
+                      ? AppSize.appwidth * .03
+                      : 0,
+                ),
                 child: Text(
                   selectedAd.name,
                   style: const TextStyle(
@@ -62,7 +70,14 @@ class GenericServiceCard extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: AppSize.appwidth * .01),
+                padding: EdgeInsets.only(
+                  left: Get.locale!.languageCode == "ar"
+                      ? 0
+                      : AppSize.appwidth * .01,
+                  right: Get.locale!.languageCode == "ar"
+                      ? AppSize.appwidth * .01
+                      : 0,
+                ),
                 child: Row(
                   children: [
                     const SizedBox(
@@ -87,8 +102,8 @@ class GenericServiceCard extends StatelessWidget {
             ],
           ),
           Positioned(
-            bottom: AppSize.appheight * .025,
-            right: 10,
+            bottom: AppSize.appheight * .02,
+            left: Get.locale!.languageCode == "ar" ? AppSize.appwidth * .02 : 0,
             child: RatingStars(
               valueLabelMargin: EdgeInsets.zero,
               valueLabelPadding: EdgeInsets.zero,

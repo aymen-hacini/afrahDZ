@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "810588546790",
+    "project_id": "afrahdz",
+    "storage_bucket": "afrahdz.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:810588546790:android:306df89ef07c317b69fd27",
+        "android_client_info": {
+          "package_name": "com.example.afrahdz"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9-cD4NBqCZ1i1Za4jlD3ZPFvkpzBcRcE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

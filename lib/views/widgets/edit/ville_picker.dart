@@ -2,6 +2,7 @@ import 'package:afrahdz/controllers/ad/create_ad.dart';
 import 'package:afrahdz/controllers/ad/edit_annonce_controller.dart';
 import 'package:afrahdz/controllers/edit/edit_profile_controller.dart';
 import 'package:afrahdz/core/constants/size.dart';
+import 'package:afrahdz/data/models/categorie.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -486,46 +487,24 @@ class CategoriePopup extends StatefulWidget {
 }
 
 class _CategoriePopupState extends State<CategoriePopup> {
-  // List of all fetes in Algeria
-  final List<String> categories = const [
-    "Salle des fetes",
-    "Negafats",
-    "Location voiture",
-    "Dj",
-    "Chedda et robes",
-    "Gateaux et Tartes",
-    "Groupes musicales",
-    "Motos",
-    "voyage de noces",
-    "Costumes",
-    "Camera Man",
-    "Cuisiner",
-    "Coiffure",
-    "Cheval et barnous",
-    "Decor et Fleurs",
-    "Hotels et nuit de noces",
-    "Bijoux accessoires",
-    "Groupes photos interdit",
-    "Trousseau",
-    "Organisateur"
-  ];
+
 
   @override
   Widget build(BuildContext context) {
     CreateAdController controller = Get.find();
 
-    return PopupMenuButton<String>(
-        onSelected: (String value) {
+    return PopupMenuButton<CategorieModel>(
+        onSelected: (CategorieModel value) {
           // Update the selected category in the controller
           setState(() {
-            controller.selectedCategorie = value;
+            controller.selectedCategorie = value.name;
           });
         },
         itemBuilder: (BuildContext context) {
-          return categories.map((String category) {
-            return PopupMenuItem<String>(
+          return controller.categories.map((CategorieModel category) {
+            return PopupMenuItem<CategorieModel>(
               value: category,
-              child: Text(category), // Display the category name
+              child: Text(Get.locale!.languageCode == "ar" ? category.arabname : category.name), // Display the category name
             );
           }).toList();
         },
@@ -569,39 +548,40 @@ class EditCategoriePopup extends GetView<EditAnnonceController> {
   final List<String> categories = const [
     "Salle des fetes",
     "Negafats",
-    "Location voiture",
+    "Automobiles",
     "Dj",
-    "Chedda et robes",
-    "Gateaux et Tartes",
-    "Groupes musicales",
-    "Motos",
+    "Sévérité et robes",
+    "Bonbons et gâteaux de mariage",
+    "Groupes de musique",
+    "Groupes de motards",
     "voyage de noces",
     "Costumes",
-    "Camera Man",
-    "Cuisiner",
-    "Coiffure",
-    "Cheval et barnous",
-    "Decor et Fleurs",
-    "Hotels et nuit de noces",
+    "Costumes du marié",
+    "Appareil photo et photographie",
+    "Chef professionnel",
+    "Coiffure et beauté",
+    "Burnous et chevaux",
+    "Décoration et fleurs",
+    "Hôtels et chambres pour la nuit de noces",
     "Bijoux accessoires",
-    "Groupes photos interdit",
+    "Pas de groupe de photographie",
     "Trousseau",
-    "Organisateur"
+    "Organisateur de fêtes"
   ];
   @override
   Widget build(BuildContext context) {
     EditAnnonceController controller = Get.find();
 
-    return PopupMenuButton<String>(
-      onSelected: (String value) {
+    return PopupMenuButton<CategorieModel>(
+      onSelected: (CategorieModel value) {
         // Update the selected category in the controller
-        controller.selectedCategorie = value;
+        controller.selectedCategorie = value.name;
       },
       itemBuilder: (BuildContext context) {
-        return categories.map((String category) {
-          return PopupMenuItem<String>(
+        return controller.categories.map((CategorieModel category) {
+          return PopupMenuItem<CategorieModel>(
             value: category,
-            child: Text(category), // Display the category name
+            child: Text(Get.locale!.languageCode == "ar" ? category.arabname : category.name), // Display the category name
           );
         }).toList();
       },

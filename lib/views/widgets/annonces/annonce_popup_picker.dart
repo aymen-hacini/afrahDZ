@@ -40,7 +40,7 @@ class AnnoncePopupPicker extends GetView<BoostAdController> {
                 controller.selectedAd.value != null
                     ? controller
                         .selectedAd.value!.name // Display the selected ad name
-                    : 'Choose an ad',
+                    : 'Choose an ad'.tr,
                 style: const TextStyle(
                   color: Color(0xFF534C4C),
                   fontSize: 14,

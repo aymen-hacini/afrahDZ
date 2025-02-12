@@ -88,7 +88,7 @@ class LocationPicker extends StatelessWidget {
                 Text(
                   homepageController.selectedWilaya.value.isNotEmpty
                       ? homepageController.selectedWilaya.value
-                      : 'Selectioner votre willaya',
+                      : 'choosewilaya'.tr,
                   style: const TextStyle(
                     color: Color(0xFF534C4C),
                     fontSize: 14,
@@ -151,7 +151,7 @@ class EventPicker extends StatelessWidget {
                 Text(
                   homepageController.selectedFete.value.isNotEmpty
                       ? homepageController.selectedFete.value
-                      : 'Selectioner votre fete',
+                      : 'chooseEvent'.tr,
                   style: const TextStyle(
                     color: Color(0xFF534C4C),
                     fontSize: 14,

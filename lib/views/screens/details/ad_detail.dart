@@ -248,15 +248,15 @@ class AdDetail extends GetView<AdDetailController> {
                                                     .liked
                                                 ? true
                                                 : false,
-                                            likeBuilder: (bool isLiked) {
-                                              return Icon(
-                                                Icons.favorite,
-                                                color: isLiked
-                                                    ? Colors.red
-                                                    : Colors.grey,
-                                                size: 20,
-                                              );
-                                            },
+                                            // likeBuilder: (bool isLiked) {
+                                            //   return Icon(
+                                            //     Icons.favorite,
+                                            //     color: isLiked
+                                            //         ? Colors.red
+                                            //         : Colors.grey,
+                                            //     size: 20,
+                                            //   );
+                                            // },
                                             likeCount: ad.likes,
                                             countBuilder: (int? count,
                                                 bool isLiked, String text) {
@@ -270,16 +270,26 @@ class AdDetail extends GetView<AdDetailController> {
                                               );
                                             },
                                             onTap: (bool isLiked) async {
-                                              if (isLiked) {
-                                                controller.likeAd(adId);
+                                              if (controller.selectedAdDetails
+                                                  .value.liked) {
+                                                controller.likeAd(controller
+                                                    .selectedAdDetails
+                                                    .value
+                                                    .id);
                                                 Get.snackbar(
                                                     "Success".tr, 'Unlike'.tr);
                                               } else {
-                                                controller.likeAd(adId);
+                                                controller.likeAd(controller
+                                                    .selectedAdDetails
+                                                    .value
+                                                    .id);
                                                 Get.snackbar(
                                                     'Success'.tr, 'like'.tr);
                                               }
-                                              return !isLiked;
+                                              return !controller
+                                                  .selectedAdDetails
+                                                  .value
+                                                  .liked;
                                             },
                                           ),
                                         )
@@ -413,7 +423,11 @@ class AdDetail extends GetView<AdDetailController> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
-                                        'Reservebtn'.tr,
+                                        controller.selectedAdDetails.value
+                                                    .category ==
+                                                "Bijoux accessoires"
+                                            ? "Acheter".tr
+                                            : 'Reservebtn'.tr,
                                         textAlign: TextAlign.center,
                                         style: const TextStyle(
                                           color: Color(0xFFFBFBFB),

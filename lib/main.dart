@@ -1,6 +1,9 @@
 import 'package:afrahdz/controllers/auth/login_controller.dart';
 import 'package:afrahdz/core/localization/translations.dart';
+import 'package:afrahdz/firebase_options.dart';
 import 'package:afrahdz/routes.dart';
+import 'package:afrahdz/setup_messaging.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -9,6 +12,8 @@ import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await setupFirebaseMessaging();
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.manual,
     overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],

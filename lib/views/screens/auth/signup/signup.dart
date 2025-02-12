@@ -42,7 +42,7 @@ class Signup extends GetView<LoginController> {
               height: height * .03,
             ),
             Expanded(
-              child: Column(children: [
+              child: ListView(children: [
                 controller.tabController.index == 0
                     ? signupViews.first
                     : signupViews.last

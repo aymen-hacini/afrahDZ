@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:afrahdz/core/constants/api.dart';
 import 'package:afrahdz/data/models/annonce.dart';
 import 'package:afrahdz/data/models/full_ad_details.dart';
+import 'package:afrahdz/data/static/auth.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
@@ -167,31 +168,38 @@ class AdService {
     }
   }
 
-  // Function to fetch vip ads
-  Future<List<AdModel>> getVipAds() async {
-    try {
-      final response = await dio.get(
-        ApiLinkNames.getVipads, // Replace with your API endpoint
-      );
 
-      // Check the response status code
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        // Parse the JSON response
-        final Map<String, dynamic> responseBody = response.data;
-        final List<dynamic> data = responseBody['data'];
+Future<List<AdModel>> getVipAds({int page = 1, int perPage = 30}) async {
+  try {
+    // Add pagination parameters to the request
+    final response = await dio.get(
+      ApiLinkNames.getVipads, // Replace with your API endpoint
+      queryParameters: {
+        'page': page,
+        'per_page': perPage,
+      },
+    );
 
-        // Convert JSON data to a list of AdModel objects
-        final List<AdModel> ads =
-            data.map((ad) => AdModel.fromJson(ad)).toList();
-        return ads;
-      } else {
-        throw Exception('Impossible de récupérer les annonces ');
-      }
-    } catch (e) {
+    // Check the response status code
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      // Parse the JSON response
+      final Map<String, dynamic> responseBody = response.data;
+      final List<dynamic> data = responseBody['data'];
+
+      // Extract pagination info from the response
+
+      // Convert JSON data to a list of AdModel objects
+      final List<AdModel> ads = data.map((ad) => AdModel.fromJson(ad)).toList();
+
+      // Return the ads along with pagination info (optional)
+      return ads;
+    } else {
       throw Exception('Impossible de récupérer les annonces');
     }
+  } catch (e) {
+    throw Exception('Impossible de récupérer les annonces: $e');
   }
-
+}
   // Function to fetch vip ads
   Future<List<AdModel>> getMemberAds(int memberId) async {
     try {
@@ -210,19 +218,22 @@ class AdService {
             data.map((ad) => AdModel.fromJson(ad)).toList();
         return ads;
       } else {
-        throw Exception('Impossible de récupérer les annonces ');
+        throw Exception('Impossible  ');
       }
     } catch (e) {
-      throw Exception('Impossible de récupérer les annonces');
+      throw Exception('Impossible ');
     }
   }
 
   // Function to fetch gold ads
   Future<List<AdModel>> getGoldads(
-      String location, String category, String fete) async {
+      String location, String category, String fete,{int page = 1, int perPage = 30}) async {
     try {
       final response = await dio.get(
-        "${ApiLinkNames.getGoldads}?city=$location&category=$category&eventType=$fete", // Replace with your API endpoint
+        "${ApiLinkNames.getGoldads}?city=$location&category=$category&eventType=$fete",  queryParameters: {
+        'page': page,
+        'per_page': perPage,
+      },// Replace with your API endpoint
       );
 
       // Check the response status code
@@ -234,6 +245,7 @@ class AdService {
         // Convert JSON data to a list of AdModel objects
         final List<AdModel> ads =
             data.map((ad) => AdModel.fromJson(ad)).toList();
+
         return ads;
       } else {
         throw Exception('Impossible de récupérer les annonces');
@@ -297,17 +309,20 @@ class AdService {
 
   // Function to fetch full ad details by ID
   Future<FullAdDetails> getFullAdDetails(int adId) async {
-    bool isLoggedIn = storage.read('token') != null;
+    final token = storage.read('token');
 
     try {
       dio.interceptors.add(LogInterceptor(
           request: true, requestBody: true, error: true, responseBody: true));
       // Send the GET request to fetch ad details
       final response = await dio.get(
-        isLoggedIn
+        controller.isLoggedIn
             ? '${ApiLinkNames.getAdDetailswithVisite}/$adId'
             : '${ApiLinkNames.getAdDetails}/$adId', // Replace with your API endpoint
-        options: Options(headers: {}, preserveHeaderCase: true),
+        options: Options(
+            headers:
+                controller.isLoggedIn ? {"Authorization": "Bearer $token"} : {},
+            preserveHeaderCase: true),
       );
 
       // Check if the request was successful

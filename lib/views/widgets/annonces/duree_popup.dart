@@ -14,13 +14,13 @@ class DureePopupButton extends StatefulWidget {
 class _DureePopupButtonState extends State<DureePopupButton> {
   BoostAdController controller = Get.find();
   // List of all time in Algeria
-  final List<String> time = const [
-    "1 day",
-    "2 days",
-    "3 days",
-    "7 days",
-    "15 days",
-    "30 days"
+  final List<String> time =  [
+    "1 day".tr,
+    "2 days".tr,
+    "3 days".tr,
+    "7 days".tr,
+    "15 days".tr,
+    "30 days".tr
   ];
 
   @override
@@ -54,8 +54,8 @@ class _DureePopupButtonState extends State<DureePopupButton> {
           children: [
             Text(
               controller.selectedduration != null
-                  ? '${controller.selectedduration} day'
-                  : 'Choisir une Durée',
+                  ? Get.locale!.languageCode == "ar"  ? '${controller.selectedduration} يوم'  :'${controller.selectedduration} day'
+                  : 'Choisir une Durée'.tr,
               style: const TextStyle(
                 color: Color(0xFF534C4C),
                 fontSize: 14,

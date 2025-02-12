@@ -1,4 +1,6 @@
+import 'package:afrahdz/controllers/auth/login_controller.dart';
 import 'package:afrahdz/controllers/homepage/homepage_controller.dart';
+import 'package:afrahdz/controllers/homepage/textcontroller.dart';
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/images.dart';
 import 'package:afrahdz/core/constants/routes_names.dart';
@@ -25,6 +27,8 @@ class Homepage extends GetView<HomePageController> {
   @override
   Widget build(BuildContext context) {
     Get.put(HomePageController());
+    LoginController loginController = Get.find();
+    Textcontroller textcontroller = Get.put(Textcontroller(), permanent: false);
     return SmartRefresher(
       controller: controller.refreshController,
       onRefresh: () => controller.onRefresh(),
@@ -71,7 +75,13 @@ class Homepage extends GetView<HomePageController> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.only(
-                                    left: AppSize.appwidth * .05),
+                                  left: Get.locale!.languageCode == "ar"
+                                      ? 0
+                                      : AppSize.appwidth * .05,
+                                  right: Get.locale!.languageCode == "ar"
+                                      ? AppSize.appwidth * .05
+                                      : 0,
+                                ),
                                 child: Text(
                                   " ${controller.userDetails.value!.name}",
                                   style: const TextStyle(
@@ -85,7 +95,13 @@ class Homepage extends GetView<HomePageController> {
                               const Spacer(),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    right: AppSize.appwidth * .05),
+                                  right: Get.locale!.languageCode == "ar"
+                                      ? 0
+                                      : AppSize.appwidth * .05,
+                                  left: Get.locale!.languageCode == "ar"
+                                      ? AppSize.appwidth * .05
+                                      : 0,
+                                ),
                                 child: IconButton(
                                     onPressed: () {
                                       final box = GetStorage();
@@ -105,8 +121,14 @@ class Homepage extends GetView<HomePageController> {
                             ],
                           ),
                           Padding(
-                            padding:
-                                EdgeInsets.only(left: AppSize.appwidth * .055),
+                            padding: EdgeInsets.only(
+                              left: Get.locale!.languageCode == "ar"
+                                  ? 0
+                                  : AppSize.appwidth * .05,
+                              right: Get.locale!.languageCode == "ar"
+                                  ? AppSize.appwidth * .05
+                                  : 0,
+                            ),
                             child: Text(
                               controller.userDetails.value!.wilaya,
                               style: const TextStyle(
@@ -134,7 +156,7 @@ class Homepage extends GetView<HomePageController> {
                               ? CustomTile(
                                   ontap: () =>
                                       Get.toNamed(AppRoutesNames.addannonce),
-                                  title: "HomepageAddAd".tr,
+                                  title: "HomepageAddAdTile".tr,
                                   svg: "assets/svg/add.svg")
                               : const SizedBox.shrink(),
                           controller.isMemberLoggedIn
@@ -249,8 +271,10 @@ class Homepage extends GetView<HomePageController> {
                             alignment: Alignment.topRight,
                             child: Builder(builder: (context) {
                               return IconButton(
-                                  onPressed: () =>
-                                      Get.toNamed(AppRoutesNames.login),
+                                  onPressed: () {
+                                    loginController.clearControllers();
+                                    Get.toNamed(AppRoutesNames.login);
+                                  },
                                   icon: const Icon(
                                     Icons.person_outline,
                                     color: Colors.black,
@@ -293,9 +317,9 @@ class Homepage extends GetView<HomePageController> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: AnimatedBuilder(
-                    animation: controller.animation,
+                    animation: textcontroller.animation,
                     builder: (context, child) => Transform.translate(
-                      offset: Offset(-controller.animation.value, 0),
+                      offset: Offset(-textcontroller.animation.value, 0),
                       child: Row(
                         children: [
                           Text.rich(
@@ -354,7 +378,7 @@ class Homepage extends GetView<HomePageController> {
                         options: CarouselOptions(
                           autoPlayAnimationDuration: 100.milliseconds,
                           animateToClosest: true,
-                          viewportFraction: .65,
+                          viewportFraction: .7,
                           enlargeStrategy: CenterPageEnlargeStrategy.zoom,
                           padEnds: true,
                           enlargeFactor: .45,
@@ -385,7 +409,8 @@ class Homepage extends GetView<HomePageController> {
                                 autoPlayAnimationDuration: 100.milliseconds,
                                 animateToClosest: true,
                                 initialPage: 0,
-                                viewportFraction: .7,
+                                viewportFraction:
+                                    Get.locale!.languageCode == "ar" ? .6 : .7,
                                 enlargeStrategy: CenterPageEnlargeStrategy.zoom,
                                 padEnds: true,
                                 enlargeFactor: .45,
@@ -464,6 +489,7 @@ class Homepage extends GetView<HomePageController> {
                       final category = controller.categories[index];
                       return GestureDetector(
                         onTap: () {
+                          controller.selectedCat = category.name;
                           controller.showLocationpicker(category.name);
                           controller.selectedCat = category.name;
                         },

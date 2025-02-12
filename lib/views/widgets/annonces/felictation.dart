@@ -44,8 +44,8 @@ Future<dynamic> showFelictations() {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
-                      'Félicitations ! ',
+                     Text(
+                      'Félicitations ! '.tr,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
@@ -64,11 +64,11 @@ Future<dynamic> showFelictations() {
               SizedBox(
                 height: AppSize.appheight * .01,
               ),
-              const Text.rich(
+               Text.rich(
                 TextSpan(
                   children: [
                     TextSpan(
-                      text: '           Votre achat a été validé avec ',
+                      text: '          Votre achat a été validé avec '.tr,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,
@@ -77,7 +77,7 @@ Future<dynamic> showFelictations() {
                       ),
                     ),
                     TextSpan(
-                      text: 'succès',
+                      text: 'Success'.tr,
                       style: TextStyle(
                         color: Color(0xFFC628BC),
                         fontSize: 14,
@@ -105,7 +105,7 @@ Future<dynamic> showFelictations() {
                     ),
                     TextSpan(
                       text:
-                          ' sera désormais promue selon les conditions de l’offre sélectionnée. Merci de votre confiance !',
+                          ' sera désormais promue selon les conditions de l’offre sélectionnée. Merci de votre confiance !'.tr,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 14,

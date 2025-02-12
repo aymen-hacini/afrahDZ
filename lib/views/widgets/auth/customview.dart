@@ -24,11 +24,18 @@ class CustomView extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    return ListView(
+      physics: const ClampingScrollPhysics(),
+      // crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         CustomTextField(
           controller: emailcontroller,
+           validator: (value) {
+                  if (!GetUtils.isEmail(value!)) {
+                    return "Email non valide".tr;
+                  }
+                  return null;
+                },
           hint: "emailHinttext".tr,
           keyboardtype: TextInputType.emailAddress,
           image: AppImages.mailIcon,
@@ -193,6 +200,7 @@ class CustomView extends GetView<LoginController> {
         InkWell(
           onTap: () {
             controller.selectedImage.value = null;
+            controller.clearControllers();
             Get.toNamed(AppRoutesNames.signup);
           },
           child: Text.rich(

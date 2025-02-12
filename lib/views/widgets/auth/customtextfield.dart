@@ -6,11 +6,13 @@ class CustomTextField extends StatelessWidget {
   final String image, hint;
   final TextEditingController controller;
   final TextInputType? keyboardtype;
+  final String? Function(String?)? validator;
   const CustomTextField(
       {super.key,
       required this.image,
       required this.hint,
-      required this.controller,this.keyboardtype});
+      required this.controller,
+      this.keyboardtype,this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +20,8 @@ class CustomTextField extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8),
       child: TextFormField(
         controller: controller,
+        autovalidateMode: AutovalidateMode.onUnfocus,
+        validator: validator,
         cursorColor: Appcolors.primaryColor,
         keyboardType: keyboardtype,
         decoration: InputDecoration(
