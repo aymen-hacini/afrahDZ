@@ -306,29 +306,32 @@ class Homepage extends GetView<HomePageController> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  const Spacer(),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      right: Get.locale!.languageCode == "ar"
-                          ? 0
-                          : AppSize.appwidth * .00,
-                      left: Get.locale!.languageCode == "ar"
-                          ? AppSize.appwidth * .00
-                          : 0,
-                    ),
-                    child: IconButton(
-                        onPressed: () {
-                          final box = GetStorage();
-                          var newLocale = Get.locale?.languageCode == 'ar'
-                              ? const Locale('fr', 'FR')
-                              : const Locale('ar', 'EG');
+                  Spacer(),
+                                                Padding(
+                                padding: EdgeInsets.only(
+                                  right: Get.locale!.languageCode == "ar"
+                                      ? 0
+                                      : AppSize.appwidth * .02,
+                                  left: Get.locale!.languageCode == "ar"
+                                      ? AppSize.appwidth * .02
+                                      : 0,
+                                ),
+                                child: IconButton(
+                                    onPressed: () {
+                                      final box = GetStorage();
+                                      var newLocale =
+                                          Get.locale?.languageCode == 'ar'
+                                              ? const Locale('fr', 'FR')
+                                              : const Locale('ar', 'EG');
 
-                          Get.updateLocale(newLocale);
-                          box.write(
-                              'locale', newLocale.languageCode); // Save locale
-                        },
-                        icon: const Icon(Icons.language)),
-                  )
+                                      Get.updateLocale(newLocale);
+                                      box.write(
+                                          'locale',
+                                          newLocale
+                                              .languageCode); // Save locale
+                                    },
+                                    icon: const Icon(Icons.language)),
+                              )
                 ],
               ),
               SizedBox(

@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         title: 'Afrah DZ',
         translations: MyTranslations(),
         locale: locale,
-        fallbackLocale: Get.deviceLocale,
+        fallbackLocale: const Locale("fr", "FR"),
         getPages: pages,
         initialBinding: InitialBinding(),
       ),

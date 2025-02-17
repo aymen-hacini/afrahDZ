@@ -1,8 +1,8 @@
 name: afrahdz
-description: "Le 1er App en Algérie Spécialisé dans les  Fêtes et Mariages."
+description: "La 1ere Application en Algérie Spécialisé dans les  Fêtes et Mariages."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 7.0.0+7
 
 environment:
   sdk: ^3.5.3
@@ -36,8 +36,6 @@ dependencies:
   flutter_otp_text_field: ^1.4.0+2
   flutter_rating_stars: ^1.1.0
   carousel_slider: ^5.0.0
-
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -60,15 +58,18 @@ dependencies:
   firebase_messaging: ^15.2.2
   flutter_local_notifications: ^18.0.1
 
-
 flutter_native_splash:
-  # color: "#42a5f5" # Background color of the splash screen
-  background_image: assets/images/splash.png # Path to your splash screen image
-  image: assets/images/splash.png # Path to your splash screen image
+  color: "#ffffff" # Background color of the splash screen
+  # background_image: assets/images/splash.png # Path to your splash screen image
+  # image: assets/images/splash.png # Path to your splash screen image
   android: true # Enable for Android
   ios: true # Enable for iOS
   web: false # Enable for Web
-
+  android_12:
+    color: "#ffffff"
+    android: true
+    ios: true
+    web: false
 
 dev_dependencies:
   flutter_test:
@@ -86,7 +87,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -147,5 +147,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
-
- 
