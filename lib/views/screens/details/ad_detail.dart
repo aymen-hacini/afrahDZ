@@ -456,10 +456,8 @@ class AdDetail extends GetView<AdDetailController> {
                                               borderRadius:
                                                   BorderRadius.circular(30)),
                                           elevation: 4),
-                                      onPressed: () => controller.isLoggedIn
-                                          ? controller.makePhoneCall(controller
-                                              .selectedAdDetails.value.mobile)
-                                          : Get.toNamed(AppRoutesNames.login),
+                                      onPressed: () => controller.makePhoneCall(controller
+                                              .selectedAdDetails.value.mobile),
                                       child: Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,

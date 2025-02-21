@@ -261,10 +261,25 @@ class EditProfile extends GetView<EditProfileController> {
                             SizedBox(
                               height: AppSize.appheight * .01,
                             ),
-                            const Row(
-                              children: [
-                                DatePicker(),
-                              ],
+                           TextFormField(
+                              onChanged: (value) {},
+                              keyboardType: TextInputType.number,
+                              style: const TextStyle(
+                                color: Color(0xFF534C4C),
+                                fontSize: 14,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w500,
+                                height: 0.88,
+                              ),
+                              decoration: InputDecoration(
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(6)),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide:
+                                          const BorderSide(color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(6))),
                             ),
                             SizedBox(
                               height: AppSize.appheight * .01,

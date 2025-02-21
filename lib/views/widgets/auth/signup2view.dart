@@ -1,8 +1,10 @@
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/images.dart';
 import 'package:afrahdz/core/constants/routes_names.dart';
+import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/data/static/auth.dart';
 import 'package:afrahdz/views/widgets/auth/customtextfield.dart';
+import 'package:afrahdz/views/widgets/edit/ville_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -40,7 +42,7 @@ class Signup2view extends StatelessWidget {
                 controller: controller.memberfixeController,
                 keyboardtype: TextInputType.number,
                 validator: (value) {
-                  if (value!.length < 10) {
+                  if (value!.length < 8) {
                     return "phone non valide".tr;
                   }
                   return null;
@@ -51,11 +53,12 @@ class Signup2view extends StatelessWidget {
               SizedBox(
                 height: height * .02,
               ),
-              CustomTextField(
-                controller: controller.memberwilayaController,
-                hint: "SignupCity".tr,
-                image: AppImages.locationIcon,
-              ),
+              const SignupWilayapicker(),
+              // CustomTextField(
+              //   controller: controller.memberwilayaController,
+              //   hint: "SignupCity".tr,
+              //   image: AppImages.locationIcon,
+              // ),
               SizedBox(
                 height: height * .02,
               ),
@@ -151,11 +154,7 @@ class Signup2view extends StatelessWidget {
               SizedBox(
                 height: height * .02,
               ),
-              CustomTextField(
-                controller: controller.wilayaController,
-                hint: "SignupCity".tr,
-                image: AppImages.locationIcon,
-              ),
+              const SignupWilayapicker(),
               SizedBox(
                 height: height * .02,
               ),

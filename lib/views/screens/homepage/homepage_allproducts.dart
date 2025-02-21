@@ -8,6 +8,7 @@ import 'package:afrahdz/views/widgets/homepage/generic_card.dart';
 import 'package:afrahdz/views/widgets/homepage/premium_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 
@@ -38,17 +39,14 @@ class HomepageAllproducts extends GetView<HomePageController> {
                   SizedBox(
                     height: AppSize.appwidth * .02,
                   ),
-                  const Center(
-                    child: Text(
-                      'AFRAH DZ',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 21.05,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
+                  Center(
+                      child: SizedBox(
+                          height: 20,
+                          width: 100,
+                          child: SvgPicture.asset(
+                            'assets/svg/logo2.svg',
+                            fit: BoxFit.cover,
+                          ))),
                   SizedBox(
                     height: AppSize.appwidth * .03,
                   ),
@@ -86,46 +84,53 @@ class HomepageAllproducts extends GetView<HomePageController> {
                       ),
                     ],
                   ),
-                  SmartRefresher(
-                    controller: RefreshController(),
-                    onLoading: ()=>controller.fetchVipAds(),
-                    child: CarouselSlider(
-                      options: CarouselOptions(
-                        animateToClosest: true,
-                        viewportFraction:
-                            Get.locale!.languageCode == "ar" ? .6 : .7,
-                        initialPage: 0,
-                        enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-                        pageSnapping: false,
-                        scrollPhysics: const BouncingScrollPhysics(),
-                        padEnds: true,
-                        enlargeFactor: .45,
-                        autoPlay: true,
-                        aspectRatio: 4 / 3,
-                        onPageChanged: (index, reason) {
-                          controller.updatePageIndex(index);
-                        },
-                        enlargeCenterPage: true,
+                  SizedBox(
+                    width: Get.width,
+                    height: Get.height * .4,
+                    child: SmartRefresher(
+                      scrollDirection: Axis.horizontal,
+                      controller: RefreshController(),
+                      onLoading: () => controller.fetchVipAds(),
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          animateToClosest: true,
+                          enableInfiniteScroll: false,
+                          scrollDirection: Axis.horizontal,
+                          viewportFraction:
+                              Get.locale!.languageCode == "ar" ? .6 : .7,
+                          initialPage: 0,
+                          enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+                          pageSnapping: false,
+                          scrollPhysics: const BouncingScrollPhysics(),
+                          padEnds: true,
+                          enlargeFactor: .45,
+                          autoPlay: true,
+                          aspectRatio: 4 / 3,
+                          onPageChanged: (index, reason) {
+                            controller.updatePageIndex(index);
+                          },
+                          enlargeCenterPage: true,
+                        ),
+                        items: List.generate(controller.vipAds.length, (i) {
+                          final ad = controller.vipAds[i];
+                          return AnimatedOpacity(
+                              duration: 100.milliseconds,
+                              opacity: i == controller.currentPageIndex.value
+                                  ? 1
+                                  : 0.5,
+                              child: GestureDetector(
+                                  onTap: () => Get.to(
+                                      () => AdDetail(
+                                            adId: ad.id,
+                                          ),
+                                      transition: Transition.zoom),
+                                  child: PremiumCard(
+                                    name: ad.name,
+                                    image: ad.imageFullPath,
+                                    rating: ad.rating,
+                                  )));
+                        }),
                       ),
-                      items: List.generate(controller.vipAds.length, (i) {
-                        final ad = controller.vipAds[i];
-                        return AnimatedOpacity(
-                            duration: 100.milliseconds,
-                            opacity: i == controller.currentPageIndex.value
-                                ? 1
-                                : 0.5,
-                            child: GestureDetector(
-                                onTap: () => Get.to(
-                                    () => AdDetail(
-                                          adId: ad.id,
-                                        ),
-                                    transition: Transition.zoom),
-                                child: PremiumCard(
-                                  name: ad.name,
-                                  image: ad.imageFullPath,
-                                  rating: ad.rating,
-                                )));
-                      }),
                     ),
                   ),
                   controller.goldAds.isEmpty
@@ -147,37 +152,45 @@ class HomepageAllproducts extends GetView<HomePageController> {
                   ),
                   controller.goldAds.isEmpty
                       ? const SizedBox.shrink()
-                      : SmartRefresher(
-                        controller: RefreshController(),
-                        onLoading: ()=>controller.fetchGoldads(controller.selectedWilaya.value,controller.selectedCat!,controller.selectedFete.value),
-                        child: CarouselSlider(
-                            items: List.generate(
-                              controller.goldAds.length,
-                              (i) {
-                                final ad = controller.goldAds[i];
-                                return GestureDetector(
-                                  onTap: () => Get.to(
-                                      () => AdDetail(
-                                            adId: ad.id,
-                                          ),
-                                      transition: Transition.fadeIn),
-                                  child: GenericServiceCard(
-                                    selectedAd: ad,
-                                  ),
-                                );
-                              },
-                            ),
-                            options: CarouselOptions(
-                                enableInfiniteScroll: false,
-                                disableCenter: false,
-                                animateToClosest: true,
-                                viewportFraction: .65,
-                                autoPlay: true,
-                                padEnds: false,
-                                height: AppSize.appheight * .31,
-                                autoPlayCurve: Curves.easeInOut,
-                                scrollDirection: Axis.horizontal)),
-                      ),
+                      : SizedBox(
+                          width: Get.width,
+                          height: Get.height * .3,
+                          child: SmartRefresher(
+                            scrollDirection: Axis.horizontal,
+                            controller: RefreshController(),
+                            onLoading: () => controller.fetchGoldads(
+                                controller.selectedWilaya.value,
+                                controller.selectedCat!,
+                                controller.selectedFete.value),
+                            child: CarouselSlider(
+                                items: List.generate(
+                                  controller.goldAds.length,
+                                  (i) {
+                                    final ad = controller.goldAds[i];
+                                    return GestureDetector(
+                                      onTap: () => Get.to(
+                                          () => AdDetail(
+                                                adId: ad.id,
+                                              ),
+                                          transition: Transition.fadeIn),
+                                      child: GenericServiceCard(
+                                        selectedAd: ad,
+                                      ),
+                                    );
+                                  },
+                                ),
+                                options: CarouselOptions(
+                                    enableInfiniteScroll: false,
+                                    disableCenter: false,
+                                    animateToClosest: true,
+                                    viewportFraction: .65,
+                                    autoPlay: true,
+                                    padEnds: false,
+                                    height: AppSize.appheight * .31,
+                                    autoPlayCurve: Curves.easeInOut,
+                                    scrollDirection: Axis.horizontal)),
+                          ),
+                        ),
                   SizedBox(height: AppSize.appheight * .02),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),

@@ -31,7 +31,7 @@ class LocationPicker extends StatelessWidget {
     "Sétif",
     "Saïda",
     "Skikda",
-    "Sidi Bel Abbès",
+    "Sidi Bel Abbes",
     "Annaba",
     "Guelma",
     "Constantine",
@@ -43,8 +43,8 @@ class LocationPicker extends StatelessWidget {
     "Oran",
     "El Bayadh",
     "Illizi",
-    "Bordj Bou Arréridj",
-    "Boumerdès",
+    "Bordj Bouarreridj",
+    "Boumerdes",
     "El Tarf",
     "Tindouf",
     "Tissemsilt",
@@ -71,7 +71,7 @@ class LocationPicker extends StatelessWidget {
         return provinces.map((String province) {
           return PopupMenuItem<String>(
             value: province,
-            child: Text(province),
+            child: Text("${provinces.indexOf(province) + 1}- ${province.tr}"),
           );
         }).toList();
       },
@@ -87,7 +87,7 @@ class LocationPicker extends StatelessWidget {
               children: [
                 Text(
                   homepageController.selectedWilaya.value.isNotEmpty
-                      ? homepageController.selectedWilaya.value
+                      ? homepageController.selectedWilaya.value.tr
                       : 'choosewilaya'.tr,
                   style: const TextStyle(
                     color: Color(0xFF534C4C),
@@ -134,7 +134,7 @@ class EventPicker extends StatelessWidget {
         return fetes.map((String fete) {
           return PopupMenuItem<String>(
             value: fete,
-            child: Text(fete),
+            child: Text(fete.tr),
           );
         }).toList();
       },
@@ -150,7 +150,7 @@ class EventPicker extends StatelessWidget {
               children: [
                 Text(
                   homepageController.selectedFete.value.isNotEmpty
-                      ? homepageController.selectedFete.value
+                      ? homepageController.selectedFete.value.tr
                       : 'chooseEvent'.tr,
                   style: const TextStyle(
                     color: Color(0xFF534C4C),

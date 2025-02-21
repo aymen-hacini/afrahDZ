@@ -15,6 +15,8 @@ class LoginController extends GetxController
   var isObscured = true.obs;
   var signupisObscured = true.obs;
 
+  String? selectedWilaya;
+
   late TabController tabController;
 
   final AuthService authService = AuthService();
@@ -34,7 +36,6 @@ class LoginController extends GetxController
 
   late TextEditingController nameController;
   late TextEditingController ageController;
-  late TextEditingController wilayaController;
   late TextEditingController emailController;
   late TextEditingController passwordController;
   late TextEditingController repeatpasswordController;
@@ -49,7 +50,6 @@ class LoginController extends GetxController
 
   late TextEditingController membercommericalnameController;
   late TextEditingController memberlocationController;
-  late TextEditingController memberwilayaController;
   late TextEditingController memberemailController;
   late TextEditingController memberpasswordController;
   late TextEditingController memberrepeatpasswordController;
@@ -68,7 +68,6 @@ class LoginController extends GetxController
 
     nameController = TextEditingController();
     ageController = TextEditingController();
-    wilayaController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
     repeatpasswordController = TextEditingController();
@@ -78,7 +77,6 @@ class LoginController extends GetxController
     memberpasswordController = TextEditingController();
     memberrepeatpasswordController = TextEditingController();
     memberphoneController = TextEditingController();
-    memberwilayaController = TextEditingController();
     memberfixeController = TextEditingController();
     memberlocationController = TextEditingController();
 
@@ -95,7 +93,6 @@ class LoginController extends GetxController
 
     nameController.dispose();
     ageController.dispose();
-    wilayaController.dispose();
     emailController.dispose();
     passwordController.dispose();
     repeatpasswordController.dispose();
@@ -108,7 +105,6 @@ class LoginController extends GetxController
     memberpasswordController.dispose();
     memberrepeatpasswordController.dispose();
     memberphoneController.dispose();
-    memberwilayaController.dispose();
 
     clientloginPasswordController.dispose();
     clientloginEmailController.dispose();
@@ -180,14 +176,16 @@ class LoginController extends GetxController
     }
     if (passwordController.text == repeatpasswordController.text) {
       try {
+        print(emailController.text);
+        print(passwordController.text);
         isLoading(true); // Start loading
         final token = await authService.signupClient(
-            nameController.text,
-            ageController.text,
-            wilayaController.text,
-            emailController.text,
-            passwordController.text,
-            phoneController.text,
+            nameController.text.trim(),
+            ageController.text.trim(),
+            selectedWilaya!,
+            emailController.text.trim(),
+            passwordController.text.trim(),
+            phoneController.text.trim(),
             selectedImage.value,
             deviceToken!);
         if (token != null) {
@@ -218,13 +216,13 @@ class LoginController extends GetxController
       try {
         isLoading(true); // Start loading
         final token = await authService.signupMember(
-            membercommericalnameController.text,
-            memberemailController.text,
-            memberwilayaController.text,
-            memberlocationController.text,
-            memberfixeController.text,
-            memberphoneController.text,
-            memberpasswordController.text,
+            membercommericalnameController.text.trim(),
+            memberemailController.text.trim(),
+            selectedWilaya!,
+            memberlocationController.text.trim(),
+            memberfixeController.text.trim(),
+            memberphoneController.text.trim(),
+            memberpasswordController.text.trim(),
             selectedImage.value,
             deviceToken!);
         if (token != null) {
@@ -303,7 +301,6 @@ class LoginController extends GetxController
     memberemailController.clear();
     memberpasswordController.clear();
     memberrepeatpasswordController.clear();
-    memberwilayaController.clear();
     membercommericalnameController.clear();
     memberfixeController.clear();
     memberphoneController.clear();
@@ -315,7 +312,6 @@ class LoginController extends GetxController
     nameController.clear();
     ageController.clear();
     emailController.clear();
-    wilayaController.clear();
     passwordController.clear();
     repeatpasswordController.clear();
     phoneController.clear();
@@ -324,6 +320,7 @@ class LoginController extends GetxController
   void toggleObscure() {
     isObscured.value = !isObscured.value;
   }
+
   void togglesignupObscure() {
     signupisObscured.value = !signupisObscured.value;
   }

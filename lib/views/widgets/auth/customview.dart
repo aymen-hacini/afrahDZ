@@ -30,12 +30,12 @@ class CustomView extends GetView<LoginController> {
       children: [
         CustomTextField(
           controller: emailcontroller,
-           validator: (value) {
-                  if (!GetUtils.isEmail(value!)) {
-                    return "Email non valide".tr;
-                  }
-                  return null;
-                },
+          validator: (value) {
+            if (!GetUtils.isEmail(value!)) {
+              return "Email non valide".tr;
+            }
+            return null;
+          },
           hint: "emailHinttext".tr,
           keyboardtype: TextInputType.emailAddress,
           image: AppImages.mailIcon,
@@ -48,11 +48,21 @@ class CustomView extends GetView<LoginController> {
           child: Obx(
             () => TextFormField(
               controller: passwordcontroller,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               obscureText: controller.isObscured.value,
+              validator: (value) {
+                if (value!.length < 8) {
+                  return "mot de passe non valide".tr;
+                }
+                return null;
+              },
               cursorColor: Appcolors.primaryColor,
               decoration: InputDecoration(
                   fillColor: const Color(0x33C4C4C4),
                   filled: true,
+                  focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.red)),
                   enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                       borderSide: BorderSide.none),

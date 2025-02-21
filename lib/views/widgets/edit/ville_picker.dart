@@ -1,9 +1,12 @@
 import 'package:afrahdz/controllers/ad/create_ad.dart';
 import 'package:afrahdz/controllers/ad/edit_annonce_controller.dart';
+import 'package:afrahdz/controllers/auth/login_controller.dart';
 import 'package:afrahdz/controllers/edit/edit_profile_controller.dart';
+import 'package:afrahdz/core/constants/images.dart';
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/data/models/categorie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 
 class ProvincePopupMenuButton extends StatefulWidget {
@@ -81,7 +84,7 @@ class _ProvincePopupMenuButtonState extends State<ProvincePopupMenuButton> {
         return provinces.map((String province) {
           return PopupMenuItem<String>(
             value: province,
-            child: Text(province),
+            child: Text(province.tr),
           );
         }).toList();
       },
@@ -97,7 +100,7 @@ class _ProvincePopupMenuButtonState extends State<ProvincePopupMenuButton> {
           children: [
             Text(
               controller.selectedWilaya != null
-                  ? '${controller.selectedWilaya}'
+                  ? '${controller.selectedWilaya?.tr}'
                   : 'choosewilaya'.tr,
               style: const TextStyle(
                 color: Color(0xFF534C4C),
@@ -193,7 +196,7 @@ class _EditAnnonceWilayaPickerState extends State<EditAnnonceWilayaPicker> {
         return provinces.map((String province) {
           return PopupMenuItem<String>(
             value: province,
-            child: Text(province),
+            child: Text(province.tr),
           );
         }).toList();
       },
@@ -209,8 +212,8 @@ class _EditAnnonceWilayaPickerState extends State<EditAnnonceWilayaPicker> {
           children: [
             Text(
               controller.selectedWilaya != null
-                  ? '${controller.selectedWilaya}'
-                  : controller.selectedAdDetails.value!.city,
+                  ? '${controller.selectedWilaya?.tr}'
+                  : controller.selectedAdDetails.value!.city.tr,
               style: const TextStyle(
                 color: Color(0xFF534C4C),
                 fontSize: 14,
@@ -304,7 +307,7 @@ class _EditProfileCityPickerState extends State<EditProfileCityPicker> {
         return provinces.map((String province) {
           return PopupMenuItem<String>(
             value: province,
-            child: Text(province),
+            child: Text(province.tr),
           );
         }).toList();
       },
@@ -320,8 +323,8 @@ class _EditProfileCityPickerState extends State<EditProfileCityPicker> {
           children: [
             Text(
               controller.selectedWilaya != null
-                  ? '${controller.selectedWilaya}'
-                  : controller.userDetails.value!.wilaya,
+                  ? controller.selectedWilaya!.tr
+                  : controller.userDetails.value!.wilaya.tr,
               style: const TextStyle(
                 color: Color(0xFF534C4C),
                 fontSize: 14,
@@ -373,7 +376,7 @@ class _TypeFetePopupState extends State<TypeFetePopup> {
         return fetes.map((String fete) {
           return PopupMenuItem<String>(
             value: fete,
-            child: Text(fete),
+            child: Text(fete.tr),
           );
         }).toList();
       },
@@ -389,7 +392,7 @@ class _TypeFetePopupState extends State<TypeFetePopup> {
           children: [
             Text(
               controller.selectedFete != null
-                  ? '${controller.selectedFete}'
+                  ? controller.selectedFete!.tr
                   : 'chooseEvent'.tr,
               style: const TextStyle(
                 color: Color(0xFF534C4C),
@@ -442,7 +445,7 @@ class _EditTypeFetePopupState extends State<EditTypeFetePopup> {
         return fetes.map((String fete) {
           return PopupMenuItem<String>(
             value: fete,
-            child: Text(fete),
+            child: Text(fete.tr),
           );
         }).toList();
       },
@@ -458,7 +461,7 @@ class _EditTypeFetePopupState extends State<EditTypeFetePopup> {
           children: [
             Text(
               controller.selectedFete != null
-                  ? '${controller.selectedFete}'
+                  ? controller.selectedFete!.tr
                   : controller.selectedAdDetails.value!.eventType,
               style: const TextStyle(
                 color: Color(0xFF534C4C),
@@ -487,8 +490,6 @@ class CategoriePopup extends StatefulWidget {
 }
 
 class _CategoriePopupState extends State<CategoriePopup> {
-
-
   @override
   Widget build(BuildContext context) {
     CreateAdController controller = Get.find();
@@ -498,13 +499,16 @@ class _CategoriePopupState extends State<CategoriePopup> {
           // Update the selected category in the controller
           setState(() {
             controller.selectedCategorie = value.name;
+            controller.selectedCategoriearab = value.arabname;
           });
         },
         itemBuilder: (BuildContext context) {
           return controller.categories.map((CategorieModel category) {
             return PopupMenuItem<CategorieModel>(
               value: category,
-              child: Text(Get.locale!.languageCode == "ar" ? category.arabname : category.name), // Display the category name
+              child: Text(Get.locale!.languageCode == "ar"
+                  ? category.arabname
+                  : category.name), // Display the category name
             );
           }).toList();
         },
@@ -520,7 +524,9 @@ class _CategoriePopupState extends State<CategoriePopup> {
             children: [
               Text(
                 controller.selectedCategorie != null
-                    ? controller.selectedCategorie!
+                    ? Get.locale?.languageCode == "ar"
+                        ? controller.selectedCategoriearab!
+                        : controller.selectedCategorie!
                     // Display the selected category name
                     : 'chooseCategory'.tr,
                 style: const TextStyle(
@@ -576,12 +582,15 @@ class EditCategoriePopup extends GetView<EditAnnonceController> {
       onSelected: (CategorieModel value) {
         // Update the selected category in the controller
         controller.selectedCategorie = value.name;
+        controller.selectedCategoriearab = value.arabname;
       },
       itemBuilder: (BuildContext context) {
         return controller.categories.map((CategorieModel category) {
           return PopupMenuItem<CategorieModel>(
             value: category,
-            child: Text(Get.locale!.languageCode == "ar" ? category.arabname : category.name), // Display the category name
+            child: Text(Get.locale!.languageCode == "ar"
+                ? category.arabname
+                : category.name), // Display the category name
           );
         }).toList();
       },
@@ -598,7 +607,9 @@ class EditCategoriePopup extends GetView<EditAnnonceController> {
             children: [
               Text(
                 controller.selectedCategorie != null
-                    ? controller.selectedCategorie!
+                    ? Get.locale?.languageCode == "ar"
+                        ? controller.selectedCategoriearab!
+                        : controller.selectedCategorie!
                     // Display the selected category name
                     : controller.selectedAdDetails.value!.category,
                 style: const TextStyle(
@@ -617,6 +628,124 @@ class EditCategoriePopup extends GetView<EditAnnonceController> {
           ),
         );
       }),
+    );
+  }
+}
+
+class SignupWilayapicker extends StatefulWidget {
+  const SignupWilayapicker({super.key});
+
+  @override
+  _SignupWilayapickerState createState() => _SignupWilayapickerState();
+}
+
+class _SignupWilayapickerState extends State<SignupWilayapicker> {
+  LoginController controller = Get.find();
+
+  // List of all provinces in Algeria
+  final List<String> provinces = const [
+    "Adrar",
+    "Chlef",
+    "Laghouat",
+    "Oum El Bouaghi",
+    "Batna",
+    "Béjaïa",
+    "Biskra",
+    "Béchar",
+    "Blida",
+    "Bouira",
+    "Tamanrasset",
+    "Tébessa",
+    "Tlemcen",
+    "Tiaret",
+    "Tizi Ouzou",
+    "Algiers",
+    "Djelfa",
+    "Jijel",
+    "Sétif",
+    "Saïda",
+    "Skikda",
+    "Sidi Bel Abbès",
+    "Annaba",
+    "Guelma",
+    "Constantine",
+    "Médéa",
+    "Mostaganem",
+    "M'Sila",
+    "Mascara",
+    "Ouargla",
+    "Oran",
+    "El Bayadh",
+    "Illizi",
+    "Bordj Bou Arréridj",
+    "Boumerdès",
+    "El Tarf",
+    "Tindouf",
+    "Tissemsilt",
+    "El Oued",
+    "Khenchela",
+    "Souk Ahras",
+    "Tipaza",
+    "Mila",
+    "Aïn Defla",
+    "Naâma",
+    "Aïn Témouchent",
+    "Ghardaïa",
+    "Relizane",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<String>(
+      onSelected: (String value) {
+        setState(() {
+          controller.selectedWilaya = value; // Update the selected province
+        });
+      },
+      itemBuilder: (BuildContext context) {
+        return provinces.map((String province) {
+          return PopupMenuItem<String>(
+            value: province,
+            child: Text(province.tr),
+          );
+        }).toList();
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: AppSize.appwidth * .02),
+        width: AppSize.appwidth,
+        padding: EdgeInsets.symmetric(
+            horizontal: AppSize.appwidth * .03, vertical: 16),
+        decoration: BoxDecoration(
+          color: const Color(0x33C4C4C4),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Text(
+              controller.selectedWilaya != null
+                  ? controller.selectedWilaya!.tr
+                  : Get.locale?.languageCode == "ar"
+                      ? "اختر ولاية"
+                      : "Selectionner une wilaya",
+              style: const TextStyle(
+                color: Color(0xFF534C4C),
+                fontSize: 14,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w500,
+                height: 0.88,
+              ),
+            ),
+            const Spacer(),
+            Transform.scale(
+              scale: 1,
+              child: SvgPicture.asset(
+                AppImages.locationIcon,
+                fit: BoxFit.contain,
+              ),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

@@ -63,8 +63,8 @@ class CategorieCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const Icon(
-                      Icons.keyboard_arrow_right,
+                     Icon(
+                     Get.locale?.languageCode == "ar" ? Icons.keyboard_arrow_left : Icons.keyboard_arrow_right,
                       size: 36,
                       color: Colors.white,
                     ),

@@ -18,6 +18,7 @@ class CreateAdController extends GetxController {
   final Rx<UserModel?> userDetails = Rx<UserModel?>(null);
   String? selectedFete;
   String? selectedCategorie;
+  String? selectedCategoriearab;
   String? selectedWilaya;
 
   var currentContainerPageIndex = 0.obs; // Track current page index

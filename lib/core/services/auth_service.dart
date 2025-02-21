@@ -7,9 +7,168 @@ class AuthService {
   final Dio dio = Dio();
   final GetStorage storage = GetStorage();
 
-  Future<String?> signupClient(String name, String age, String wilaya,
-      String email, String password, String phone, File? image,String deviceToken) async {
+  // Future<String?> signupClient(
+  //     String name,
+  //     String age,
+  //     String wilaya,
+  //     String email,
+  //     String password,
+  //     String phone,
+  //     File? image,
+  //     String deviceToken) async {
+  //   List<String> errorMessages = [];
+
+  //   try {
+  //     final formData = FormData.fromMap({
+  //       'name': name,
+  //       'wilaya': wilaya,
+  //       'age': age.toString(),
+  //       'email': email,
+  //       "fcm": deviceToken,
+  //       'phone': phone,
+  //       'password': password,
+  //       'image': await MultipartFile.fromFile(image!.path,
+  //           filename: image.path.split('/').last),
+  //     });
+
+  //     dio.interceptors.add(InterceptorsWrapper(
+  //       onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+  //         // Do something before the request is sent
+  //         print('Request Interceptor: Sending request to ${options.uri}');
+
+  //         // You can modify the request options here
+  //         options.headers['Authorization'] = 'Bearer your_token_here';
+
+  //         // Continue with the request
+  //         return handler.next(options);
+  //       },
+  //       onResponse: (Response response, ResponseInterceptorHandler handler) {
+  //         // Do something with the response
+  //         print(
+  //             'Response Interceptor: Received response with status ${response.data}');
+
+  //         // Continue with the response
+  //         return handler.next(response);
+  //       },
+  //       onError: (DioException error, ErrorInterceptorHandler handler) {
+  //         // Do something with the error
+  //         print('Error Interceptor: Error occurred - ${error.message}');
+
+  //         // Continue with the error
+  //         return handler.next(error);
+  //       },
+  //     ));
+  //     final response = await dio.post(
+  //       ApiLinkNames.signupclient,
+  //       data: formData,
+  //     );
+
+  //     print(response.statusCode);
+  //     print(response.data);
+
+  //     if (response.statusCode == 200 || response.statusCode == 201) {
+  //       final data = response.data;
+
+  //       if (data['status'] == 'success') {
+  //         return data['token']; // Return the token
+  //       } else {
+  //         // Handle validation errors
+  //         var errors = data['message'];
+  //         if (errors is Map<String, dynamic>) {
+  //           // Convert the errors map to a list of error messages
+  //           errors.forEach((key, value) {
+  //             if (value is List) {
+  //               errorMessages.addAll(value.map((e) => '$key: $e').toList());
+  //             } else {
+  //               errorMessages.add('$key: $value');
+  //             }
+  //           });
+
+  //           // Throw the first error message
+  //           if (errorMessages.isNotEmpty) {
+  //             print(response.statusCode);
+  //             print(response.data);
+  //             throw errorMessages.first;
+  //           }
+  //         }
+  //         print(response.statusCode);
+  //         print(response.data);
+  //         throw Exception('Unknown validation error');
+  //       }
+  //     } else {
+  //       print(response.statusCode);
+  //       print(response.data);
+  //       throw Exception('Failed to sign up: ${response.statusCode}');
+  //     }
+  //   } catch (e) {
+  //     Exception(errorMessages.first);
+  //   }
+  //   return null;
+  // }
+
+  Future<String?> signupClient(
+    String name,
+    String age,
+    String wilaya,
+    String email,
+    String password,
+    String phone,
+    File? image,
+    String deviceToken,
+  ) async {
     List<String> errorMessages = [];
+
+    // Create a Dio instance
+    Dio dio = Dio();
+
+    // Add interceptors
+    dio.interceptors.add(InterceptorsWrapper(
+      onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
+        // Log the request URL, method, and body
+        print('Request URL: ${options.uri}');
+        print('Request Method: ${options.method}');
+        print('Request Headers: ${options.headers}');
+        print('Request Body: ${options.data}');
+
+        // Continue with the request
+        handler.next(options);
+      },
+      onResponse: (Response response, ResponseInterceptorHandler handler) {
+        // Log the response status code and data
+        print('Response Status Code: ${response.statusCode}');
+        print('Response Data: ${response.data}');
+
+        // Continue with the response
+        handler.next(response);
+      },
+      onError: (DioException error, ErrorInterceptorHandler handler) {
+        // Log the error details
+        print('Error: ${error.message}');
+        print('Error Status Code: ${error.response?.statusCode}');
+        print('Error Response Data: ${error.response?.data}');
+
+        // Handle HTTP 422 errors specifically
+        if (error.response?.statusCode == 422) {
+          // Parse validation errors from the response
+          final responseData = error.response?.data;
+          if (responseData != null && responseData is Map<String, dynamic>) {
+            final errors = responseData['errors'] ?? responseData['message'];
+            if (errors is Map<String, dynamic>) {
+              errors.forEach((key, value) {
+                if (value is List) {
+                  errorMessages.addAll(value.map((e) => '$key: $e').toList());
+                } else {
+                  errorMessages.add('$key: $value');
+                }
+              });
+            }
+          }
+        }
+
+        // Continue with the error
+        handler.next(error);
+      },
+    ));
 
     try {
       final formData = FormData.fromMap({
@@ -17,17 +176,22 @@ class AuthService {
         'wilaya': wilaya,
         'age': age.toString(),
         'email': email,
-        "fcm" : deviceToken,
+        "fcm": deviceToken,
         'phone': phone,
         'password': password,
-        'image': await MultipartFile.fromFile(image!.path,
-            filename: image.path.split('/').last),
+        'image': image != null
+            ? await MultipartFile.fromFile(image.path,
+                filename: image.path.split('/').last)
+            : null,
       });
 
       final response = await dio.post(
         ApiLinkNames.signupclient,
         data: formData,
       );
+
+      print('Response Status Code: ${response.statusCode}');
+      print('Response Data: ${response.data}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = response.data;
@@ -57,24 +221,36 @@ class AuthService {
       } else {
         throw Exception('Failed to sign up: ${response.statusCode}');
       }
+    } on DioException catch (e) {
+      // Handle Dio-specific errors (e.g., HTTP 422)
+      if (e.response?.statusCode == 422) {
+        // Use the error messages already parsed in the interceptor
+        if (errorMessages.isNotEmpty) {
+          throw errorMessages.first;
+        } else {
+          throw Exception('Validation error: ${e.response?.data}');
+        }
+      } else {
+        // Handle other Dio errors
+        throw Exception('Dio error: ${e.message}');
+      }
     } catch (e) {
-      Exception(errorMessages.first);
+      // Handle generic exceptions
+      throw Exception('An error occurred: $e');
     }
-    return null;
   }
 
   Future<String?> signupMember(
-      String name,
-      String email,
-      String wilaya,
-      String location,
-      String phone,
-      String mobile,
-      String password,
-      File? image,
-      String deviceToken,
-      
-      ) async {
+    String name,
+    String email,
+    String wilaya,
+    String location,
+    String phone,
+    String mobile,
+    String password,
+    File? image,
+    String deviceToken,
+  ) async {
     try {
       final formData = FormData.fromMap({
         'name': name,
@@ -82,8 +258,7 @@ class AuthService {
         'wilaya': wilaya,
         'location': location,
         'phone': phone,
-        "fcm" : deviceToken,
-
+        "fcm": deviceToken,
         'mobail': mobile,
         'password': password,
         'image': await MultipartFile.fromFile(image!.path,
@@ -130,13 +305,11 @@ class AuthService {
   }
 
   // Login method
-  Future<String?> loginClient(String email, String password,String deviceToken) async {
+  Future<String?> loginClient(
+      String email, String password, String deviceToken) async {
     try {
-      final formData = FormData.fromMap({
-        'email': email,
-        'password': password,
-        "fcm" : deviceToken
-      });
+      final formData = FormData.fromMap(
+          {'email': email, 'password': password, "fcm": deviceToken});
 
       final response = await dio.post(
         ApiLinkNames.loginclient,
@@ -162,14 +335,11 @@ class AuthService {
   }
 
   // Login method
-  Future<String?> loginMember(String email, String password,String deviceToken) async {
+  Future<String?> loginMember(
+      String email, String password, String deviceToken) async {
     try {
-      final formData = FormData.fromMap({
-        'email': email,
-        'password': password,
-        "fcm" : deviceToken
-        
-      });
+      final formData = FormData.fromMap(
+          {'email': email, 'password': password, "fcm": deviceToken});
 
       final response = await dio.post(
         ApiLinkNames.loginmember,

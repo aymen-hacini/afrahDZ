@@ -307,6 +307,33 @@ Future<List<AdModel>> getVipAds({int page = 1, int perPage = 30}) async {
     }
   }
 
+  
+  // Function to fetch all ads
+  Future<List<AdModel>> searchAdsinAllCats(
+      String name) async {
+    try {
+      final response = await dio.get(
+        "${ApiLinkNames.getAllads}?name[like]=$name", // Replace with your API endpoint
+      );
+
+      // Check the response status code
+      if (response.statusCode == 200) {
+        // Parse the JSON response
+        final Map<String, dynamic> responseBody = response.data;
+        final List<dynamic> data = responseBody['data'];
+
+        // Convert JSON data to a list of AdModel objects
+        final List<AdModel> ads =
+            data.map((ad) => AdModel.fromJson(ad)).toList();
+        return ads;
+      } else {
+        throw Exception('Impossible de récupérer les annonces');
+      }
+    } catch (e) {
+      throw Exception('Impossible de récupérer les annonces');
+    }
+  }
+
   // Function to fetch full ad details by ID
   Future<FullAdDetails> getFullAdDetails(int adId) async {
     final token = storage.read('token');

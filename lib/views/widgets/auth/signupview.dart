@@ -297,7 +297,7 @@ class Signupview extends GetView<LoginController> {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Obx(
                   () => TextFormField(
-                    controller: controller.memberpasswordController,
+                    controller: controller.passwordController,
                     obscureText: controller.signupisObscured.value,
                     cursorColor: Appcolors.primaryColor,
                     decoration: InputDecoration(
@@ -350,7 +350,7 @@ class Signupview extends GetView<LoginController> {
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Obx(
                   () => TextFormField(
-                    controller: controller.memberrepeatpasswordController,
+                    controller: controller.repeatpasswordController,
                     obscureText: controller.signupisObscured.value,
                     autovalidateMode: AutovalidateMode.onUnfocus,
                     validator: (value) {

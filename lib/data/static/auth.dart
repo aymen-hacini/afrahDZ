@@ -10,7 +10,7 @@ LoginController controller = Get.find();
 final width = AppSize.appwidth;
 final height = AppSize.appheight;
 
-List<Tab> tabs =  [
+List<Tab> tabs = [
   Tab(
     text: "AuthRoleClient".tr,
   ),
@@ -31,27 +31,27 @@ List<Widget> views = [
     text: "MembreHookQst".tr,
     userType: "membre",
     emailcontroller: controller.memberloginEmailController,
-    passwordcontroller: controller.memberpasswordController,
+    passwordcontroller: controller.memberloginPasswordController,
     ismemeberSelected: true,
   )
 ];
 List<Widget> signupViews = [
-   Signupview(
+  Signupview(
     text: "SignupClientHeader".tr,
     ismember: false,
   ),
-   Signupview(
+  Signupview(
     text: "SignupMemberHeader".tr,
     ismember: true,
   ),
 ];
 
 List<Widget> signup2Views = [
-   Signup2view(
+  Signup2view(
     text: "SignupClientHeader".tr,
     isMember: false,
   ),
-   Signup2view(
+  Signup2view(
     text: "SignupMemberHeader".tr,
     isMember: true,
   ),

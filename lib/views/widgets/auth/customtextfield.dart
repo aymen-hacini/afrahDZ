@@ -24,9 +24,13 @@ class CustomTextField extends StatelessWidget {
         validator: validator,
         cursorColor: Appcolors.primaryColor,
         keyboardType: keyboardtype,
+        
         decoration: InputDecoration(
             fillColor: const Color(0x33C4C4C4),
             filled: true,
+            focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.red)),
             enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none),

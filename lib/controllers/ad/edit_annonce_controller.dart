@@ -15,6 +15,7 @@ class EditAnnonceController extends GetxController {
   final ImagePicker picker = ImagePicker();
   String? selectedFete;
   String? selectedCategorie;
+  String? selectedCategoriearab;
   String? selectedWilaya;
   final selectedAdDetails =
       Rx<FullAdDetails?>(null); // Observable selected ad details

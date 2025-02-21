@@ -108,7 +108,7 @@ class HomePageController extends GetxController
         userDetails.value = user;
       }
     } catch (e) {
-      throw Exception("something went wrong");
+      print("u r not logged in");
     }
   }
 
@@ -170,6 +170,21 @@ class HomePageController extends GetxController
       isLoading(true); // Set loading to true
       final fetchedAds = await adService.searchAdsbyName(
           adname, selectedWilaya.value, catname); // Call AdService to fetch ads
+      normalAds.value = fetchedAds; // Update the observable list
+    } catch (e) {
+      Get.snackbar('Error', 'Impossible de récupérer les annonces normales');
+    } finally {
+      isLoading(false); // Set loading to false
+    }
+  }
+   // Function to fetch normal ads
+  Future<void> searchinAllCats(String adname) async {
+    normalAds.clear();
+
+    try {
+      isLoading(true); // Set loading to true
+      final fetchedAds = await adService.searchAdsinAllCats(
+          adname); // Call AdService to fetch ads
       normalAds.value = fetchedAds; // Update the observable list
     } catch (e) {
       Get.snackbar('Error', 'Impossible de récupérer les annonces normales');
