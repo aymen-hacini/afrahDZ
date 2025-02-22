@@ -308,8 +308,8 @@ class Homepage extends GetView<HomePageController> {
                   Align(
                       alignment: Alignment.centerRight,
                       child: SizedBox(
-                          width: 100,
-                          height: 20,
+                          width: AppSize.appwidth * .27,
+                          height: AppSize.appheight * .03,
                           child: SvgPicture.asset(
                             'assets/svg/logo2.svg',
                             fit: BoxFit.cover,

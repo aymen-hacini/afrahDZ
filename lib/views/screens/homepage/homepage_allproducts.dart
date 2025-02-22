@@ -41,8 +41,8 @@ class HomepageAllproducts extends GetView<HomePageController> {
                   ),
                   Center(
                       child: SizedBox(
-                          height: 20,
-                          width: 100,
+                          width: AppSize.appwidth * .27,
+                          height: AppSize.appheight * .03,
                           child: SvgPicture.asset(
                             'assets/svg/logo2.svg',
                             fit: BoxFit.cover,
