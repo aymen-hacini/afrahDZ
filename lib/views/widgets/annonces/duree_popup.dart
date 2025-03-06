@@ -14,12 +14,12 @@ class DureePopupButton extends StatefulWidget {
 class _DureePopupButtonState extends State<DureePopupButton> {
   BoostAdController controller = Get.find();
   // List of all time in Algeria
-  final List<String> time =  [
-    "1 day".tr,
-    "2 days".tr,
-    "3 days".tr,
-    "7 days".tr,
+  final List<String> time = [
+    "5 days".tr,
+    "10 days".tr,
     "15 days".tr,
+    "20 days".tr,
+    "25 days".tr,
     "30 days".tr
   ];
 
@@ -28,17 +28,19 @@ class _DureePopupButtonState extends State<DureePopupButton> {
     return PopupMenuButton<String>(
       onSelected: (String value) {
         setState(() {
+          controller.selectedduration.value = 0;
           final convertedValue = value.split(" ");
           final formattedValue = convertedValue.first;
-          controller.selectedduration =
+          controller.selectedduration.value =
               int.parse(formattedValue); // Update the selected province
+          Get.appUpdate();
         });
       },
       itemBuilder: (BuildContext context) {
         return time.map((String time) {
           return PopupMenuItem<String>(
             value: time,
-            child: Text(time),
+            child: Text(time.tr),
           );
         }).toList();
       },
@@ -54,7 +56,9 @@ class _DureePopupButtonState extends State<DureePopupButton> {
           children: [
             Text(
               controller.selectedduration != null
-                  ? Get.locale!.languageCode == "ar"  ? '${controller.selectedduration} يوم'  :'${controller.selectedduration} day'
+                  ? Get.locale!.languageCode == "ar"
+                      ? '${controller.selectedduration} يوم'
+                      : '${controller.selectedduration} day'
                   : 'Choisir une Durée'.tr,
               style: const TextStyle(
                 color: Color(0xFF534C4C),

@@ -10,62 +10,74 @@ class LocationPicker extends StatelessWidget {
 
   // List of all provinces in Algeria
   final List<String> provinces = const [
+    "choosewilaya",
     "Adrar",
     "Chlef",
     "Laghouat",
-    "Oum El Bouaghi",
+    "Oum_El_Bouaghi",
     "Batna",
-    "Béjaïa",
+    "Bejaia",
     "Biskra",
-    "Béchar",
+    "Bechar",
     "Blida",
     "Bouira",
     "Tamanrasset",
-    "Tébessa",
+    "Tebessa",
     "Tlemcen",
     "Tiaret",
-    "Tizi Ouzou",
-    "Algiers",
+    "Tizi_Ouzou",
+    "Alger",
     "Djelfa",
     "Jijel",
-    "Sétif",
-    "Saïda",
+    "Setif",
+    "Saida",
     "Skikda",
-    "Sidi Bel Abbes",
+    "Sidi_Bel_Abbes",
     "Annaba",
     "Guelma",
     "Constantine",
-    "Médéa",
+    "Medea",
     "Mostaganem",
-    "M'Sila",
+    "MSila",
     "Mascara",
     "Ouargla",
     "Oran",
-    "El Bayadh",
+    "El_Bayadh",
     "Illizi",
-    "Bordj Bouarreridj",
+    "Bordj_Bou_Arreridj",
     "Boumerdes",
-    "El Tarf",
+    "El_Tarf",
     "Tindouf",
     "Tissemsilt",
-    "El Oued",
+    "El_Oued",
     "Khenchela",
-    "Souk Ahras",
+    "Souk_Ahras",
     "Tipaza",
     "Mila",
-    "Aïn Defla",
-    "Naâma",
-    "Aïn Témouchent",
-    "Ghardaïa",
+    "Ain_Defla",
+    "Naama",
+    "Ain_Temouchent",
+    "Ghardaia",
     "Relizane",
+    "Timimoun",
+    "Bordj_Badji_Mokhtar",
+    "Ouled_Djellal",
+    "Beni_Abbes",
+    "In_Salah",
+    "In_Guezzam",
+    "Touggourt",
+    "Djanet",
+    "El_MGhair",
+    "El_Meniaa",
   ];
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
       onSelected: (String value) {
-        homepageController.selectedWilaya.value =
-            value; // Update the selected province
+        homepageController.selectedWilaya.value = value == "choosewilaya"
+            ? ""
+            : value; // Update the selected province
       },
       itemBuilder: (BuildContext context) {
         return provinces.map((String province) {
@@ -115,12 +127,13 @@ class EventPicker extends StatelessWidget {
 
   // List of all provinces in Algeria
   final List<String> fetes = const [
-    "Marriages",
-    "fiançailles",
+    "chooseEvent",
+    "Mariage",
+    "Fatha",
     "Anniversaires",
-    "Henna",
-    "circoncision (Thara)",
-    "Autre celeberation",
+    "Hanna",
+    "Khtana",
+    "Autres",
   ];
 
   @override
@@ -128,7 +141,7 @@ class EventPicker extends StatelessWidget {
     return PopupMenuButton<String>(
       onSelected: (String value) {
         homepageController.selectedFete.value =
-            value; // Update the selected province
+            value == "chooseEvent" ? "" : value; // Update the selected province
       },
       itemBuilder: (BuildContext context) {
         return fetes.map((String fete) {

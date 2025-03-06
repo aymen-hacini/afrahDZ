@@ -199,7 +199,6 @@ class AdDetail extends GetView<AdDetailController> {
                                             ),
                                           ),
                                         ),
-                                        SvgPicture.asset(AppImages.mapsIcon)
                                       ],
                                     ),
                                   ),
@@ -276,15 +275,11 @@ class AdDetail extends GetView<AdDetailController> {
                                                     .selectedAdDetails
                                                     .value
                                                     .id);
-                                                Get.snackbar(
-                                                    "Success".tr, 'Unlike'.tr);
                                               } else {
                                                 controller.likeAd(controller
                                                     .selectedAdDetails
                                                     .value
                                                     .id);
-                                                Get.snackbar(
-                                                    'Success'.tr, 'like'.tr);
                                               }
                                               return !controller
                                                   .selectedAdDetails
@@ -365,7 +360,7 @@ class AdDetail extends GetView<AdDetailController> {
                                     ),
                                     controller.selectedAdDetails.value
                                                 .category ==
-                                            "Salle des fetes"
+                                            "Salle-Des-Fetes"
                                         ? const InfoTile(
                                             text: "1100 m2",
                                             iconData: Icons.straighten_outlined,
@@ -377,7 +372,7 @@ class AdDetail extends GetView<AdDetailController> {
                                     ),
                                     controller.selectedAdDetails.value
                                                 .category ==
-                                            "Salle des fetes"
+                                            "Salle-Des-Fetes"
                                         ? const InfoTile(
                                             text: "200 personnes",
                                             iconData: Icons.group_outlined,
@@ -400,46 +395,56 @@ class AdDetail extends GetView<AdDetailController> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: AppSize.appwidth * 0.02,
-                                vertical: AppSize.appheight * .01),
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    padding: EdgeInsets
-                                        .zero, // Remove default padding
-                                    shadowColor:
-                                        Colors.black, // Remove default shadow
-                                    elevation: 4),
-                                onPressed: () => controller.isLoggedIn
-                                    ? controller.showReserveForm()
-                                    : Get.toNamed(AppRoutesNames.login),
-                                child: Ink(
-                                  height: AppSize.appheight * .06,
-                                  decoration: BoxDecoration(
-                                      gradient: Appcolors.primaryGradient,
-                                      borderRadius: BorderRadius.circular(30)),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        controller.selectedAdDetails.value
-                                                    .category ==
-                                                "Bijoux accessoires"
-                                            ? "Acheter".tr
-                                            : 'Reservebtn'.tr,
-                                        textAlign: TextAlign.center,
-                                        style: const TextStyle(
-                                          color: Color(0xFFFBFBFB),
-                                          fontSize: 20,
-                                          fontFamily: 'Mulish',
-                                          fontWeight: FontWeight.w600,
+                          controller.userType == "membre"
+                              ? const SizedBox.shrink()
+                              : Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: AppSize.appwidth * 0.02,
+                                      vertical: AppSize.appheight * .01),
+                                  child: ElevatedButton(
+                                      style: ElevatedButton.styleFrom(
+                                          padding: EdgeInsets
+                                              .zero, // Remove default padding
+                                          shadowColor: Colors
+                                              .black, // Remove default shadow
+                                          elevation: 4),
+                                      onPressed: () => controller.isLoggedIn
+                                          ? controller.selectedAdDetails.value
+                                                  .actions
+                                                  .contains("res")
+                                              ? controller.showReserveForm()
+                                              : controller.makePhoneCall(
+                                                  controller.selectedAdDetails
+                                                      .value.mobile)
+                                          : Get.toNamed(AppRoutesNames.login),
+                                      child: Ink(
+                                        height: AppSize.appheight * .06,
+                                        decoration: BoxDecoration(
+                                            gradient: Appcolors.primaryGradient,
+                                            borderRadius:
+                                                BorderRadius.circular(30)),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              controller.selectedAdDetails.value
+                                                      .actions
+                                                      .contains("res")
+                                                  ? "Reservebtn".tr
+                                                  : 'Acheter'.tr,
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                color: Color(0xFFFBFBFB),
+                                                fontSize: 20,
+                                                fontFamily: 'Mulish',
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                          ),
+                                      )),
+                                ),
                           controller.selectedAdDetails.value.actions
                                   .contains("cont")
                               ? Padding(
@@ -456,7 +461,8 @@ class AdDetail extends GetView<AdDetailController> {
                                               borderRadius:
                                                   BorderRadius.circular(30)),
                                           elevation: 4),
-                                      onPressed: () => controller.makePhoneCall(controller
+                                      onPressed: () => controller.makePhoneCall(
+                                          controller
                                               .selectedAdDetails.value.mobile),
                                       child: Row(
                                         mainAxisAlignment:

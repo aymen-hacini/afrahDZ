@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:afrahdz/core/constants/api.dart';
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/size.dart';
@@ -15,6 +17,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:video_player/video_player.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
 
 class AdDetailController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -32,6 +35,7 @@ class AdDetailController extends GetxController
   String? selectedFete;
 
   bool get isLoggedIn => storage.read('token') != null;
+  String? get userType => storage.read('userType');
 
   var currentPage = 0.obs;
 
@@ -100,6 +104,7 @@ class AdDetailController extends GetxController
 
   // Function to fetch full ad details by ID
   Future<void> fetchFullAdDetails(int adId) async {
+    print(userType);
     try {
       isLoading(true); // Set loading to true
       final adDetails = await adService
@@ -141,34 +146,109 @@ class AdDetailController extends GetxController
 
   // Like an ad and add it to favorites
   Future<void> likeAd(int adId) async {
-    try {
-      await adService.likeAd(adId);
-    } catch (e) {
-      Get.snackbar('Erreur', "Impossible d'aimer l'annonce");
+    await adService.likeAd(adId);
+  }
+
+  // Future<void> selectBeginDate(BuildContext context) async {
+  //   final DateTime? picked = await showDatePicker(
+  //     context: context,
+  //     initialDate:
+  //         beginReservationDate ?? DateTime.now().add(const Duration(days: 1)),
+  //     firstDate: DateTime.now().add(const Duration(days: 1)),
+  //     lastDate: DateTime(2101),
+  //     builder: (BuildContext context, Widget? child) {
+  //       return Theme(
+  //         data: ThemeData.light().copyWith(
+  //           colorScheme: ColorScheme.light(
+  //             primary: Appcolors.primaryColor, // Header background color
+  //             onPrimary: Colors.white, // Header text color
+  //             surface: Colors.white, // Calendar background color
+  //             onSurface: Colors.black, // Calendar text color
+  //           ),
+  //           dialogBackgroundColor: Colors.white,
+  //         ),
+  //         child: child!,
+  //       );
+  //     },
+  //   );
+  //   if (picked != null && picked != beginReservationDate) {
+  //     beginReservationDate = picked;
+  //     update();
+  //   }
+  // }
+
+  Future<List<DateTime>> fetchReservedDates(String memberID) async {
+    final response = await http.get(
+      Uri.parse(
+          'https://www.afrahdz.com/api/resarvation?idMember[eq]=$memberID'),
+    );
+
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> data = json.decode(response.body);
+      if (data['status'] == 'success') {
+        final List<dynamic> reservations = data['data'];
+        print(reservations);
+        // Extract reservationDate from each reservation
+        return reservations
+            .map(
+                (reservation) => DateTime.parse(reservation['reservationDate']))
+            .toList();
+      }
     }
+    return []; // Return an empty list if no reservations or API call fails
   }
 
   Future<void> selectBeginDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
+    final String memberID = selectedAdDetails.value.idmobmre
+        .toString(); // Replace with actual member ID
+    final List<DateTime> reservedDates = await fetchReservedDates(memberID);
+
+    print(reservedDates);
+    final DateTime? picked = await showDialog<DateTime>(
       context: context,
-      initialDate: beginReservationDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2101),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            colorScheme: ColorScheme.light(
-              primary: Appcolors.primaryColor, // Header background color
-              onPrimary: Colors.white, // Header text color
-              surface: Colors.white, // Calendar background color
-              onSurface: Colors.black, // Calendar text color
+      builder: (BuildContext context) {
+        return AlertDialog(
+          content: SizedBox(
+            width: double.maxFinite,
+            child: Theme(
+              data: Theme.of(context).copyWith(
+                colorScheme: ColorScheme.light(
+                  primary: Appcolors.primaryColor, // Header background color
+                  onPrimary: Colors.white, // Header text color
+                  surface: Colors.white, // Calendar background color
+                  onSurface: Colors.black, // Calendar text color
+                ),
+                dialogBackgroundColor:
+                    Colors.white, // Background color of the dialog
+                textButtonTheme: TextButtonThemeData(
+                  style: TextButton.styleFrom(
+                    foregroundColor:
+                        Colors.blue, // Buttons text color (e.g., Cancel, OK)
+                  ),
+                ),
+              ),
+              child: CalendarDatePicker(
+                initialDate: beginReservationDate ??
+                    DateTime.now().add(const Duration(days: 1)),
+                firstDate: DateTime.now().add(const Duration(days: 1)),
+                lastDate: DateTime(2101),
+                onDateChanged: (DateTime date) {
+                  Navigator.of(context).pop(date);
+                },
+                selectableDayPredicate: (DateTime date) {
+                  // Disable reserved dates from being selected
+                  return !reservedDates.any((reservedDate) =>
+                      reservedDate.year == date.year &&
+                      reservedDate.month == date.month &&
+                      reservedDate.day == date.day);
+                },
+              ),
             ),
-            dialogBackgroundColor: Colors.white,
           ),
-          child: child!,
         );
       },
     );
+
     if (picked != null && picked != beginReservationDate) {
       beginReservationDate = picked;
       update();
@@ -343,7 +423,7 @@ class AdDetailController extends GetxController
                   ),
                   ReservationTextfield(
                     keyboardtype: TextInputType.emailAddress,
-                    hint: "test@gmail.com",
+                    hint: "exemple@gmail.com",
                     controller: emailcontroller,
                   ),
                   SizedBox(
@@ -363,7 +443,7 @@ class AdDetailController extends GetxController
                   ),
                   ReservationTextfield(
                     keyboardtype: TextInputType.number,
-                    hint: "05456945964",
+                    hint: "0555005500",
                     controller: phonecontroller,
                   ),
                   SizedBox(

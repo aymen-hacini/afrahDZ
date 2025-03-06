@@ -84,55 +84,6 @@ class HomepageAllproducts extends GetView<HomePageController> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    width: Get.width,
-                    height: Get.height * .4,
-                    child: SmartRefresher(
-                      scrollDirection: Axis.horizontal,
-                      controller: RefreshController(),
-                      onLoading: () => controller.fetchVipAds(),
-                      child: CarouselSlider(
-                        options: CarouselOptions(
-                          animateToClosest: true,
-                          enableInfiniteScroll: false,
-                          scrollDirection: Axis.horizontal,
-                          viewportFraction:
-                              Get.locale!.languageCode == "ar" ? .6 : .7,
-                          initialPage: 0,
-                          enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-                          pageSnapping: false,
-                          scrollPhysics: const BouncingScrollPhysics(),
-                          padEnds: true,
-                          enlargeFactor: .45,
-                          autoPlay: true,
-                          aspectRatio: 4 / 3,
-                          onPageChanged: (index, reason) {
-                            controller.updatePageIndex(index);
-                          },
-                          enlargeCenterPage: true,
-                        ),
-                        items: List.generate(controller.vipAds.length, (i) {
-                          final ad = controller.vipAds[i];
-                          return AnimatedOpacity(
-                              duration: 100.milliseconds,
-                              opacity: i == controller.currentPageIndex.value
-                                  ? 1
-                                  : 0.5,
-                              child: GestureDetector(
-                                  onTap: () => Get.to(
-                                      () => AdDetail(
-                                            adId: ad.id,
-                                          ),
-                                      transition: Transition.zoom),
-                                  child: PremiumCard(
-                                    name: ad.name,
-                                    image: ad.imageFullPath,
-                                    rating: ad.rating,
-                                  )));
-                        }),
-                      ),
-                    ),
-                  ),
                   controller.goldAds.isEmpty
                       ? const SizedBox.shrink()
                       : Padding(
@@ -158,10 +109,11 @@ class HomepageAllproducts extends GetView<HomePageController> {
                           child: SmartRefresher(
                             scrollDirection: Axis.horizontal,
                             controller: RefreshController(),
-                            onLoading: () => controller.fetchGoldads(
-                                controller.selectedWilaya.value,
-                                controller.selectedCat!,
-                                controller.selectedFete.value),
+                            onLoading: () =>
+                                controller.fetchGoldadswithNextpage(
+                                    controller.selectedWilaya.value,
+                                    controller.selectedCat!,
+                                    controller.selectedFete.value),
                             child: CarouselSlider(
                                 items: List.generate(
                                   controller.goldAds.length,
@@ -208,9 +160,13 @@ class HomepageAllproducts extends GetView<HomePageController> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: List.generate(
-                      controller.normalAds.length,
+                      controller.selectedWilaya.value == ""
+                          ? controller.vipAds.length
+                          : controller.vipAdsfilter.length,
                       (i) {
-                        final ad = controller.normalAds[i];
+                        final ad = controller.selectedWilaya.value == ""
+                            ? controller.vipAds[i]
+                            : controller.vipAdsfilter[i];
                         return GestureDetector(
                           onTap: () => Get.to(
                               () => AdDetail(

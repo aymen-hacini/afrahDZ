@@ -104,9 +104,9 @@ class PlanningCard extends GetView<PlanningController> {
                 radius: 6,
                 backgroundColor: selectedPlanning.reservation.etat == 'attente'
                     ? Colors.yellow
-                    : selectedPlanning.reservation.etat == 'active'
+                    : selectedPlanning.reservation.etat == 'valide'
                         ? Colors.green
-                        : selectedPlanning.reservation.etat == 'inactive'
+                        : selectedPlanning.reservation.etat == 'annule'
                             ? Colors.red
                             : Colors.yellow,
               ),

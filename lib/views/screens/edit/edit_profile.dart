@@ -3,7 +3,6 @@ import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/images.dart';
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/views/widgets/auth/gradient_text.dart';
-import 'package:afrahdz/views/widgets/edit/date_picker.dart';
 import 'package:afrahdz/views/widgets/edit/ville_picker.dart';
 import 'package:afrahdz/views/widgets/homepage/profile_avatar.dart';
 import 'package:flutter/material.dart';
@@ -261,8 +260,11 @@ class EditProfile extends GetView<EditProfileController> {
                             SizedBox(
                               height: AppSize.appheight * .01,
                             ),
-                           TextFormField(
-                              onChanged: (value) {},
+                            TextFormField(
+                              controller: controller.agecontroller,
+                              onChanged: (value) {
+                                controller.agecontroller.text = value;
+                              },
                               keyboardType: TextInputType.number,
                               style: const TextStyle(
                                 color: Color(0xFF534C4C),

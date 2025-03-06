@@ -1,0 +1,2 @@
+C:/Users/HP/Downloads/afrahDZ-master4/android/app/.cxx/RelWithDebInfo/2uf71i4l/arm64-v8a/CMakeFiles/edit_cache.dir
+C:/Users/HP/Downloads/afrahDZ-master4/android/app/.cxx/RelWithDebInfo/2uf71i4l/arm64-v8a/CMakeFiles/rebuild_cache.dir

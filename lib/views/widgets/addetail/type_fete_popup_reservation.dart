@@ -14,12 +14,12 @@ class TypeFetePopupReservation extends StatefulWidget {
 class _TypeFetePopupState extends State<TypeFetePopupReservation> {
   // List of all fetes in Algeria
   final List<String> fetes =  [
-    "Marriages".tr,
-    "fiançailles".tr,
+    "Mariage".tr,
+    "Fatha".tr,
     "Anniversaires".tr,
-    "Henna".tr,
-    "circoncision (Thara)".tr,
-    "Autre celeberation".tr,
+    "Hanna".tr,
+    "Khtana".tr,
+    "Autres".tr,
   ];
 
   @override

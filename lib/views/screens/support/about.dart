@@ -5,16 +5,7 @@ import 'package:afrahdz/views/widgets/auth/gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-final List<String> desc = [
-  'Desc1'.tr,
-  'Desc2'.tr,
-  'Desc3'.tr,
-  'Desc4'.tr,
 
- 
-  
-  
-];
 
 class About extends StatelessWidget {
   const About({super.key});
@@ -68,7 +59,6 @@ class About extends StatelessWidget {
             ),
             Text(
               "About1".tr,
-              textAlign: TextAlign.left,
               style: const TextStyle(
                 color: Colors.black,
                 fontSize: 20,
@@ -88,7 +78,11 @@ class About extends StatelessWidget {
               ),
             ),
             SizedBox(height: AppSize.appheight * .02),
-            ...List.generate(4, (i) => BoostBenefit(text: desc[i]))
+            BoostBenefit(text: "Desc1".tr),
+            BoostBenefit(text: "Desc2".tr),
+            BoostBenefit(text:"Desc3".tr),
+            BoostBenefit(text: "Desc4".tr),
+           // ...List.generate(4, (i) => BoostBenefit(text: desc[i].tr))
           ],
         ),
       )),

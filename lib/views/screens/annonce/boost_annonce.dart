@@ -1,7 +1,8 @@
 import 'package:afrahdz/controllers/ad/boost_ad_controller.dart';
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/size.dart';
-import 'package:afrahdz/views/widgets/annonces/boost_card.dart';
+import 'package:afrahdz/views/widgets/annonces/gold_boost_card.dart';
+import 'package:afrahdz/views/widgets/annonces/silver_boost_card.dart';
 import 'package:afrahdz/views/widgets/auth/gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -64,7 +65,7 @@ class BoostAnnonce extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  BoostCard(
+                  GoldBoostCard(
                     isVIP: true,
                     type: 'Gold',
                     desc: "GoldDesc".tr,
@@ -74,20 +75,21 @@ class BoostAnnonce extends StatelessWidget {
                       "avantage3".tr,
                       "avantage4".tr,
                     ],
-                    price: 200000.00,
+                    price: 7500.00,
                   ),
                   SizedBox(
                     height: AppSize.appheight * .03,
                   ),
-                  BoostCard(
+                  SilverBoostCard(
                     type: "Silver",
                     desc: "SilverDesc".tr,
                     advantages: [
                       "Silveravantage1".tr,
                       "Silveravantage2".tr,
+                      "Silveravantage3".tr,
                     ],
                     isVIP: false,
-                    price: 10000.00,
+                    price: 5000.00,
                   ),
                 ],
               ),

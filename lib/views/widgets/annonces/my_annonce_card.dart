@@ -68,7 +68,7 @@ class MyAnnonceCard extends StatelessWidget {
                 ),
               ),
               const Spacer(),
-              selectedAd.type == 'gold'
+              selectedAd.type == 'Silver'
                   ? const GradientText(
                       text: "Silver",
                       gradient: LinearGradient(
@@ -88,7 +88,7 @@ class MyAnnonceCard extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                       ),
                     )
-                  : selectedAd.type == 'vip'
+                  : selectedAd.type == 'Gold'
                       ? const GradientText(
                           text: "Gold",
                           gradient: LinearGradient(

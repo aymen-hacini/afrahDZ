@@ -168,38 +168,72 @@ class AdService {
     }
   }
 
+  Future<List<AdModel>> getVipAds({int page = 1, int perPage = 30}) async {
+    try {
+      // Add pagination parameters to the request
+      final response = await dio.get(
+        ApiLinkNames.getVipads, // Replace with your API endpoint
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+        },
+      );
 
-Future<List<AdModel>> getVipAds({int page = 1, int perPage = 30}) async {
-  try {
-    // Add pagination parameters to the request
-    final response = await dio.get(
-      ApiLinkNames.getVipads, // Replace with your API endpoint
-      queryParameters: {
-        'page': page,
-        'per_page': perPage,
-      },
-    );
+      // Check the response status code
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Parse the JSON response
+        final Map<String, dynamic> responseBody = response.data;
+        final List<dynamic> data = responseBody['data'];
 
-    // Check the response status code
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      // Parse the JSON response
-      final Map<String, dynamic> responseBody = response.data;
-      final List<dynamic> data = responseBody['data'];
+        // Extract pagination info from the response
 
-      // Extract pagination info from the response
+        // Convert JSON data to a list of AdModel objects
+        final List<AdModel> ads =
+            data.map((ad) => AdModel.fromJson(ad)).toList();
 
-      // Convert JSON data to a list of AdModel objects
-      final List<AdModel> ads = data.map((ad) => AdModel.fromJson(ad)).toList();
-
-      // Return the ads along with pagination info (optional)
-      return ads;
-    } else {
-      throw Exception('Impossible de récupérer les annonces');
+        // Return the ads along with pagination info (optional)
+        return ads;
+      } else {
+        throw Exception('Impossible de récupérer les annonces');
+      }
+    } catch (e) {
+      throw Exception('Impossible de récupérer les annonces: $e');
     }
-  } catch (e) {
-    throw Exception('Impossible de récupérer les annonces: $e');
   }
-}
+
+    Future<List<AdModel>> getVipAdswithFilter(String city,{int page = 1, int perPage = 30}) async {
+    try {
+      // Add pagination parameters to the request
+      final response = await dio.get(
+       "${ApiLinkNames.getVipads}?city[eq]=$city", // Replace with your API endpoint
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+        },
+      );
+
+      // Check the response status code
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Parse the JSON response
+        final Map<String, dynamic> responseBody = response.data;
+        final List<dynamic> data = responseBody['data'];
+
+        // Extract pagination info from the response
+
+        // Convert JSON data to a list of AdModel objects
+        final List<AdModel> ads =
+            data.map((ad) => AdModel.fromJson(ad)).toList();
+
+        // Return the ads along with pagination info (optional)
+        return ads;
+      } else {
+        throw Exception('Impossible de récupérer les annonces');
+      }
+    } catch (e) {
+      throw Exception('Impossible de récupérer les annonces: $e');
+    }
+  }
+
   // Function to fetch vip ads
   Future<List<AdModel>> getMemberAds(int memberId) async {
     try {
@@ -227,13 +261,15 @@ Future<List<AdModel>> getVipAds({int page = 1, int perPage = 30}) async {
 
   // Function to fetch gold ads
   Future<List<AdModel>> getGoldads(
-      String location, String category, String fete,{int page = 1, int perPage = 30}) async {
+      String location, String category, String fete,
+      {int page = 1, int perPage = 30}) async {
     try {
       final response = await dio.get(
-        "${ApiLinkNames.getGoldads}?city=$location&category=$category&eventType=$fete",  queryParameters: {
-        'page': page,
-        'per_page': perPage,
-      },// Replace with your API endpoint
+        "${ApiLinkNames.getGoldads}?city[eq]=$location&&category[eq]=$category&&eventType[eq]=$fete",
+        queryParameters: {
+          'page': page,
+          'per_page': perPage,
+        }, // Replace with your API endpoint
       );
 
       // Check the response status code
@@ -259,6 +295,9 @@ Future<List<AdModel>> getVipAds({int page = 1, int perPage = 30}) async {
   Future<List<AdModel>> getNormalads(
       String location, String category, String fete) async {
     try {
+      dio.interceptors.add(LogInterceptor(
+          request: true, requestBody: true, error: true, responseBody: true));
+
       final response = await dio.get(
         "${ApiLinkNames.getAllads}?city=$location&category=$category&eventType=$fete", // Replace with your API endpoint
       );
@@ -307,10 +346,8 @@ Future<List<AdModel>> getVipAds({int page = 1, int perPage = 30}) async {
     }
   }
 
-  
   // Function to fetch all ads
-  Future<List<AdModel>> searchAdsinAllCats(
-      String name) async {
+  Future<List<AdModel>> searchAdsinAllCats(String name) async {
     try {
       final response = await dio.get(
         "${ApiLinkNames.getAllads}?name[like]=$name", // Replace with your API endpoint

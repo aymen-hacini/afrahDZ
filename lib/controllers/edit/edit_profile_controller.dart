@@ -3,15 +3,19 @@ import 'dart:io';
 import 'package:afrahdz/core/services/auth_service.dart';
 import 'package:afrahdz/core/services/homepage_service.dart';
 import 'package:afrahdz/data/models/user.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
 class EditProfileController extends GetxController {
   HomepageService homepageService = HomepageService();
   final Rx<UserModel?> userDetails = Rx<UserModel?>(null);
   late bool isMemberLoggedIn;
   AuthService authService = AuthService();
+  final GetStorage storage = GetStorage();
 
   final RxBool isLoading = false.obs;
 
@@ -23,6 +27,7 @@ class EditProfileController extends GetxController {
   late TextEditingController emailController;
   late TextEditingController phoneController;
   late TextEditingController fixeController;
+  late TextEditingController agecontroller;
 
   Future<void> selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -79,7 +84,12 @@ class EditProfileController extends GetxController {
         phone: phoneController.text.isEmpty
             ? userDetails.value!.phone
             : phoneController.text,
+        age: agecontroller.text.isEmpty
+            ? userDetails.value!.id.toString()
+            : agecontroller.text,
       );
+
+      await updateClientImage(clientId);
 
       // Handle success response
       Get.snackbar('Success', 'Client modifié avec succès');
@@ -90,20 +100,107 @@ class EditProfileController extends GetxController {
     }
   }
 
+  Future<void> updateClientImage(String clientId) async {
+    try {
+      isLoading(true);
+
+      // Pick an image from the gallery or camera
+
+      // Create a Dio instance
+      dio.Dio dDio = dio.Dio();
+
+      // Use fully qualified name for FormData (dio.FormData)
+      dio.FormData formData = dio.FormData.fromMap({
+        'image': await dio.MultipartFile.fromFile(
+          selectedImage.value!.path,
+          filename:
+              '${basename(selectedImage.value!.path)}.jpg', // Optional: specify a filename
+        ),
+      });
+      final String? token = storage.read('token');
+
+      // Send the POST request using Dio
+      var response = await dDio.post(
+          'https://www.afrahdz.com/api/client/image/update/$clientId',
+          data: formData,
+          options: dio.Options(headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          }, preserveHeaderCase: true));
+
+      // Check the response status
+      if (response.statusCode == 200) {
+        Get.snackbar('Success', 'Image du client mise à jour avec succès');
+      } else {
+        Get.snackbar(
+            'Erreur', 'Impossible de mettre à jour l\'image du client');
+      }
+    } catch (e) {
+      Get.snackbar('Erreur',
+          "Impossible de mettre à jour l'image du client: ${e.toString()}");
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<void> updateMemberImage(String membreId) async {
+    try {
+      isLoading(true);
+
+      // Pick an image from the gallery or camera
+
+      // Create a Dio instance
+      dio.Dio dDio = dio.Dio();
+      final String? token = storage.read('token');
+
+      // Use fully qualified name for FormData (dio.FormData)
+      dio.FormData formData = dio.FormData.fromMap({
+        'image': await dio.MultipartFile.fromFile(
+          selectedImage.value!.path,
+          filename:
+              '${basename(selectedImage.value!.path)}.jpg', // Optional: specify a filename
+        ),
+      });
+
+      // Send the POST request using Dio
+      var response = await dDio.post(
+          'https://www.afrahdz.com/api/membre/image/update/$membreId',
+          data: formData,
+          options: dio.Options(headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          }, preserveHeaderCase: true));
+
+      // Check the response status
+      if (response.statusCode == 200) {
+      } else {
+      }
+    } catch (e) {
+      Get.snackbar('Erreur',
+          "Impossible de mettre à jour l'image du client: ${e.toString()}");
+    } finally {
+      isLoading(false);
+    }
+  }
+
   Future<void> modifyMembre(String memberId) async {
     try {
       isLoading(true);
       await authService.updateMembre(
-          membreId: int.parse(memberId),
-          name: nameController.text,
-          wilaya: selectedWilaya ?? userDetails.value!.wilaya,
-          phone: phoneController.text,
-          fixe: fixeController.text);
+        membreId: int.parse(memberId),
+        name: nameController.text,
+        wilaya: selectedWilaya ?? userDetails.value!.wilaya,
+        phone: phoneController.text,
+        fixe: fixeController.text,
+        age: agecontroller.text.isEmpty
+            ? userDetails.value!.age.toString()
+            : agecontroller.text,
+      );
+
+      await updateMemberImage(memberId);
 
       // Handle success response
-      Get.snackbar('Success',"Membre modifié avec succès");
     } catch (e) {
-      Get.snackbar('Error',  "Impossible de modifier le client maintenant");
     } finally {
       isLoading(false);
     }
@@ -170,6 +267,7 @@ class EditProfileController extends GetxController {
     nameController = TextEditingController();
     emailController = TextEditingController();
     phoneController = TextEditingController();
+    agecontroller = TextEditingController();
 
     fetchUserDetails();
   }
@@ -181,6 +279,7 @@ class EditProfileController extends GetxController {
     nameController.dispose();
     emailController.dispose();
     phoneController.dispose();
+    agecontroller.dispose();
     if (isMemberLoggedIn) {
       fixeController.dispose();
     }

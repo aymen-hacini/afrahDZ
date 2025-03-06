@@ -52,9 +52,9 @@ class MemberReservationController extends GetxController
         reservation.imageBytes = clientImage;
         if (reservation.etat == 'attente') {
           reservationsEnattente.add(reservation);
-        } else if (reservation.etat == 'active') {
+        } else if (reservation.etat == 'valide') {
           reservationsValide.add(reservation);
-        } else if (reservation.etat == "inactive") {
+        } else if (reservation.etat == "annule") {
           reservationsAnnuler.add(reservation);
         }
       }
@@ -69,13 +69,13 @@ class MemberReservationController extends GetxController
   // Method to move a reservation from "en attente" to "validé"
   void moveReservationToValide(ReservationModel reservation) async {
     await reservationService.updateReservation(
-        reservationId: reservation.id, etat: "active");
+        reservationId: reservation.id, etat: "valide");
 
     // Remove the reservation from the "en attente" list
     reservationsEnattente.remove(reservation);
 
-    // Update the reservation's status to "active"
-    reservation.etat = 'active';
+    // Update the reservation's status to "valide"
+    reservation.etat = 'valide';
 
     // Add the reservation to the "validé" list
     reservationsValide.add(reservation);
@@ -87,13 +87,13 @@ class MemberReservationController extends GetxController
   // Method to move a reservation from "en attente" to "validé"
   void moveReservationToAnnuler(ReservationModel reservation) async {
     await reservationService.updateReservation(
-        reservationId: reservation.id, etat: "inactive");
+        reservationId: reservation.id, etat: "annule");
 
     // Remove the reservation from the "en attente" list
     reservationsEnattente.remove(reservation);
 
-    // Update the reservation's status to "active"
-    reservation.etat = 'inactive';
+    // Update the reservation's status to "valide"
+    reservation.etat = 'annule';
 
     // Add the reservation to the "validé" list
     reservationsAnnuler.add(reservation);

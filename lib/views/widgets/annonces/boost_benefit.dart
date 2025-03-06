@@ -1,10 +1,12 @@
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class BoostBenefit extends StatelessWidget {
-  final String text;
-  const BoostBenefit({
+  String text;
+   BoostBenefit({
     super.key,
     required this.text,
   });
@@ -20,7 +22,7 @@ class BoostBenefit extends StatelessWidget {
             width: AppSize.appwidth * .01,
           ),
           Text(
-            text,
+            text.tr,
             style: const TextStyle(
               color: Colors.black,
               fontSize: 12,

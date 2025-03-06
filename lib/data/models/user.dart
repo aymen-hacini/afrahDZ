@@ -7,6 +7,7 @@ class UserModel {
   final String phone;
   final String wilaya;
   final String? fixe;
+  final int age;
   final Uint8List? profilePicture; // Binary data for the profile picture
 
   UserModel(
@@ -15,6 +16,8 @@ class UserModel {
       required this.email,
       required this.wilaya,
       required this.phone,
+      required this.age,
+      
       this.fixe,
       this.profilePicture});
 
@@ -26,6 +29,7 @@ class UserModel {
       email: json['email'],
       wilaya: json['wilaya'],
       phone: json['phone'],
+      age: json['age'],
       fixe: json['mobail'] ?? "",
       profilePicture: null, // Profile picture will be fetched separately
     );
@@ -39,6 +43,7 @@ class UserModel {
       'email': email,
       'wilaya': wilaya,
       'phone': phone,
+      'age': age,
       'mobail': fixe ?? "",
       'profilePicture': profilePicture, // Binary data (nullable)
     };

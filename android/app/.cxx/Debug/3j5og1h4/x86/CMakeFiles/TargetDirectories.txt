@@ -1,0 +1,2 @@
+C:/Users/HP/Downloads/afrahDZ-master4/android/app/.cxx/Debug/3j5og1h4/x86/CMakeFiles/edit_cache.dir
+C:/Users/HP/Downloads/afrahDZ-master4/android/app/.cxx/Debug/3j5og1h4/x86/CMakeFiles/rebuild_cache.dir

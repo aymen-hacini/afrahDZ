@@ -62,6 +62,7 @@ class HomepageService {
               email: user.email,
               wilaya: user.wilaya,
               phone: user.phone,
+              age: user.age,
               profilePicture: profilePictureBytes, // Add profile picture
             );
           } else {
@@ -120,6 +121,7 @@ class HomepageService {
               wilaya: user.wilaya,
               phone: user.phone,
               fixe: user.fixe,
+              age: user.age,
               profilePicture: profilePictureBytes, // Add profile picture
             );
           } else {

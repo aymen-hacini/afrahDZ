@@ -285,6 +285,8 @@ class LoginController extends GetxController
 
         storage.write(
             'rememberMe', rememberMe.value); // Save the "Remember Me" state
+        storage.write('userType', userType);
+
         Get.snackbar('Success', 'Login successful!');
         Get.offAllNamed(AppRoutesNames.homepage, arguments: {
           "isMember": userType == "client" ? false : true

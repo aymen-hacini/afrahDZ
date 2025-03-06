@@ -16,17 +16,20 @@ class BoostAdController extends GetxController {
   final AdService adService = AdService();
   final announces = <AdModel>[].obs;
 
-  int? selectedduration;
+  Rx<int?> selectedduration = 0.obs;
+
   final selectedAd = Rx<AdModel?>(null);
 
   final isLoading = false.obs;
 
-  Future<void> boostAd(String type) async {
+  int? DurationMultiplayer;
+
+  Future<void> boostAd(String type, double finalprice) async {
     try {
       isLoading(true);
       await adService.boostAd(
-          duration: selectedduration!,
-          price: 200000.00,
+          duration: selectedduration.value!,
+          price: finalprice,
           idAnnonce: selectedAd.value!.id,
           imageUrl: "${ApiLinkNames.server}${selectedAd.value!.imageFullPath}",
           type: type);
@@ -44,114 +47,109 @@ class BoostAdController extends GetxController {
 
   showBoostOptions(BuildContext context, double price, String type) {
     Get.bottomSheet(
-        isScrollControlled: true,
-        isDismissible: true,
-        persistent: true,
-        enableDrag: true,
-        backgroundColor: Colors.white,
-        barrierColor: Colors.black.withOpacity(.5),
-        shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(51), topRight: Radius.circular(51))),
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: .5, sigmaY: .5),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: AppSize.appwidth * .04),
-            height: AppSize.appheight * .65,
-            width: AppSize.appwidth,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Center(
-                  child: Container(
-                    margin: const EdgeInsets.only(top: 10),
-                    height: AppSize.appheight * .004,
-                    width: AppSize.appwidth * .2,
-                    decoration: ShapeDecoration(
-                        gradient: Appcolors.primaryGradient,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40))),
-                  ),
-                ),
-                SizedBox(
-                  height: AppSize.appheight * .01,
-                ),
-                Center(
-                  child: Text(
-                    "Promote".tr,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontFamily: 'Mulish',
-                      fontWeight: FontWeight.w500,
+      isScrollControlled: true,
+      isDismissible: true,
+      persistent: true,
+      useRootNavigator: true,
+      enableDrag: true,
+      backgroundColor: Colors.white,
+      barrierColor: Colors.black.withOpacity(.5),
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(51),
+          topRight: Radius.circular(51),
+        ),
+      ),
+      BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: .5, sigmaY: .5),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: AppSize.appwidth * .04),
+          height: AppSize.appheight * .65,
+          width: AppSize.appwidth,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  height: AppSize.appheight * .004,
+                  width: AppSize.appwidth * .2,
+                  decoration: ShapeDecoration(
+                    gradient: Appcolors.primaryGradient,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: AppSize.appheight * .03,
-                ),
-                GradientText(
-                  text: "Offre VIP".tr,
-                  gradient: Appcolors.primaryGradient,
+              ),
+              SizedBox(height: AppSize.appheight * .01),
+              Center(
+                child: Text(
+                  "Promote".tr,
                   style: const TextStyle(
-                    fontSize: 24,
-                    fontFamily: 'Inter',
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontFamily: 'Mulish',
                     fontWeight: FontWeight.w500,
-                    height: 0.88,
                   ),
                 ),
-                SizedBox(
-                  height: AppSize.appheight * .03,
+              ),
+              SizedBox(height: AppSize.appheight * .03),
+              GradientText(
+                text: "Offre VIP".tr,
+                gradient: Appcolors.primaryGradient,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w500,
+                  height: 0.88,
                 ),
-                Text(
-                  'AdName'.tr,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w700,
-                    height: 0.88,
+              ),
+              SizedBox(height: AppSize.appheight * .03),
+              Text(
+                'AdName'.tr,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w700,
+                  height: 0.88,
+                ),
+              ),
+              SizedBox(height: AppSize.appheight * .01),
+              const AnnoncePopupPicker(),
+              SizedBox(height: AppSize.appheight * .02),
+              Text(
+                'La Durée'.tr,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w700,
+                  height: 0.88,
+                ),
+              ),
+              SizedBox(height: AppSize.appheight * .01),
+              const DureePopupButton(),
+              SizedBox(height: AppSize.appheight * .02),
+              Text(
+                'Tarif'.tr,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontFamily: 'Inter',
+                  fontWeight: FontWeight.w700,
+                  height: 0.88,
+                ),
+              ),
+              SizedBox(height: AppSize.appheight * .01),
+              // Dynamic price update with Obx
+              Obx(
+                () => TextFormField(
+                  controller: TextEditingController(
+                    text:
+                        "${(price * (selectedduration.value! / 5)).toStringAsFixed(2)} DA",
                   ),
-                ),
-                SizedBox(
-                  height: AppSize.appheight * .01,
-                ),
-                const AnnoncePopupPicker(),
-                SizedBox(
-                  height: AppSize.appheight * .02,
-                ),
-                Text(
-                  'La Durée'.tr,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w700,
-                    height: 0.88,
-                  ),
-                ),
-                SizedBox(
-                  height: AppSize.appheight * .01,
-                ),
-                const DureePopupButton(),
-                SizedBox(
-                  height: AppSize.appheight * .02,
-                ),
-                Text(
-                  'Tarif'.tr,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w700,
-                    height: 0.88,
-                  ),
-                ),
-                SizedBox(
-                  height: AppSize.appheight * .01,
-                ),
-                TextFormField(
-                  initialValue: "$price DA",
                   enableInteractiveSelection: false,
                   enabled: false,
                   style: const TextStyle(
@@ -165,57 +163,62 @@ class BoostAdController extends GetxController {
                     filled: true,
                     fillColor: Colors.white,
                     disabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey.withOpacity(.8)),
-                        borderRadius: BorderRadius.circular(6)),
-                  ),
-                ),
-                const Spacer(),
-                Obx(
-                  () => Center(
-                    child: AnimatedContainer(
-                      duration: 300.milliseconds,
-                      width: isLoading.value
-                          ? AppSize.appwidth * .2
-                          : AppSize.appwidth * .9,
-                      margin: EdgeInsets.only(bottom: AppSize.appheight * .02),
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              padding:
-                                  EdgeInsets.zero, // Remove default padding
-                              shadowColor:
-                                  Colors.black, // Remove default shadow
-                              elevation: 4),
-                          onPressed: () => boostAd(type),
-                          child: Ink(
-                            height: AppSize.appheight * .06,
-                            decoration: BoxDecoration(
-                                gradient: Appcolors.primaryGradient,
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Center(
-                              child: isLoading.value
-                                  ? const CircularProgressIndicator.adaptive(
-                                      backgroundColor: Colors.white,
-                                    )
-                                  : Text(
-                                      'Boost'.tr,
-                                      textAlign: TextAlign.center,
-                                      style: const TextStyle(
-                                        color: Color(0xFFFBFBFB),
-                                        fontSize: 20,
-                                        fontFamily: 'Mulish',
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                            ),
-                          )),
+                      borderSide:
+                          BorderSide(color: Colors.grey.withOpacity(.8)),
+                      borderRadius: BorderRadius.circular(6),
                     ),
                   ),
                 ),
-              ],
-            ),
+              ),
+              const Spacer(),
+              Obx(
+                () => Center(
+                  child: AnimatedContainer(
+                    duration: 300.milliseconds,
+                    width: isLoading.value
+                        ? AppSize.appwidth * .2
+                        : AppSize.appwidth * .9,
+                    margin: EdgeInsets.only(bottom: AppSize.appheight * .02),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.zero,
+                        shadowColor: Colors.black,
+                        elevation: 4,
+                      ),
+                      onPressed: () =>
+                          boostAd(type, price * (selectedduration.value! / 5)),
+                      child: Ink(
+                        height: AppSize.appheight * .06,
+                        decoration: BoxDecoration(
+                          gradient: Appcolors.primaryGradient,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Center(
+                          child: isLoading.value
+                              ? const CircularProgressIndicator.adaptive(
+                                  backgroundColor: Colors.white,
+                                )
+                              : Text(
+                                  'Boost'.tr,
+                                  textAlign: TextAlign.center,
+                                  style: const TextStyle(
+                                    color: Color(0xFFFBFBFB),
+                                    fontSize: 20,
+                                    fontFamily: 'Mulish',
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 
   Future<void> fetchAnnounces() async {

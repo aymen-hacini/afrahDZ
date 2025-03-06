@@ -90,9 +90,9 @@ class MemberReservationCard extends GetView<MemberReservationController> {
                 radius: 6,
                 backgroundColor: selectedReservation.etat == 'attente'
                     ? Colors.yellow
-                    : selectedReservation.etat == 'active'
+                    : selectedReservation.etat == 'valide'
                         ? Colors.green
-                        : selectedReservation.etat == 'inactive'
+                        : selectedReservation.etat == 'annule'
                             ? Colors.red
                             : Colors.yellow,
               ),

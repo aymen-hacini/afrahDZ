@@ -28,6 +28,7 @@ class HomePageController extends GetxController
 
   final Rx<UserModel?> userDetails = Rx<UserModel?>(null);
   var vipAds = <AdModel>[].obs; // Observable list of vip ads
+  var vipAdsfilter = <AdModel>[].obs; // Observable list of vip ads
   var goldAds = <AdModel>[].obs; // Observable list of gold ads
   var normalAds = <AdModel>[].obs; // Observable list of normal ads
 
@@ -106,10 +107,12 @@ class HomePageController extends GetxController
       final user = await homepageService.getUserDetails(isMemberLoggedIn);
       if (user != null) {
         userDetails.value = user;
+        update();
       }
     } catch (e) {
       print("u r not logged in");
     }
+    Get.forceAppUpdate();
   }
 
   // Function to fetch vip ads
@@ -119,9 +122,50 @@ class HomePageController extends GetxController
       final fetchedAds = await adService.getVipAds(
           page: currentPage); // Call AdService to fetch ads
       vipAds.value = fetchedAds; // Update the observable list
+    } catch (e) {
+      Get.snackbar('Error', 'Impossible de récupérer les annonces Gold');
+    } finally {
+      isLoading(false); // Set loading to false
+    }
+  }
+   // Function to fetch vip ads
+  Future<void> fetchVipAdswithNextpage() async {
+    try {
+      isLoading(true); // Set loading to true
+      final fetchedAds = await adService.getVipAds(
+          page: currentPage); // Call AdService to fetch ads
+      vipAds.value = fetchedAds; // Update the observable list
       currentPage++;
     } catch (e) {
-      Get.snackbar('Error', 'Impossible de récupérer les annonces VIP');
+      Get.snackbar('Error', 'Impossible de récupérer les annonces Gold');
+    } finally {
+      isLoading(false); // Set loading to false
+    }
+  }
+
+  // Function to fetch vip ads
+  Future<void> fetchSpecificVipAds(String location) async {
+    try {
+      isLoading(true); // Set loading to true
+      final fetchedAds = await adService.getVipAdswithFilter(location,
+          page: currentPage); // Call AdService to fetch ads
+      vipAdsfilter.value = fetchedAds; // Update the observable list
+    } catch (e) {
+      Get.snackbar('Error', 'Impossible de récupérer les annonces Gold');
+    } finally {
+      isLoading(false); // Set loading to false
+    }
+  }
+    // Function to fetch vip ads
+  Future<void> fetchSpecificVipAdswithNextpage(String location) async {
+    try {
+      isLoading(true); // Set loading to true
+      final fetchedAds = await adService.getVipAdswithFilter(location,
+          page: currentPage); // Call AdService to fetch ads
+      vipAdsfilter.value = fetchedAds; // Update the observable list
+      currentPage++;
+    } catch (e) {
+      Get.snackbar('Error', 'Impossible de récupérer les annonces Gold');
     } finally {
       isLoading(false); // Set loading to false
     }
@@ -129,6 +173,24 @@ class HomePageController extends GetxController
 
   // Function to fetch gold ads
   Future<void> fetchGoldads(String location, String cat, String fete) async {
+    if (goldAds.isNotEmpty) {
+      return;
+    } else {
+      try {
+        isLoading(true); // Set loading to true
+        final fetchedAds = await adService.getGoldads(location, cat, fete,
+            page: currentPage); // Call AdService to fetch ads
+        goldAds.value = fetchedAds; // Update the observable list
+      } catch (e) {
+        Get.snackbar('Erreur', 'Impossible de récupérer les annonces');
+      } finally {
+        isLoading(false); // Set loading to false
+      }
+    }
+
+  }
+    // Function to fetch gold ads
+  Future<void> fetchGoldadswithNextpage(String location, String cat, String fete) async {
     if (goldAds.isNotEmpty) {
       return;
     } else {
@@ -177,14 +239,15 @@ class HomePageController extends GetxController
       isLoading(false); // Set loading to false
     }
   }
-   // Function to fetch normal ads
+
+  // Function to fetch normal ads
   Future<void> searchinAllCats(String adname) async {
     normalAds.clear();
 
     try {
       isLoading(true); // Set loading to true
-      final fetchedAds = await adService.searchAdsinAllCats(
-          adname); // Call AdService to fetch ads
+      final fetchedAds = await adService
+          .searchAdsinAllCats(adname); // Call AdService to fetch ads
       normalAds.value = fetchedAds; // Update the observable list
     } catch (e) {
       Get.snackbar('Error', 'Impossible de récupérer les annonces normales');
@@ -303,6 +366,8 @@ class HomePageController extends GetxController
                           selectedFete.value);
                       fetchNormalads(selectedWilaya.value, categoryname,
                           selectedFete.value);
+
+                     selectedWilaya == null ? fetchVipAds() : fetchSpecificVipAds(selectedWilaya.value);
                       Get.to(const HomepageAllproducts(),
                           transition: Transition.fadeIn);
                     },

@@ -479,6 +479,7 @@ class AuthService {
     required String name,
     required String wilaya,
     required String phone,
+    required String age,
   }) async {
     try {
       // Retrieve the JWT token from local storage
@@ -491,6 +492,7 @@ class AuthService {
         'name': name,
         'wilaya': wilaya,
         'phone': phone,
+        'age' : age,
       };
 
       await dio.put(
@@ -521,6 +523,7 @@ class AuthService {
     required String wilaya,
     required String phone,
     required String fixe,
+    required String age,
   }) async {
     try {
       // Retrieve the JWT token from local storage
@@ -534,6 +537,7 @@ class AuthService {
         if (wilaya.isNotEmpty) 'wilaya': wilaya,
         if (phone.isNotEmpty) 'mobail': phone,
         if (fixe.isNotEmpty) 'phone': fixe,
+        if (age.isNotEmpty) 'age': fixe,
       };
 
       await dio.put(
