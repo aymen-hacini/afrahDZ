@@ -25,8 +25,11 @@ class HomepageService {
 
   // Function to fetch user details using userID
   Future<UserModel?> fetchClientDetails(int userId) async {
-    final url = '${ApiLinkNames.getClientInfo}/$userId'; // Replace with your API URL
-    final profilePictureUrl = '${ApiLinkNames.getClientInfo}/image/$userId'; // Replace with your API URL
+    print("this is client");
+    final url =
+        '${ApiLinkNames.getClientInfo}/$userId'; // Replace with your API URL
+    final profilePictureUrl =
+        '${ApiLinkNames.getClientInfo}/image/$userId'; // Replace with your API URL
 
     try {
       // Fetch user details
@@ -55,12 +58,14 @@ class HomepageService {
           );
 
           if (profilePictureResponse.statusCode == 200) {
-            final profilePictureBytes = profilePictureResponse.data as Uint8List;
+            final profilePictureBytes =
+                profilePictureResponse.data as Uint8List;
             return UserModel(
               id: user.id,
               name: user.name,
               email: user.email,
               wilaya: user.wilaya,
+              location: user.location,
               phone: user.phone,
               age: user.age,
               profilePicture: profilePictureBytes, // Add profile picture
@@ -70,7 +75,8 @@ class HomepageService {
             return user;
           }
         } else {
-          throw Exception(data['message'] ?? "Impossible de récupérer les détails de l'utilisateur");
+          throw Exception(data['message'] ??
+              "Impossible de récupérer les détails de l'utilisateur");
         }
       } else {
         throw Exception("Impossible de récupérer les détails de l'utilisateur");
@@ -82,9 +88,19 @@ class HomepageService {
 
   // Function to fetch user details using userID
   Future<UserModel?> fetchMemberDetails(int userId) async {
-    final url = '${ApiLinkNames.getMemberInfo}/$userId'; // Replace with your API URL
-    final profilePictureUrl = '${ApiLinkNames.getMemberInfo}/image/$userId'; // Replace with your API URL
+    print("this is membre");
 
+    final url =
+        '${ApiLinkNames.getMemberInfo}/$userId'; // Replace with your API URL
+    final profilePictureUrl =
+        '${ApiLinkNames.getMemberInfo}/image/$userId'; // Replace with your API URL
+
+    dio.interceptors.add(LogInterceptor(
+        request: true,
+        responseBody: true,
+        error: true,
+        responseHeader: true,
+        requestBody: true));
     try {
       // Fetch user details
       final response = await dio.get(
@@ -113,12 +129,14 @@ class HomepageService {
           );
 
           if (profilePictureResponse.statusCode == 200) {
-            final profilePictureBytes = profilePictureResponse.data as Uint8List;
+            final profilePictureBytes =
+                profilePictureResponse.data as Uint8List;
             return UserModel(
               id: user.id,
               name: user.name,
               email: user.email,
               wilaya: user.wilaya,
+              location: user.location,
               phone: user.phone,
               fixe: user.fixe,
               age: user.age,

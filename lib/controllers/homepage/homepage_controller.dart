@@ -58,6 +58,7 @@ class HomePageController extends GetxController
     _checkInternetConnection();
 
     super.onInit();
+    print(userDetails.value);
 
     // Initialize the AnimationController
     animationController = AnimationController(
@@ -110,6 +111,7 @@ class HomePageController extends GetxController
         update();
       }
     } catch (e) {
+      throw Exception();
       print("u r not logged in");
     }
     Get.forceAppUpdate();
@@ -128,7 +130,8 @@ class HomePageController extends GetxController
       isLoading(false); // Set loading to false
     }
   }
-   // Function to fetch vip ads
+
+  // Function to fetch vip ads
   Future<void> fetchVipAdswithNextpage() async {
     try {
       isLoading(true); // Set loading to true
@@ -156,7 +159,8 @@ class HomePageController extends GetxController
       isLoading(false); // Set loading to false
     }
   }
-    // Function to fetch vip ads
+
+  // Function to fetch vip ads
   Future<void> fetchSpecificVipAdswithNextpage(String location) async {
     try {
       isLoading(true); // Set loading to true
@@ -187,10 +191,11 @@ class HomePageController extends GetxController
         isLoading(false); // Set loading to false
       }
     }
-
   }
-    // Function to fetch gold ads
-  Future<void> fetchGoldadswithNextpage(String location, String cat, String fete) async {
+
+  // Function to fetch gold ads
+  Future<void> fetchGoldadswithNextpage(
+      String location, String cat, String fete) async {
     if (goldAds.isNotEmpty) {
       return;
     } else {
@@ -367,7 +372,9 @@ class HomePageController extends GetxController
                       fetchNormalads(selectedWilaya.value, categoryname,
                           selectedFete.value);
 
-                     selectedWilaya == null ? fetchVipAds() : fetchSpecificVipAds(selectedWilaya.value);
+                      selectedWilaya == null
+                          ? fetchVipAds()
+                          : fetchSpecificVipAds(selectedWilaya.value);
                       Get.to(const HomepageAllproducts(),
                           transition: Transition.fadeIn);
                     },
