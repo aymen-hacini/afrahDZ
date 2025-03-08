@@ -188,12 +188,13 @@ class Homepage extends GetView<HomePageController> {
                                   title: "HomepageMyreservationsTile".tr,
                                   svg: "assets/svg/reserve.svg",
                                 ),
-                                CustomTile(
+                               controller.isMemberLoggedIn
+                                    ?  CustomTile(
                                   ontap: () =>
                                       Get.toNamed(AppRoutesNames.planning),
                                   title: "HomepageMyplaningTile".tr,
                                   svg: "assets/svg/planning.svg",
-                                ),
+                                )  : const SizedBox.shrink(),
                                 SizedBox(
                                   height: AppSize.appheight * .01,
                                 ),
