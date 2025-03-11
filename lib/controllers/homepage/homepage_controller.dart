@@ -15,6 +15,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:internet_connection_checker_plus/internet_connection_checker_plus.dart';
 import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePageController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -286,6 +287,15 @@ class HomePageController extends GetxController
       isLoading(false);
     }
   }
+
+   // Function to launch URLs
+  Future<void> launchCustomUrl(String url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(uri)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
 
   void showLocationpicker(String categoryname) {
     Get.bottomSheet(

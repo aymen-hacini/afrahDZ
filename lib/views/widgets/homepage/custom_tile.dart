@@ -7,14 +7,17 @@ class CustomTile extends StatelessWidget {
   const CustomTile({
     super.key,
     required this.title,
-    required this.svg, required this.ontap,
+    required this.svg,
+    required this.ontap,
   });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
       onTap: ontap,
-      leading: SvgPicture.asset(svg),
+      leading: SvgPicture.asset(
+        svg,
+      ),
       title: Text(
         title,
         style: const TextStyle(

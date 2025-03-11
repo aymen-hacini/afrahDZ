@@ -242,19 +242,33 @@ class Homepage extends GetView<HomePageController> {
                                     SizedBox(
                                       width: AppSize.appheight * .02,
                                     ),
-                                    SvgPicture.asset("assets/svg/fb.svg"),
+                                    GestureDetector(
+                                      onTap: ()=>controller.launchCustomUrl("https://www.facebook.com/profile.php?id=61552410582334"),
+                                      child: SvgPicture.asset("assets/svg/fb.svg")),
                                     SizedBox(
                                       width: AppSize.appheight * .02,
                                     ),
-                                    SvgPicture.asset("assets/svg/ig.svg"),
+                                    GestureDetector(
+                                      onTap: ()=>controller.launchCustomUrl("https://www.instagram.com/afrah_algerie/"),
+                                      child: SvgPicture.asset("assets/svg/ig.svg")),
                                     SizedBox(
                                       width: AppSize.appheight * .02,
                                     ),
-                                    SvgPicture.asset("assets/svg/youtube.svg"),
+                                    GestureDetector(
+                                      onTap: ()=>controller.launchCustomUrl("https://www.youtube.com/@Afrah_DZ"),
+                                      child: SvgPicture.asset("assets/svg/youtube.svg")),
                                     SizedBox(
                                       width: AppSize.appheight * .02,
                                     ),
-                                    SvgPicture.asset("assets/svg/x.svg"),
+                                    GestureDetector(
+                                      onTap: ()=>controller.launchCustomUrl("https://x.com/AfrahnaDZ"),
+                                      child: SvgPicture.asset("assets/svg/x.svg")),
+                                       SizedBox(
+                                      width: AppSize.appheight * .02,
+                                    ),
+                                    GestureDetector(
+                                      onTap: ()=>controller.launchCustomUrl("https://www.tiktok.com/@afrah.dz"),
+                                      child: SvgPicture.asset("assets/svg/tiktok.svg")),
                                   ],
                                 ),
                                 SizedBox(
