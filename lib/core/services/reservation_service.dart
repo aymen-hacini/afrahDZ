@@ -74,8 +74,9 @@ class ReservationService {
       } else {
         throw Exception("Échec de la création de la réservation");
       }
-    } catch (e) {
-      throw Exception("Échec de la création de la réservation");
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Échec de la création de la réservation";
     }
   }
 
@@ -125,8 +126,9 @@ class ReservationService {
       } else {
         throw Exception('Impossible de récupérer les réservations');
       }
-    } catch (e) {
-      throw Exception('Impossible de récupérer les réservations');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer les réservations";
     }
   }
 
@@ -175,27 +177,27 @@ class ReservationService {
       } else {
         throw Exception('Impossible de récupérer les réservations');
       }
-    } catch (e) {
-      throw Exception('Impossible de récupérer les réservations');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer les réservations";
     }
   }
 
   // Function to update a user with JSON payload
   Future<void> updateReservation(
       {required int reservationId, required String etat}) async {
+    final String? token = storage.read('token');
+    if (token == null) {
+      throw Exception('No token found. Please log in again.');
+    }
+
+    // Prepare the JSON payload
+    final Map<String, dynamic> payload = {
+      'etat': etat,
+    };
+
+    // Send the PUT request to update the ad
     try {
-      // Retrieve the JWT token from local storage
-      final String? token = storage.read('token');
-      if (token == null) {
-        throw Exception('No token found. Please log in again.');
-      }
-
-      // Prepare the JSON payload
-      final Map<String, dynamic> payload = {
-        'etat': etat,
-      };
-
-      // Send the PUT request to update the ad
       await dio.put(
         '${ApiLinkNames.updateReservation}/$reservationId', // Replace with your API endpoint
         data: payload,
@@ -243,38 +245,41 @@ class ReservationService {
       return false; // Deletion failed
     }
   }
+}
 
-  Future<Uint8List> getClientImageById(String id) async {
-    try {
-      final response = await dio.get(
-        '${ApiLinkNames.getClientInfo}/image/$id',
-        options: Options(responseType: ResponseType.bytes),
-      );
+Future<Uint8List> getClientImageById(String id) async {
+  final dio = Dio();
+  try {
+    final response = await dio.get(
+      '${ApiLinkNames.getClientInfo}/image/$id',
+      options: Options(responseType: ResponseType.bytes),
+    );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return Uint8List.fromList(response.data);
-      } else {
-        throw Exception('Failed to load image');
-      }
-    } catch (e) {
-      throw Exception('Failed to load image: $e');
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return Uint8List.fromList(response.data);
+    } else {
+      throw Exception('Failed to load image');
     }
+  } catch (e) {
+    throw Exception('Failed to load image: $e');
   }
+}
 
-  Future<Uint8List> getMembreimagebyId(String id) async {
-    try {
-      final response = await dio.get(
-        '${ApiLinkNames.getMemberInfo}/image/$id',
-        options: Options(responseType: ResponseType.bytes),
-      );
+Future<Uint8List> getMembreimagebyId(String id) async {
+  final dio = Dio();
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return Uint8List.fromList(response.data);
-      } else {
-        throw Exception('Failed to load image');
-      }
-    } catch (e) {
-      throw Exception('Failed to load image: $e');
+  try {
+    final response = await dio.get(
+      '${ApiLinkNames.getMemberInfo}/image/$id',
+      options: Options(responseType: ResponseType.bytes),
+    );
+
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      return Uint8List.fromList(response.data);
+    } else {
+      throw Exception('Failed to load image');
     }
+  } catch (e) {
+    throw Exception('Failed to load image: $e');
   }
 }

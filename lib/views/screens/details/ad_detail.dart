@@ -74,7 +74,7 @@ class AdDetail extends GetView<AdDetailController> {
                                               bottomLeft: Radius.circular(16),
                                               bottomRight: Radius.circular(16)),
                                           child: Image.network(
-                                            '${ApiLinkNames.server}${ad.imageFullPath}', // Replace with your API base URL
+                                            '${ApiLinkNames.serverimage}${ad.imageFullPath}', // Replace with your API base URL
                                             fit: BoxFit.cover,
                                           ),
                                         );
@@ -85,7 +85,7 @@ class AdDetail extends GetView<AdDetailController> {
                                               bottomLeft: Radius.circular(16),
                                               bottomRight: Radius.circular(16)),
                                           child: Image.network(
-                                            '${ApiLinkNames.server}${ad.images[index - 1].imagePath}', // Replace with your API base URL
+                                            '${ApiLinkNames.serverimage}${ad.images[index - 1].imagePath}', // Replace with your API base URL
                                             fit: BoxFit.cover,
                                           ),
                                         );

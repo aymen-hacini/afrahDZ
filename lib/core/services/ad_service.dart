@@ -87,8 +87,8 @@ class AdService {
       } else {
         throw Exception("Impossible de créer l'annonce");
       }
-    } catch (e) {
-      throw Exception("Impossible de créer l'annonce");
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? "Impossible de créer l'annonce";
     }
   }
 
@@ -163,7 +163,8 @@ class AdService {
           errors.forEach((field, messages) {});
         }
       } else {
-        throw Exception("Erreur lors de la mise à jour de l'annonce");
+        throw Exception(
+            "Erreur lors de la mise à jour de l'annonce\n${e.response?.data['message']}");
       }
     }
   }
@@ -196,16 +197,18 @@ class AdService {
       } else {
         throw Exception('Impossible de récupérer les annonces');
       }
-    } catch (e) {
-      throw Exception('Impossible de récupérer les annonces: $e');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer les annonces";
     }
   }
 
-    Future<List<AdModel>> getVipAdswithFilter(String city,{int page = 1, int perPage = 30}) async {
+  Future<List<AdModel>> getVipAdswithFilter(String city,
+      {int page = 1, int perPage = 30}) async {
     try {
       // Add pagination parameters to the request
       final response = await dio.get(
-       "${ApiLinkNames.getVipads}?city[eq]=$city", // Replace with your API endpoint
+        "${ApiLinkNames.getVipads}?city[eq]=$city", // Replace with your API endpoint
         queryParameters: {
           'page': page,
           'per_page': perPage,
@@ -229,8 +232,9 @@ class AdService {
       } else {
         throw Exception('Impossible de récupérer les annonces');
       }
-    } catch (e) {
-      throw Exception('Impossible de récupérer les annonces: $e');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer les annonces";
     }
   }
 
@@ -254,8 +258,9 @@ class AdService {
       } else {
         throw Exception('Impossible  ');
       }
-    } catch (e) {
-      throw Exception('Impossible ');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer les annonces";
     }
   }
 
@@ -286,8 +291,9 @@ class AdService {
       } else {
         throw Exception('Impossible de récupérer les annonces');
       }
-    } catch (e) {
-      throw Exception('Impossible de récupérer les annonces');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer les annonces";
     }
   }
 
@@ -315,8 +321,9 @@ class AdService {
       } else {
         throw Exception('Impossible de récupérer les annonces');
       }
-    } catch (e) {
-      throw Exception('Impossible de récupérer les annonces');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer les annonces";
     }
   }
 
@@ -341,8 +348,9 @@ class AdService {
       } else {
         throw Exception('Impossible de récupérer les annonces');
       }
-    } catch (e) {
-      throw Exception('Impossible de récupérer les annonces');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          'Impossible de récupérer les annonces';
     }
   }
 
@@ -366,8 +374,9 @@ class AdService {
       } else {
         throw Exception('Impossible de récupérer les annonces');
       }
-    } catch (e) {
-      throw Exception('Impossible de récupérer les annonces');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer les annonces";
     }
   }
 
@@ -397,8 +406,9 @@ class AdService {
       } else {
         throw Exception('Impossible de récupérer les annonces');
       }
-    } catch (e) {
-      throw Exception('Impossible de récupérer les annonces');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer l'annonce complete";
     }
   }
 
@@ -429,8 +439,9 @@ class AdService {
       } else {
         throw Exception('Impossible de récupérer les annonces');
       }
-    } catch (e) {
-      throw Exception('Impossible de récupérer les annonces');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer mes annonces";
     }
   }
 
@@ -508,8 +519,8 @@ class AdService {
       } else {
         throw Exception("Impossible de booster l'annonce");
       }
-    } catch (e) {
-      throw Exception("Impossible de booster l'annonce");
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? "Impossible de booster l'annonce";
     }
   }
 
@@ -540,8 +551,9 @@ class AdService {
       } else {
         throw Exception("Impossible de récupérer les annonces favorites");
       }
-    } catch (e) {
-      throw Exception("Impossible de récupérer les annonces favorites");
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ??
+          "Impossible de récupérer les annonces favoris";
     }
   }
 
@@ -570,8 +582,8 @@ class AdService {
       } else {
         throw Exception("Impossible d'aimer l'annonce");
       }
-    } catch (e) {
-      throw Exception("Impossible d'aimer l'annonce");
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? "Impossible de l'aimer l'annonce";
     }
   }
 

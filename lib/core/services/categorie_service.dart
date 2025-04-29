@@ -25,8 +25,8 @@ class CategorieService {
       } else {
         throw Exception("Impossible de récupérer les catégories");
       }
-    } catch (e) {
-      throw Exception("Impossible de récupérer les catégories");
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? "Impossible de récupérer les categories";
     }
   }
 }

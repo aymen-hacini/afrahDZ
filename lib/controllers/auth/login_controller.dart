@@ -170,10 +170,6 @@ class LoginController extends GetxController
   Future<void> signupClient() async {
     String? deviceToken = await getDeviceToken();
 
-    if (selectedImage.value == null) {
-      Get.snackbar('Erreur', 'Veuillez sélectionner une image');
-      return;
-    }
     if (passwordController.text == repeatpasswordController.text) {
       try {
         print(emailController.text);
@@ -186,7 +182,7 @@ class LoginController extends GetxController
             emailController.text.trim(),
             passwordController.text.trim(),
             phoneController.text.trim(),
-            selectedImage.value,
+            selectedImage.value ?? null,
             deviceToken!);
         if (token != null) {
           storage.write('token', token); // Store the token in GetStorage
@@ -225,14 +221,19 @@ class LoginController extends GetxController
             memberpasswordController.text.trim(),
             selectedImage.value,
             deviceToken!);
+        Get.snackbar('Success', 'Inscription réussie !');
+        Get.offAllNamed(AppRoutesNames.homepage,
+            arguments: {"isMember": false});
+
+        showSuccessDialog(Get
+            .context!); // Show a dialog to inform the user about the email confirmation
+
         if (token != null) {
           storage.write('token', token); // Store the token in GetStorage
-          Get.snackbar('Success', 'Signup successful!');
-          Get.offAllNamed(AppRoutesNames.homepage,
-              arguments: {"isMember": true}); // Navigate to the home screen
+          // Navigate to the home screen
         }
       } catch (e) {
-        Get.snackbar('Erreur', "");
+        Get.snackbar('Erreur', e.toString());
       } finally {
         isLoading(false); // stop loading
       }
@@ -326,4 +327,22 @@ class LoginController extends GetxController
   void togglesignupObscure() {
     signupisObscured.value = !signupisObscured.value;
   }
+}
+
+void showSuccessDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: const Text("Succès"),
+      content: const Text(
+        "Veuillez patienter jusqu'à ce que votre demande de compte membre soit acceptée. Merci pour votre patience.",
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: const Text("OK"),
+        ),
+      ],
+    ),
+  );
 }

@@ -22,8 +22,8 @@ class CategorieCard extends StatelessWidget {
           ),
           image: DecorationImage(
               fit: BoxFit.cover,
-              image:
-                  NetworkImage("${ApiLinkNames.server}${selectedCat.image}"))),
+              image: NetworkImage(
+                  "${ApiLinkNames.serverimage}${selectedCat.image}"))),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -54,7 +54,9 @@ class CategorieCard extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Text(
-                       Get.locale!.languageCode == "ar" ? selectedCat.arabname : selectedCat.name,
+                        Get.locale!.languageCode == "ar"
+                            ? selectedCat.arabname
+                            : selectedCat.name,
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 18,
@@ -63,8 +65,10 @@ class CategorieCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                     Icon(
-                     Get.locale?.languageCode == "ar" ? Icons.keyboard_arrow_left : Icons.keyboard_arrow_right,
+                    Icon(
+                      Get.locale?.languageCode == "ar"
+                          ? Icons.keyboard_arrow_left
+                          : Icons.keyboard_arrow_right,
                       size: 36,
                       color: Colors.white,
                     ),

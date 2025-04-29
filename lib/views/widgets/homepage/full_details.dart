@@ -41,7 +41,7 @@ class FullDetails extends StatelessWidget {
                 width: AppSize.appwidth * .3,
                 height: AppSize.appheight * .7,
                 child: Image.network(
-                  "${ApiLinkNames.server}${selectedad.imageFullPath}",
+                  "${ApiLinkNames.serverimage}${selectedad.imageFullPath}",
                   errorBuilder: (context, _, i) => const Center(
                     child: Text("Erreur"),
                   ),
@@ -166,7 +166,7 @@ class FavoritesFulldetails extends StatelessWidget {
                 width: AppSize.appwidth * .3,
                 height: AppSize.appheight * .7,
                 child: Image.network(
-                  "${ApiLinkNames.server}${selectedad.imageFullPath}",
+                  "${ApiLinkNames.serverimage}${selectedad.imageFullPath}",
                   fit: BoxFit.cover,
                 ),
               )),

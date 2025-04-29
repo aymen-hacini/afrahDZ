@@ -112,7 +112,7 @@ class AdDetailController extends GetxController
       selectedAdDetails.value = adDetails;
       if (selectedAdDetails.value.videoFullPath.isNotEmpty) {
         final videoUrl =
-            '${ApiLinkNames.server}${selectedAdDetails.value.videoFullPath}';
+            '${ApiLinkNames.serverimage}${selectedAdDetails.value.videoFullPath}';
 
         videoController = VideoPlayerController.networkUrl(
           Uri.parse(videoUrl),

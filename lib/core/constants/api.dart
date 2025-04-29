@@ -1,5 +1,6 @@
 class ApiLinkNames {
   static String server = "https://afrahdz.com/api";
+  static String serverimage = "https://afrahdz.com/";
   // static String server = "http://localhost:8000";
   static String signupclient = "$server/client";
   static String signupmember = "$server/membre";

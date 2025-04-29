@@ -2,6 +2,7 @@ import 'package:afrahdz/controllers/auth/login_controller.dart';
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/data/static/auth.dart';
+import 'package:afrahdz/views/widgets/auth/customview.dart';
 import 'package:afrahdz/views/widgets/auth/gradient_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -65,15 +66,37 @@ class Login extends GetView<LoginController> {
                   fontFamily: 'Mulish',
                   fontWeight: FontWeight.w700,
                 ),
-                tabs: tabs),
+                tabs: [
+                  Tab(
+                    text: "AuthRoleClient".tr,
+                  ),
+                  Tab(
+                    text: "AuthRoleMember".tr,
+                  ),
+                ]),
             SizedBox(
               height: height * .02,
             ),
             Expanded(
               // height: height * .5,
               // width: width,
-              child: TabBarView(
-                  controller: controller.tabController, children: views),
+              child:
+                  TabBarView(controller: controller.tabController, children: [
+                CustomView(
+                  text: "ClientHookQst".tr,
+                  userType: "client",
+                  emailcontroller: controller.clientloginEmailController,
+                  passwordcontroller: controller.clientloginPasswordController,
+                  ismemeberSelected: false,
+                ),
+                CustomView(
+                  text: "MembreHookQst".tr,
+                  userType: "membre",
+                  emailcontroller: controller.memberloginEmailController,
+                  passwordcontroller: controller.memberloginPasswordController,
+                  ismemeberSelected: true,
+                )
+              ]),
             )
           ],
         ),

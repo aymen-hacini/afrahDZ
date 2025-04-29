@@ -44,7 +44,7 @@ class GenericServiceCard extends StatelessWidget {
                       height: AppSize.appheight * .2,
                       width: AppSize.appwidth * .59,
                       child: Image.network(
-                        "${ApiLinkNames.server}${selectedAd.imageFullPath}",
+                        "${ApiLinkNames.serverimage}${selectedAd.imageFullPath}",
                         fit: BoxFit.cover,
                       ),
                     )),

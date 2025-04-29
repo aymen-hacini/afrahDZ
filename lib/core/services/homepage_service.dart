@@ -81,8 +81,8 @@ class HomepageService {
       } else {
         throw Exception("Impossible de récupérer les détails de l'utilisateur");
       }
-    } catch (e) {
-      throw Exception("Quelque chose s'est mal passé");
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? "Quelque chose s'est mal passé";
     }
   }
 
@@ -152,8 +152,8 @@ class HomepageService {
       } else {
         throw Exception("Impossible de récupérer les détails de l'utilisateur");
       }
-    } catch (e) {
-      throw Exception("Quelque chose s'est mal passé");
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? "Quelque chose s'est mal passé";
     }
   }
 

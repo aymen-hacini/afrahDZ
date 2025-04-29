@@ -23,7 +23,7 @@ class PremiumCard extends StatelessWidget {
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(34)),
           image: DecorationImage(
-            image: NetworkImage('${ApiLinkNames.server}$image'),
+            image: NetworkImage('${ApiLinkNames.serverimage}$image'),
             fit: BoxFit.cover,
           )),
       child: Stack(

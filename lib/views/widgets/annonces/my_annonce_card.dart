@@ -134,7 +134,7 @@ class MyAnnonceCard extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    "${ApiLinkNames.server}${selectedAd.imageFullPath}",
+                    "${ApiLinkNames.serverimage}${selectedAd.imageFullPath}",
                     fit: BoxFit.cover,
                   ),
                 ),

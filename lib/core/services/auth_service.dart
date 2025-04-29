@@ -179,11 +179,12 @@ class AuthService {
         "fcm": deviceToken,
         'phone': phone,
         'password': password,
-        'image': image != null
-            ? await MultipartFile.fromFile(image.path,
-                filename: image.path.split('/').last)
-            : null,
       });
+
+      if (image != null) {
+        await MultipartFile.fromFile(image.path,
+            filename: image.path.split('/').last);
+      }
 
       final response = await dio.post(
         ApiLinkNames.signupclient,
@@ -219,7 +220,7 @@ class AuthService {
           throw Exception('Unknown validation error');
         }
       } else {
-        throw Exception('Failed to sign up: ${response.statusCode}');
+        throw Exception('Failed to sign up: ${response.data['message']}');
       }
     } on DioException catch (e) {
       // Handle Dio-specific errors (e.g., HTTP 422)
@@ -228,15 +229,12 @@ class AuthService {
         if (errorMessages.isNotEmpty) {
           throw errorMessages.first;
         } else {
-          throw Exception('Validation error: ${e.response?.data}');
+          throw Exception('Validation error: ${e.response?.data['message']}');
         }
       } else {
         // Handle other Dio errors
-        throw Exception('Dio error: ${e.message}');
+        throw Exception('Erreur: ${e.response?.data['message']}');
       }
-    } catch (e) {
-      // Handle generic exceptions
-      throw Exception('An error occurred: $e');
     }
   }
 
@@ -258,12 +256,19 @@ class AuthService {
         'wilaya': wilaya,
         'location': location,
         'phone': phone,
-        "fcm": deviceToken,
         'mobail': mobile,
+        "fcm": deviceToken,
         'password': password,
         'image': await MultipartFile.fromFile(image!.path,
             filename: image.path.split('/').last),
       });
+
+      dio.interceptors.add(LogInterceptor(
+        request: true,
+        requestBody: true,
+        responseHeader: true,
+        responseBody: true,
+      ));
 
       final response = await dio.post(
         ApiLinkNames.signupmember,
@@ -274,33 +279,48 @@ class AuthService {
         final data = response.data;
 
         if (data['status'] == 'success') {
-          return data['token']; // Return the token
+          return data['token'];
         } else {
-          // Handle validation errors
-          var errors = data['message'];
-          if (errors is Map<String, dynamic>) {
-            // Convert the errors map to a list of error messages
-            List<String> errorMessages = [];
-            errors.forEach((key, value) {
-              if (value is List) {
-                errorMessages.addAll(value.map((e) => '$key: $e').toList());
-              } else {
-                errorMessages.add('$key: $value');
-              }
-            });
+          final message = data['message'];
 
-            // Throw the first error message
-            if (errorMessages.isNotEmpty) {
-              throw errorMessages.first;
+          if (message is String) {
+            throw DioException(
+              requestOptions: response.requestOptions,
+              error: message,
+              type: DioExceptionType.badResponse,
+              response: response,
+            );
+          } else if (message is Map<String, dynamic>) {
+            for (var entry in message.entries) {
+              if (entry.value is List && entry.value.isNotEmpty) {
+                DioException(
+                  requestOptions: response.requestOptions,
+                  error: entry.value.first,
+                  type: DioExceptionType.badResponse,
+                  response: response,
+                );
+              } else {
+                throw DioException(
+                  requestOptions: response.requestOptions,
+                  error: entry.value.toString(),
+                  type: DioExceptionType.badResponse,
+                  response: response,
+                );
+              }
             }
           }
-          throw Exception('Unknown validation error');
+
+          throw DioException(
+              requestOptions: response.requestOptions,
+              error: 'Unknown error occurred.',
+              type: DioExceptionType.unknown,
+              response: response);
         }
       } else {
-        throw Exception('Failed to sign up: ${response.statusCode}');
+        throw 'Failed to sign up: ${response.data['message']}';
       }
-    } catch (e) {
-      rethrow; // Rethrow the error to handle it in the controller
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Failed to sign up';
     }
   }
 
@@ -359,8 +379,8 @@ class AuthService {
       } else {
         throw Exception('Failed to login: ${response.statusCode}');
       }
-    } catch (e) {
-      rethrow; // Rethrow the error to handle it in the controller
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Failed to sign in';
     }
   }
 
@@ -386,8 +406,8 @@ class AuthService {
       } else {
         throw Exception('Email not found');
       }
-    } catch (e) {
-      throw Exception('Email not found');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Something went wrong';
     }
   }
 
@@ -413,8 +433,8 @@ class AuthService {
       } else {
         throw Exception('Email not found');
       }
-    } catch (e) {
-      throw Exception('Email not found');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Something Went Wrong';
     }
   }
 
@@ -441,8 +461,8 @@ class AuthService {
       } else {
         return false;
       }
-    } catch (e) {
-      throw Exception('Failed to send OTP: $e');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Failed to send OTP';
     }
   }
 
@@ -468,8 +488,8 @@ class AuthService {
       } else {
         return false;
       }
-    } catch (e) {
-      throw Exception('Failed to send OTP: $e');
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? 'Failed to send otp';
     }
   }
 
@@ -492,7 +512,7 @@ class AuthService {
         'name': name,
         'wilaya': wilaya,
         'phone': phone,
-        'age' : age,
+        'age': age,
       };
 
       await dio.put(
@@ -511,7 +531,8 @@ class AuthService {
           errors.forEach((field, messages) {});
         }
       } else {
-        throw Exception("Error while updating client");
+        throw Exception(
+            "Error while updating client :\n ${e.response?.data['message']}");
       }
     }
   }
@@ -556,7 +577,8 @@ class AuthService {
           errors.forEach((field, messages) {});
         }
       } else {
-        throw Exception("Error while updating membre");
+        throw Exception(
+            "Error while updating membre ${e.response?.data['message']}");
       }
     }
   }

@@ -48,7 +48,8 @@ class ContactService {
       } else {
         throw Exception("Échec de l'envoi du message");
       }
-    } catch (e) {
+    }
+    catch (e) {
       throw Exception("Échec de l'envoi du message");
     }
   }

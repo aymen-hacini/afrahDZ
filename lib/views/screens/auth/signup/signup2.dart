@@ -2,6 +2,7 @@ import 'package:afrahdz/controllers/auth/login_controller.dart';
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/data/static/auth.dart';
+import 'package:afrahdz/views/widgets/auth/signup2view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -55,8 +56,14 @@ class Signup2 extends GetView<LoginController> {
                           width: width,
                           child: Column(children: [
                             controller.tabController.index == 0
-                                ? signup2Views.first
-                                : signup2Views.last
+                                ? Signup2view(
+                                    text: "SignupClientHeader".tr,
+                                    isMember: false,
+                                  )
+                                : Signup2view(
+                                    text: "SignupMemberHeader".tr,
+                                    isMember: true,
+                                  ),
                           ]),
                         )
                       ],

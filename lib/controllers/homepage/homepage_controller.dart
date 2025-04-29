@@ -113,7 +113,6 @@ class HomePageController extends GetxController
       }
     } catch (e) {
       throw Exception();
-      print("u r not logged in");
     }
     Get.forceAppUpdate();
   }
