@@ -2,6 +2,8 @@ import 'package:afrahdz/controllers/ad/create_ad.dart';
 import 'package:afrahdz/controllers/ad/edit_annonce_controller.dart';
 import 'package:afrahdz/controllers/auth/login_controller.dart';
 import 'package:afrahdz/controllers/edit/edit_profile_controller.dart';
+import 'package:afrahdz/controllers/homepage/homepage_controller.dart';
+import 'package:afrahdz/controllers/homepage/topads_controller.dart';
 import 'package:afrahdz/core/constants/images.dart';
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/data/models/categorie.dart';
@@ -763,6 +765,137 @@ class _SignupWilayapickerState extends State<SignupWilayapicker> {
             Text(
               controller.selectedWilaya != null
                   ? controller.selectedWilaya!.tr
+                  : Get.locale?.languageCode == "ar"
+                      ? "اختر ولاية"
+                      : "Selectionner une wilaya",
+              style: const TextStyle(
+                color: Color(0xFF534C4C),
+                fontSize: 14,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w500,
+                height: 0.88,
+              ),
+            ),
+            const Spacer(),
+            Transform.scale(
+              scale: 1,
+              child: SvgPicture.asset(
+                AppImages.locationIcon,
+                fit: BoxFit.contain,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+
+
+
+class TopAdswilayapicker extends StatefulWidget {
+  const TopAdswilayapicker({super.key});
+
+  @override
+  _TopAdswilayapickerState createState() => _TopAdswilayapickerState();
+}
+
+class _TopAdswilayapickerState extends State<TopAdswilayapicker> {
+  TopadsController controller = Get.find();
+
+  // List of all provinces in Algeria
+  final List<String> provinces = const [
+    "Adrar",
+    "Chlef",
+    "Laghouat",
+    "Oum_El_Bouaghi",
+    "Batna",
+    "Bejaia",
+    "Biskra",
+    "Bechar",
+    "Blida",
+    "Bouira",
+    "Tamanrasset",
+    "Tebessa",
+    "Tlemcen",
+    "Tiaret",
+    "Tizi_Ouzou",
+    "Alger",
+    "Djelfa",
+    "Jijel",
+    "Setif",
+    "Saida",
+    "Skikda",
+    "Sidi_Bel_Abbes",
+    "Annaba",
+    "Guelma",
+    "Constantine",
+    "Medea",
+    "Mostaganem",
+    "MSila",
+    "Mascara",
+    "Ouargla",
+    "Oran",
+    "El_Bayadh",
+    "Illizi",
+    "Bordj_Bou_Arreridj",
+    "Boumerdes",
+    "El_Tarf",
+    "Tindouf",
+    "Tissemsilt",
+    "El_Oued",
+    "Khenchela",
+    "Souk_Ahras",
+    "Tipaza",
+    "Mila",
+    "Ain_Defla",
+    "Naama",
+    "Ain_Temouchent",
+    "Ghardaia",
+    "Relizane",
+    "Timimoun",
+    "Bordj_Badji_Mokhtar",
+    "Ouled_Djellal",
+    "Beni_Abbes",
+    "In_Salah",
+    "In_Guezzam",
+    "Touggourt",
+    "Djanet",
+    "El_Mghair",
+    "El_Meniaa",
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return PopupMenuButton<String>(
+      onSelected: (String value) {
+        setState(() {
+          controller.topAdsSelectedWilaya = value; // Update the selected province
+        });
+      },
+      itemBuilder: (BuildContext context) {
+        return provinces.map((String province) {
+          return PopupMenuItem<String>(
+            value: province,
+            child: Text(province.tr),
+          );
+        }).toList();
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: AppSize.appwidth * .02),
+        width: AppSize.appwidth,
+        padding: EdgeInsets.symmetric(
+            horizontal: AppSize.appwidth * .03, vertical: 16),
+        decoration: BoxDecoration(
+          color: const Color(0x33C4C4C4),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            Text(
+              controller.topAdsSelectedWilaya != null
+                  ? controller.topAdsSelectedWilaya!.tr
                   : Get.locale?.languageCode == "ar"
                       ? "اختر ولاية"
                       : "Selectionner une wilaya",

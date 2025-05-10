@@ -169,14 +169,18 @@ class AdService {
     }
   }
 
-  Future<List<AdModel>> getVipAds({int page = 1, int perPage = 30}) async {
+  Future<List<AdModel>> getVipAds(
+      {int page = 1, int perPage = 30, String wilaya = '', String? cat}) async {
     try {
+      dio.interceptors.add(LogInterceptor(
+          request: true, requestBody: true, error: true, responseBody: true));
       // Add pagination parameters to the request
       final response = await dio.get(
         ApiLinkNames.getVipads, // Replace with your API endpoint
         queryParameters: {
           'page': page,
           'per_page': perPage,
+          wilaya.isNotEmpty ? 'city' : wilaya: null,
         },
       );
 

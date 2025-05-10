@@ -178,11 +178,11 @@ class LoginController extends GetxController
         final token = await authService.signupClient(
             nameController.text.trim(),
             ageController.text.trim(),
-            selectedWilaya!,
+            selectedWilaya ?? "",
             emailController.text.trim(),
             passwordController.text.trim(),
             phoneController.text.trim(),
-            selectedImage.value ?? null,
+            selectedImage.value,
             deviceToken!);
         if (token != null) {
           storage.write('token', token); // Store the token in GetStorage
@@ -214,7 +214,7 @@ class LoginController extends GetxController
         final token = await authService.signupMember(
             membercommericalnameController.text.trim(),
             memberemailController.text.trim(),
-            selectedWilaya!,
+            selectedWilaya?? "",
             memberlocationController.text.trim(),
             memberfixeController.text.trim(),
             memberphoneController.text.trim(),
@@ -334,8 +334,8 @@ void showSuccessDialog(BuildContext context) {
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Succès"),
-      content: const Text(
-        "Veuillez patienter jusqu'à ce que votre demande de compte membre soit acceptée. Merci pour votre patience.",
+      content:  Text(
+        "Veuillez patienter jusqu'à ce que votre demande de compte membre soit acceptée. Merci pour votre patience.".tr,
       ),
       actions: [
         TextButton(

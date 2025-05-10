@@ -260,6 +260,15 @@ class MyTranslations extends Translations {
           "El_MGhair": "المغير",
           "El_Meniaa": "المنيعة",
           "mot de passe non valide": "كلمة المرور غير صالحة",
+          "Top Annonces": "أفضل الإعلانات",
+          "Veuillez patienter jusqu'à ce que votre demande de compte membre soit acceptée. Merci pour votre patience.":
+              "يرجى الانتظار حتى يتم قبول طلبك كعضو. شكرًا على صبرك.",
+          "Fatha": "فاتحة",
+          "Hanna": "حنة",
+          "Anniversaire": "عيد ميلاد",
+          "Mariage": "زفاف",
+          "Khtana": "ختان",
+          "Autres": "آخر",
         },
         "fr_FR": {
           "LoginWelcome": "Soyez Les Bienvenus.",
@@ -310,7 +319,7 @@ class MyTranslations extends Translations {
           "HomepageTitlepart3": ' Annonces',
           "Noads": "Aucune Annonce",
           "CategorieTitle": "Catégories",
-          "SearchHint": "Recherche ...",
+          "SearchHint": "Rechercher",
           "GoldTitleText": 'Découvrez les meilleures choix',
           "NormalTitleText": "Découvrez d'autres annonces",
           // End of homepage =========================================
@@ -527,6 +536,15 @@ class MyTranslations extends Translations {
           "El_MGhair": "El MGhair",
           "El_Meniaa": "El Meniaa",
           "mot de passe non valide": "mot de passe non valide",
+          "Top Annonces": "Top Annonces",
+          "Veuillez patienter jusqu'à ce que votre demande de compte membre soit acceptée. Merci pour votre patience.":
+              "Veuillez patienter jusqu'à ce que votre demande de compte membre soit acceptée. Merci pour votre patience.",
+          "Fatha": "Fatha",
+          "Hanna": "Hennah",
+          "Anniversaire": "Anniversaire",
+          "Mariage": "Mariage",
+          "Khtana": "Khtana",
+          "Autres": "Autre",
         },
       };
 }

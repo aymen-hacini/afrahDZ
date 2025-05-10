@@ -39,6 +39,7 @@ class HomePageController extends GetxController
 
   RxString selectedWilaya = ''.obs;
   RxString selectedFete = ''.obs;
+  RxString topAdsSelectedWilaya = ''.obs;
   String? selectedCat;
 
   // AnimationController to manage the animation
@@ -122,7 +123,8 @@ class HomePageController extends GetxController
     try {
       isLoading(true); // Set loading to true
       final fetchedAds = await adService.getVipAds(
-          page: currentPage); // Call AdService to fetch ads
+        page: currentPage,
+      ); // Call AdService to fetch ads
       vipAds.value = fetchedAds; // Update the observable list
     } catch (e) {
       Get.snackbar('Error', 'Impossible de récupérer les annonces Gold');
@@ -130,6 +132,7 @@ class HomePageController extends GetxController
       isLoading(false); // Set loading to false
     }
   }
+
 
   // Function to fetch vip ads
   Future<void> fetchVipAdswithNextpage() async {
@@ -145,6 +148,7 @@ class HomePageController extends GetxController
       isLoading(false); // Set loading to false
     }
   }
+
 
   // Function to fetch vip ads
   Future<void> fetchSpecificVipAds(String location) async {
@@ -287,14 +291,13 @@ class HomePageController extends GetxController
     }
   }
 
-   // Function to launch URLs
+  // Function to launch URLs
   Future<void> launchCustomUrl(String url) async {
     final Uri uri = Uri.parse(url);
     if (!await launchUrl(uri)) {
       throw Exception('Could not launch $url');
     }
   }
-
 
   void showLocationpicker(String categoryname) {
     Get.bottomSheet(
