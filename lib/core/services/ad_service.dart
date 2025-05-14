@@ -177,6 +177,17 @@ class AdService {
       // Add pagination parameters to the request
       final response = await dio.get(
         ApiLinkNames.getVipads, // Replace with your API endpoint
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            storage.read("token") != null
+                ? "Authorization"
+                : "Bearer ${storage.read('token')}": null
+          },
+          preserveHeaderCase: true,
+          
+        ),
+        
         queryParameters: {
           'page': page,
           'per_page': perPage,
