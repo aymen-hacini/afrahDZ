@@ -51,8 +51,8 @@ class FullAdDetails {
   factory FullAdDetails.fromJson(Map<String, dynamic> json) {
     // Remove '/api/v1' from image and video paths
     String imagePath = json['image_full_path'];
-    // if (imagePath.startsWith('..')) {
-    //   imagePath = imagePath.replaceFirst('api..', '');
+    // if (imagePath.startsWith('/api')) {
+    //   imagePath = imagePath.replaceFirst('/api/', '');
     // }
 
     String videoPath = json['video_full_path'];

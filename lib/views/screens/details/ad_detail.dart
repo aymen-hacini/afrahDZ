@@ -60,6 +60,7 @@ class AdDetail extends GetView<AdDetailController> {
                                   builder: (controller) => PageView.builder(
                                     controller: controller.pageController,
                                     onPageChanged: controller.onPageChanged,
+
                                     scrollDirection: Axis.horizontal,
                                     itemCount: 1 +
                                         ad.images.length +
@@ -68,6 +69,9 @@ class AdDetail extends GetView<AdDetailController> {
                                             : 0), // Include imageFullPath, additional images, and video
                                     itemBuilder: (context, index) {
                                       if (index == 0) {
+                                        print(
+                                            '${ApiLinkNames.serverimage}${ad.imageFullPath} kjlflkjfdslkfjds');
+
                                         // Display the main image (imageFullPath) as the first item
                                         return ClipRRect(
                                           borderRadius: const BorderRadius.only(

@@ -173,8 +173,7 @@ class EditProfileController extends GetxController {
 
       // Check the response status
       if (response.statusCode == 200) {
-      } else {
-      }
+      } else {}
     } catch (e) {
       Get.snackbar('Erreur',
           "Impossible de mettre à jour l'image du client: ${e.toString()}");
@@ -197,10 +196,10 @@ class EditProfileController extends GetxController {
             : agecontroller.text,
       );
 
-      await updateMemberImage(memberId);
+    selectedImage.value != null ?  await updateMemberImage(memberId) : null;
+      Get.snackbar('Success', 'Membre modifié avec succès');
 
       // Handle success response
-    } catch (e) {
     } finally {
       isLoading(false);
     }

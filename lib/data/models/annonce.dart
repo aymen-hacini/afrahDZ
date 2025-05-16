@@ -30,9 +30,9 @@ class AdModel {
   factory AdModel.fromJson(Map<String, dynamic> json) {
     // Remove '/api/v1' from the image_full_path
     String imagePath = json['image_full_path'];
-    if (imagePath.startsWith('/api')) {
-      imagePath = imagePath.replaceFirst('/api', '');
-    }
+    // if (imagePath.startsWith('/api')) {
+    //   imagePath = imagePath.replaceFirst('/api', '');
+    // }
 
     return AdModel(
       id: json['id'],

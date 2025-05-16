@@ -16,7 +16,6 @@ class ApiLinkNames {
   static String getClientInfo = "$server/client";
   static String getMemberInfo = "$server/membre";
 
-
   static String editClient = "$server/client";
   static String editMember = "$server/membre";
 
@@ -48,7 +47,5 @@ class ApiLinkNames {
   static String deleteReservation = "$server/resarvation";
   static String updateReservation = "$server/resarvation";
 
-
   static String getMyplanning = "$server/resarvationPlan";
-
 }

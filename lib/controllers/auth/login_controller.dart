@@ -245,8 +245,8 @@ class LoginController extends GetxController
 
   // Auto-login method
   Future<void> autoLogin() async {
-    final rememberMe = storage.read('rememberMe') ?? false;
-    if (rememberMe) {
+    final token = storage.read('token') ?? false;
+    if (token) {
       final email = storage.read('email');
       final password = storage.read('password');
       final userType = storage.read('userType'); // Get stored user type

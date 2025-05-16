@@ -81,7 +81,6 @@ class AdDetailController extends GetxController
 
   void onPageChanged(int page) {
     currentPage.value = page;
-
     // Play the video if the user scrolls to the video page
     if (selectedAdDetails.value.videoFullPath.isNotEmpty &&
         page == selectedAdDetails.value.images.length + 1) {
@@ -90,6 +89,7 @@ class AdDetailController extends GetxController
     } else if (selectedAdDetails.value.videoFullPath.isNotEmpty) {
       videoController?.pause(); // Pause the video when scrolling away
     }
+
   }
 
   @override
