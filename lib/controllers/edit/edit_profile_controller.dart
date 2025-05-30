@@ -89,8 +89,8 @@ class EditProfileController extends GetxController {
             : agecontroller.text,
       );
 
-      await updateClientImage(clientId);
-
+      selectedImage.value != null ? await updateClientImage(clientId) : null;
+      Get.snackbar('Success', 'Client modifié avec succès');
       // Handle success response
       Get.snackbar('Success', 'Client modifié avec succès');
     } catch (e) {
@@ -196,7 +196,7 @@ class EditProfileController extends GetxController {
             : agecontroller.text,
       );
 
-    selectedImage.value != null ?  await updateMemberImage(memberId) : null;
+      selectedImage.value != null ? await updateMemberImage(memberId) : null;
       Get.snackbar('Success', 'Membre modifié avec succès');
 
       // Handle success response

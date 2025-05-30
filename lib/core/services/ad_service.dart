@@ -170,10 +170,14 @@ class AdService {
   }
 
   Future<List<AdModel>> getVipAds(
-      {int page = 1, int perPage = 30, String wilaya = '', String? cat}) async {
+      {int page = 1,
+      int perPage = 30,
+      String wilaya = '',
+      String cat = "",
+      String event = ''}) async {
     try {
-      dio.interceptors.add(LogInterceptor(
-          request: true, requestBody: true, error: true, responseBody: true));
+      // dio.interceptors.add(LogInterceptor(
+      //     request: true, requestBody: true, error: true, responseBody: true));
       // Add pagination parameters to the request
       final response = await dio.get(
         ApiLinkNames.getVipads, // Replace with your API endpoint
@@ -185,13 +189,13 @@ class AdService {
                 : "Bearer ${storage.read('token')}": null
           },
           preserveHeaderCase: true,
-          
         ),
-        
+
         queryParameters: {
           'page': page,
           'per_page': perPage,
-          wilaya.isNotEmpty ? 'city' : wilaya: null,
+          if (wilaya.isNotEmpty) 'city': wilaya,
+          if(event.isNotEmpty) 'eventType' : event,
         },
       );
 
@@ -218,15 +222,19 @@ class AdService {
     }
   }
 
-  Future<List<AdModel>> getVipAdswithFilter(String city,
+  Future<List<AdModel>> getVipAdswithFilter(
+      String city, String cat, String event,
       {int page = 1, int perPage = 30}) async {
     try {
       // Add pagination parameters to the request
       final response = await dio.get(
-        "${ApiLinkNames.getVipads}?city[eq]=$city", // Replace with your API endpoint
+        ApiLinkNames.getVipads, // Replace with your API endpoint
         queryParameters: {
           'page': page,
           'per_page': perPage,
+          city.isNotEmpty ? 'city' : city: null,
+          cat.isNotEmpty ? 'category' : cat: null,
+          event.isNotEmpty ? 'eventType' : event: null,
         },
       );
 
@@ -284,11 +292,20 @@ class AdService {
       String location, String category, String fete,
       {int page = 1, int perPage = 30}) async {
     try {
+      // dio.interceptors.add(LogInterceptor(
+      //   request: true,
+      //   requestBody: true,
+      //   responseHeader: true,
+      //   responseBody: true,
+      // ));
       final response = await dio.get(
-        "${ApiLinkNames.getGoldads}?city[eq]=$location&&category[eq]=$category&&eventType[eq]=$fete",
+        ApiLinkNames.getGoldads,
         queryParameters: {
           'page': page,
           'per_page': perPage,
+          if (location.isNotEmpty) 'city': location,
+          'category': category,
+          if (fete.isNotEmpty) 'eventType': fete,
         }, // Replace with your API endpoint
       );
 
@@ -316,12 +333,16 @@ class AdService {
   Future<List<AdModel>> getNormalads(
       String location, String category, String fete) async {
     try {
-      dio.interceptors.add(LogInterceptor(
-          request: true, requestBody: true, error: true, responseBody: true));
+      // dio.interceptors.add(LogInterceptor(
+      //     request: true, requestBody: true, error: true, responseBody: true));
 
-      final response = await dio.get(
-        "${ApiLinkNames.getAllads}?city=$location&category=$category&eventType=$fete", // Replace with your API endpoint
-      );
+      final response = await dio
+          .get(ApiLinkNames.getAllads, // Replace with your API endpoint
+              queryParameters: {
+            if (location.isNotEmpty) 'city': location,
+            'category': category,
+            if (fete.isNotEmpty) 'eventType': fete,
+          });
 
       // Check the response status code
       if (response.statusCode == 200) {
@@ -347,7 +368,7 @@ class AdService {
       String name, String location, String category) async {
     try {
       final response = await dio.get(
-        "${ApiLinkNames.getAllads}?name[like]=$name&city=$location&category=$category", // Replace with your API endpoint
+        "https://www.afrahdz.com/api/annonce/search/$name?page=1", // Replace with your API endpoint
       );
 
       // Check the response status code
@@ -435,7 +456,8 @@ class AdService {
       if (token == null) {
         throw Exception('No token found. Please log in again.');
       }
-
+      dio.interceptors.add(LogInterceptor(
+          request: true, requestBody: true, error: true, responseBody: true));
       // Send the GET request to fetch all announces
       final response = await dio.get(
         ApiLinkNames.getMyAds, // Replace with your API endpoint

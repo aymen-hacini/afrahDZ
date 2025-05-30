@@ -214,7 +214,7 @@ class LoginController extends GetxController
         final token = await authService.signupMember(
             membercommericalnameController.text.trim(),
             memberemailController.text.trim(),
-            selectedWilaya?? "",
+            selectedWilaya ?? "",
             memberlocationController.text.trim(),
             memberfixeController.text.trim(),
             memberphoneController.text.trim(),
@@ -255,6 +255,13 @@ class LoginController extends GetxController
         await login(email, password, userType);
       }
     } else {
+      // If no token is found, redirect to the login page
+      storage.remove('token'); // Clear any existing token
+      storage.remove('email'); // Clear stored email
+      storage.remove('password'); // Clear stored password
+      storage.remove('userType'); // Clear stored user type
+      storage.remove('rememberMe'); // Clear "Remember Me" state
+      // Redirect to the login page
       Get.offAllNamed(AppRoutesNames.login);
     }
   }
@@ -334,8 +341,9 @@ void showSuccessDialog(BuildContext context) {
     context: context,
     builder: (context) => AlertDialog(
       title: const Text("Succès"),
-      content:  Text(
-        "Veuillez patienter jusqu'à ce que votre demande de compte membre soit acceptée. Merci pour votre patience.".tr,
+      content: Text(
+        "Veuillez patienter jusqu'à ce que votre demande de compte membre soit acceptée. Merci pour votre patience."
+            .tr,
       ),
       actions: [
         TextButton(

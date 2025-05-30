@@ -509,11 +509,18 @@ class AuthService {
       }
 
       final Map<String, dynamic> payload = {
-        'name': name,
-        'wilaya': wilaya,
-        'phone': phone,
-        'age': age,
+        if (name.isNotEmpty) 'name': name,
+        if (wilaya.isNotEmpty) 'wilaya': wilaya,
+        if (phone.isNotEmpty) 'phone': phone,
+        if (age.isNotEmpty) 'age': age,
       };
+
+      dio.interceptors.add(LogInterceptor(
+        request: true,
+        requestBody: true,
+        responseHeader: true,
+        responseBody: true,
+      ));
 
       await dio.put(
         '${ApiLinkNames.editClient}/$clientId',

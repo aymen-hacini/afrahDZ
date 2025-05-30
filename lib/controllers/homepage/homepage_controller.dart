@@ -133,7 +133,6 @@ class HomePageController extends GetxController
     }
   }
 
-
   // Function to fetch vip ads
   Future<void> fetchVipAdswithNextpage() async {
     try {
@@ -149,12 +148,13 @@ class HomePageController extends GetxController
     }
   }
 
-
   // Function to fetch vip ads
-  Future<void> fetchSpecificVipAds(String location) async {
+  Future<void> fetchSpecificVipAds(
+      String location, String cat, String fete) async {
     try {
       isLoading(true); // Set loading to true
-      final fetchedAds = await adService.getVipAdswithFilter(location,
+      final fetchedAds = await adService.getVipAdswithFilter(
+          location, cat, fete,
           page: currentPage); // Call AdService to fetch ads
       vipAdsfilter.value = fetchedAds; // Update the observable list
     } catch (e) {
@@ -165,10 +165,12 @@ class HomePageController extends GetxController
   }
 
   // Function to fetch vip ads
-  Future<void> fetchSpecificVipAdswithNextpage(String location) async {
+  Future<void> fetchSpecificVipAdswithNextpage(
+      String location, String cat, String fete) async {
     try {
       isLoading(true); // Set loading to true
-      final fetchedAds = await adService.getVipAdswithFilter(location,
+      final fetchedAds = await adService.getVipAdswithFilter(
+          location, cat, fete,
           page: currentPage); // Call AdService to fetch ads
       vipAdsfilter.value = fetchedAds; // Update the observable list
       currentPage++;
@@ -379,16 +381,19 @@ class HomePageController extends GetxController
                     onPressed: () {
                       Get.back();
                       goldAds.clear();
-                      fetchGoldads(selectedWilaya.value, categoryname,
+                      print(selectedCat);
+                      fetchGoldads(selectedWilaya.value, selectedCat ?? "",
                           selectedFete.value);
                       fetchNormalads(selectedWilaya.value, categoryname,
                           selectedFete.value);
 
-                      selectedWilaya == null
-                          ? fetchVipAds()
-                          : fetchSpecificVipAds(selectedWilaya.value);
-                      Get.to(const HomepageAllproducts(),
-                          transition: Transition.fadeIn);
+                      // selectedWilaya.isEmpty
+                      //     ? fetchVipAds()
+                      //     : fetchSpecificVipAds(selectedWilaya.value,
+                      //         categoryname, selectedFete.value);
+                      Get.to(
+                        () => const HomepageAllproducts(),
+                      );
                     },
                     child: Ink(
                       padding: EdgeInsets.symmetric(

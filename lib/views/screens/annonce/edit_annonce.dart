@@ -73,15 +73,13 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                   return Stack(
                                     children: [
                                       PageView.builder(
-                                        physics:
-                                            const ClampingScrollPhysics(),
+                                        physics: const ClampingScrollPhysics(),
                                         onPageChanged: (index) {
                                           controller.currentContainerPageIndex
                                               .value = index;
-                                      
+
                                           // Initialize or dispose video controller based on the current page
-                                          if (controller.video.value !=
-                                                  null &&
+                                          if (controller.video.value != null &&
                                               index ==
                                                   controller.images.length) {
                                             // Scrolled to the video page
@@ -90,8 +88,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                                     controller.video.value!);
                                           } else {
                                             // Scrolled away from the video page
-                                            controller
-                                                .disposeVideoController();
+                                            controller.disposeVideoController();
                                           }
                                         },
                                         itemCount: controller.images.length +
@@ -107,8 +104,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                               children: [
                                                 ClipRRect(
                                                   borderRadius:
-                                                      BorderRadius.circular(
-                                                          24),
+                                                      BorderRadius.circular(24),
                                                   child: Image.file(
                                                     controller.images[index],
                                                     fit: BoxFit.cover,
@@ -117,8 +113,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                                   ),
                                                 ),
                                                 IconButton(
-                                                  icon: const Icon(
-                                                      Icons.close,
+                                                  icon: const Icon(Icons.close,
                                                       color: Colors.white),
                                                   onPressed: () {
                                                     controller.images
@@ -130,8 +125,8 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                           } else {
                                             // Display video
                                             return Obx(() {
-                                              if (controller.videoController
-                                                      .value !=
+                                              if (controller
+                                                      .videoController.value !=
                                                   null) {
                                                 return ValueListenableBuilder(
                                                   valueListenable: controller
@@ -141,16 +136,15 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                                       child) {
                                                     if (value.isInitialized) {
                                                       return Stack(
-                                                        alignment: Alignment
-                                                            .topRight,
+                                                        alignment:
+                                                            Alignment.topRight,
                                                         children: [
                                                           ClipRRect(
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
                                                                         24),
-                                                            child:
-                                                                AspectRatio(
+                                                            child: AspectRatio(
                                                               aspectRatio: value
                                                                   .aspectRatio,
                                                               child: VideoPlayer(
@@ -162,12 +156,11 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                                           IconButton(
                                                             icon: const Icon(
                                                                 Icons.close,
-                                                                color: Colors
-                                                                    .red),
+                                                                color:
+                                                                    Colors.red),
                                                             onPressed: () {
                                                               controller.video
-                                                                      .value =
-                                                                  null;
+                                                                  .value = null;
                                                               controller
                                                                   .disposeVideoController();
                                                             },
@@ -231,7 +224,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                   return ClipRRect(
                                     borderRadius: BorderRadius.circular(24),
                                     child: Image.network(
-                                      "${ApiLinkNames.server}${controller.selectedAdDetails.value!.imageFullPath}",
+                                      "${ApiLinkNames.serverimage}${controller.selectedAdDetails.value!.imageFullPath}",
                                       fit: BoxFit.cover,
                                     ),
                                   );
@@ -277,7 +270,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                             color: Colors.grey),
                                         borderRadius: BorderRadius.circular(6)),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide:  BorderSide(
+                                        borderSide: BorderSide(
                                             color: Appcolors.primaryColor),
                                         borderRadius:
                                             BorderRadius.circular(6))),
@@ -368,7 +361,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                             color: Colors.grey),
                                         borderRadius: BorderRadius.circular(6)),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide:  BorderSide(
+                                        borderSide: BorderSide(
                                             color: Appcolors.primaryColor),
                                         borderRadius:
                                             BorderRadius.circular(6))),
@@ -409,7 +402,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                             color: Colors.grey),
                                         borderRadius: BorderRadius.circular(6)),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide:  BorderSide(
+                                        borderSide: BorderSide(
                                             color: Appcolors.primaryColor),
                                         borderRadius:
                                             BorderRadius.circular(6))),
@@ -436,7 +429,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                     .toStringAsFixed(2),
                                 onChanged: (value) =>
                                     controller.priceController.text = value,
-                                    cursorColor: Appcolors.primaryColor,
+                                cursorColor: Appcolors.primaryColor,
                                 style: const TextStyle(
                                   color: Color(0xFF534C4C),
                                   fontSize: 14,
@@ -450,7 +443,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                             color: Colors.grey),
                                         borderRadius: BorderRadius.circular(6)),
                                     focusedBorder: OutlineInputBorder(
-                                        borderSide:  BorderSide(
+                                        borderSide: BorderSide(
                                             color: Appcolors.primaryColor),
                                         borderRadius:
                                             BorderRadius.circular(6))),

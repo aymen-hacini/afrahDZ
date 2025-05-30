@@ -107,7 +107,7 @@ class ReservationCard extends GetView<ClientReservationController> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    "${ApiLinkNames.server}${selectedReservation.adDetails!.imageFullPath}",
+                    "${ApiLinkNames.serverimage}${selectedReservation.adDetails!.imageFullPath}",
                     fit: BoxFit.fill,
                   ),
                 ),
@@ -165,7 +165,6 @@ class ReservationCard extends GetView<ClientReservationController> {
                             fontWeight: FontWeight.w700,
                           ),
                         ),
-                     
                       ],
                     ),
                   )

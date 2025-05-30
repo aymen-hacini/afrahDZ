@@ -161,12 +161,12 @@ class HomepageAllproducts extends GetView<HomePageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: List.generate(
                       controller.selectedWilaya.value == ""
-                          ? controller.vipAds.length
-                          : controller.vipAdsfilter.length,
+                          ? controller.normalAds.length
+                          : controller.normalAds.length,
                       (i) {
                         final ad = controller.selectedWilaya.value == ""
-                            ? controller.vipAds[i]
-                            : controller.vipAdsfilter[i];
+                            ? controller.normalAds[i]
+                            : controller.normalAds[i];
                         return GestureDetector(
                           onTap: () => Get.to(
                               () => AdDetail(
