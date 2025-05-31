@@ -104,9 +104,9 @@ class PlanningCard extends GetView<PlanningController> {
                 radius: 6,
                 backgroundColor: selectedPlanning.reservation.etat == 'attente'
                     ? Colors.yellow
-                    : selectedPlanning.reservation.etat == 'valide'
+                    : selectedPlanning.reservation.etat == 'active'
                         ? Colors.green
-                        : selectedPlanning.reservation.etat == 'annule'
+                        : selectedPlanning.reservation.etat == 'inactive'
                             ? Colors.red
                             : Colors.yellow,
               ),
@@ -128,7 +128,7 @@ class PlanningCard extends GetView<PlanningController> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      "${ApiLinkNames.server}${selectedPlanning.annonce.imageFullPath}",
+                      "${ApiLinkNames.serverimage}${selectedPlanning.annonce.imageFullPath}",
                       fit: BoxFit.cover,
                     ),
                   ),

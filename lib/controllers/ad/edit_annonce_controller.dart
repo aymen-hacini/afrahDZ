@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:afrahdz/core/constants/api.dart';
 import 'package:afrahdz/core/services/ad_service.dart';
 import 'package:afrahdz/core/services/categorie_service.dart';
 import 'package:afrahdz/data/models/categorie.dart';
@@ -44,6 +45,7 @@ class EditAnnonceController extends GetxController {
     descriptionController = TextEditingController();
     selectedAd = Get.arguments['selectedAd'];
     fetchFullAdDetails(selectedAd);
+    fetchCategories();
   }
 
   // Function to fetch full ad details by ID
@@ -65,34 +67,45 @@ class EditAnnonceController extends GetxController {
     try {
       isLoading(true);
       await adService.updateAd(
-        adId: int.parse(adId),
-        name: nomAnnoncecontroller.text == ""
-            ? selectedAdDetails.value!.name
-            : nomAnnoncecontroller.text,
-        category: selectedCategorie ?? selectedAdDetails.value!.category,
-        eventType: selectedFete ?? selectedAdDetails.value!.eventType,
-        city: selectedWilaya ?? selectedAdDetails.value!.city,
-        address: addressController.text == ""
-            ? selectedAdDetails.value!.address
-            : addressController.text,
-        image: images.first,
-        images: images.sublist(1),
-        video: video.value,
-        price: priceController.text == "" ? selectedAdDetails.value!.price.toString() : priceController.text
-      );
+          adId: int.parse(adId),
+          name: nomAnnoncecontroller.text == ""
+              ? selectedAdDetails.value!.name
+              : nomAnnoncecontroller.text,
+          category: selectedCategorie ?? selectedAdDetails.value!.category,
+          eventType: selectedFete ?? selectedAdDetails.value!.eventType,
+          city: selectedWilaya ?? selectedAdDetails.value!.city,
+          address: addressController.text == ""
+              ? selectedAdDetails.value!.address
+              : addressController.text,
+          image: images.isNotEmpty ? images.first : null,
+          images: images.isNotEmpty ? images.sublist(1) : null,
+          video: video.value,
+          price: priceController.text == ""
+              ? selectedAdDetails.value!.price.toString()
+              : priceController.text);
 
       // Handle success response
       Get.snackbar('Success', 'Annonce modifiée avec succès');
     } catch (e) {
-      Get.snackbar('Erreur', "Impossible de modifier l'annonce");
+      // Get.snackbar('Erreur',
+      //     "Impossible de modifier l'annonce veuillez selecter une image différente");
     } finally {
       isLoading(false);
     }
   }
 
-
-
-
+// Fetch categories
+  Future<void> fetchCategories() async {
+    isLoading(true);
+    try {
+      final fetchedCategories = await categoryService.fetchAllCategories();
+      categories.assignAll(fetchedCategories);
+    } catch (e) {
+      Get.snackbar('Error', 'Impossible de récupérer les catégories');
+    } finally {
+      isLoading(false);
+    }
+  }
 
   // Pick all images at once
   Future<void> pickImages() async {
@@ -144,6 +157,16 @@ class EditAnnonceController extends GetxController {
     videoController.value = VideoPlayerController.file(videoFile)
       ..initialize().then((_) {
         videoController.value?.play(); // Auto-play the video
+        update();
+      });
+  }
+
+  void initializeVideoControllerNetwork(String videoFilePath) async {
+    videoController.value = VideoPlayerController.networkUrl(
+        Uri.parse("${ApiLinkNames.serverimage}$videoFilePath"))
+      ..initialize().then((_) {
+        videoController.value?.play(); // Auto-play the video
+        videoController.value?.setLooping(true); // Loop the video
         update();
       });
   }

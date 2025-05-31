@@ -16,8 +16,8 @@ class GenericServiceCard extends StatelessWidget {
     return Container(
       height: AppSize.appheight * .4,
       width: AppSize.appwidth * .6,
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      margin: const EdgeInsets.symmetric(vertical: 8),
+      padding: const EdgeInsets.symmetric(vertical: 2),
+      margin: const EdgeInsets.symmetric(vertical: 4),
       decoration: ShapeDecoration(
           shadows: [
             BoxShadow(
@@ -102,8 +102,10 @@ class GenericServiceCard extends StatelessWidget {
             ],
           ),
           Positioned(
-            bottom: AppSize.appheight * .02,
-            left: Get.locale!.languageCode == "ar" ? AppSize.appwidth * .02 : 0,
+            bottom: AppSize.appheight * .025,
+            right: Get.locale!.languageCode == "ar"
+                ? AppSize.appwidth * 0.45
+                : AppSize.appwidth * .02,
             child: RatingStars(
               valueLabelMargin: EdgeInsets.zero,
               valueLabelPadding: EdgeInsets.zero,

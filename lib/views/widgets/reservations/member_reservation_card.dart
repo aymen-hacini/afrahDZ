@@ -90,9 +90,9 @@ class MemberReservationCard extends GetView<MemberReservationController> {
                 radius: 6,
                 backgroundColor: selectedReservation.etat == 'attente'
                     ? Colors.yellow
-                    : selectedReservation.etat == 'valide'
+                    : selectedReservation.etat == 'active'
                         ? Colors.green
-                        : selectedReservation.etat == 'annule'
+                        : selectedReservation.etat == 'inactive'
                             ? Colors.red
                             : Colors.yellow,
               ),
@@ -114,7 +114,7 @@ class MemberReservationCard extends GetView<MemberReservationController> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: Image.network(
-                      "${ApiLinkNames.server}${selectedReservation.adDetails!.imageFullPath}",
+                      "${ApiLinkNames.serverimage}${selectedReservation.adDetails!.imageFullPath}",
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -159,7 +159,7 @@ class MemberReservationCard extends GetView<MemberReservationController> {
                       ],
                     ),
                     SizedBox(
-                      width: AppSize.appwidth * .62,
+                      width: AppSize.appwidth * .60,
                       child: Row(
                         children: [
                           GradientText(

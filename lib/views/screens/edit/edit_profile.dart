@@ -1,6 +1,7 @@
 import 'package:afrahdz/controllers/edit/edit_profile_controller.dart';
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/images.dart';
+import 'package:afrahdz/core/constants/routes_names.dart';
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/views/widgets/auth/gradient_text.dart';
 import 'package:afrahdz/views/widgets/edit/ville_picker.dart';
@@ -361,7 +362,12 @@ class EditProfile extends GetView<EditProfileController> {
                 },
               ),
               InkWell(
-                onTap: () => Get.back(),
+                onTap: () async {
+                  await controller.fetchUserDetails();
+
+                  Get.offAllNamed(AppRoutesNames.homepage,
+                      arguments: {"isMember": controller.isMemberLoggedIn});
+                },
                 child: Container(
                   height: 40,
                   width: 40,

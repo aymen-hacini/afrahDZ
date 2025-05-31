@@ -31,7 +31,8 @@ class BoostAdController extends GetxController {
           duration: selectedduration.value!,
           price: finalprice,
           idAnnonce: selectedAd.value!.id,
-          imageUrl: "${ApiLinkNames.server}${selectedAd.value!.imageFullPath}",
+          imageUrl:
+              "${ApiLinkNames.serverimage}${selectedAd.value!.imageFullPath}",
           type: type);
       Get.back();
 

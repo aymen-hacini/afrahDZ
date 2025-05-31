@@ -7,10 +7,10 @@ import 'package:get/get.dart';
 MemberReservationController memberReservationController = Get.find();
 
 List<Tab> memberReservationsTabs = [
-   Tab(text: 'Tous'.tr),
-   Tab(text: 'En Attente'.tr),
-   Tab(text: 'Validé'.tr),
-   Tab(text: 'Annulé'.tr),
+  Tab(text: 'Tous'.tr),
+  Tab(text: 'En Attente'.tr),
+  Tab(text: 'Validé'.tr),
+  Tab(text: 'Annulé'.tr),
 ];
 List<Widget> memberReservationsViews = [
   _buildReservationListView(memberReservationController.allReservations),

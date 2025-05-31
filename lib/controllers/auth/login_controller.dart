@@ -25,7 +25,7 @@ class LoginController extends GetxController
   // Observable variable to hold the selected image
   var selectedImage = Rx<File?>(null);
 
-  final RxBool rememberMe = false.obs;
+  final RxBool rememberMe = (GetStorage().read('rememberMe') == true).obs;
 
   // Check if the user is logged in
   bool get isLoggedIn => storage.read('token') != null;
@@ -64,6 +64,7 @@ class LoginController extends GetxController
   @override
   void onInit() {
     super.onInit();
+
     tabController = TabController(length: 2, vsync: this);
 
     nameController = TextEditingController();
@@ -245,14 +246,15 @@ class LoginController extends GetxController
 
   // Auto-login method
   Future<void> autoLogin() async {
-    final token = storage.read('token') ?? false;
-    if (token) {
+    final rememberMeState = storage.read('rememberMe') ?? false;
+    if (rememberMeState) {
       final email = storage.read('email');
       final password = storage.read('password');
       final userType = storage.read('userType'); // Get stored user type
 
       if (email != null && password != null && userType != null) {
         await login(email, password, userType);
+        return;
       }
     } else {
       // If no token is found, redirect to the login page
@@ -290,9 +292,10 @@ class LoginController extends GetxController
           storage.remove('password');
           storage.remove('userType');
         }
+        storage.write('rememberMe', rememberMe.value);
 
-        storage.write(
-            'rememberMe', rememberMe.value); // Save the "Remember Me" state
+
+        // Save the "Remember Me" state
         storage.write('userType', userType);
 
         Get.snackbar('Success', 'Login successful!');

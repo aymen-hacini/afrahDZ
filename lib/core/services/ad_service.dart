@@ -106,22 +106,29 @@ class AdService {
     File? video, // Optional video file
   }) async {
     try {
+      dio.interceptors.add(LogInterceptor(
+          request: true, requestBody: true, error: true, responseBody: true));
       // Retrieve the JWT token from local storage
       final String? token = storage.read('token');
       if (token == null) {
         throw Exception('No token found. Please log in again.');
       }
-
-      // Convert files to Base64 strings
       String? imageBase64;
-      final imageBytes = await image!.readAsBytes();
-      imageBase64 = base64Encode(imageBytes);
-
       List<String>? imagesBase64;
-      imagesBase64 = [];
-      for (final file in images!) {
-        final fileBytes = await file.readAsBytes();
-        imagesBase64.add(base64Encode(fileBytes));
+
+
+      
+
+      if (image != null && (images != null || images!.isNotEmpty)) {
+        // Convert files to Base64 strings
+        final imageBytes = await image.readAsBytes();
+        imageBase64 = base64Encode(imageBytes);
+
+        imagesBase64 = [];
+        for (final file in images) {
+          final fileBytes = await file.readAsBytes();
+          imagesBase64.add(base64Encode(fileBytes));
+        }
       }
 
       String? videoBase64;
@@ -137,8 +144,8 @@ class AdService {
         'eventType': eventType,
         'city': city,
         'address': address,
-        'image': imageBase64,
-        'images': '$imagesBase64',
+        if (imageBase64 != null) 'image': imageBase64,
+        if (imagesBase64 != null) 'images': '$imagesBase64',
         'price': price,
         if (videoBase64 != null) 'video': videoBase64,
       };
@@ -195,7 +202,7 @@ class AdService {
           'page': page,
           'per_page': perPage,
           if (wilaya.isNotEmpty) 'city': wilaya,
-          if(event.isNotEmpty) 'eventType' : event,
+          if (event.isNotEmpty) 'eventType': event,
         },
       );
 
@@ -522,17 +529,13 @@ class AdService {
         throw Exception('No token found. Please log in again.');
       }
       // Retrieve the idMember (sub) from the token
-      final idMember = getMemberIdFromToken();
-      if (idMember == null) {
-        throw Exception('No idMember found in the token. Please log in again.');
-      }
-      final imageFile = await downloadImage(imageUrl);
+
+         final imageFile = await downloadImage(imageUrl);
 
       // Create FormData for the multipart request
       final formData = FormData.fromMap({
         'duration': duration,
         'price': price,
-        'idMember': idMember,
         'idAnnonce': idAnnonce,
         'type': type,
         'image': await MultipartFile.fromFile(
@@ -540,9 +543,12 @@ class AdService {
         ),
       });
 
+      dio.interceptors.add(LogInterceptor(
+          request: true, requestBody: true, error: true, responseBody: true));
+
       // Send the multipart POST request to boost the ad
       final response = await dio.post(
-        ApiLinkNames.boostAd, // Replace with your API endpoint
+        "https://www.afrahdz.com/api/boost", // Replace with your API endpoint
         data: formData,
         options: Options(headers: {
           'Content-Type':

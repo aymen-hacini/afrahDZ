@@ -54,8 +54,7 @@ class Homepage extends GetView<HomePageController> {
                                       () => const EditProfile(),
                                       transition: Transition.zoom,
                                       arguments: {
-                                        "isMember":
-                                            controller.isMemberLoggedIn
+                                        "isMember": controller.isMemberLoggedIn
                                       })),
                                   child: HomepageProfileAvatar(
                                     profileImage: controller
@@ -105,7 +104,7 @@ class Homepage extends GetView<HomePageController> {
                                               Get.locale?.languageCode == 'ar'
                                                   ? const Locale('fr', 'FR')
                                                   : const Locale('ar', 'EG');
-    
+
                                           Get.updateLocale(newLocale);
                                           box.write(
                                               'locale',
@@ -178,13 +177,14 @@ class Homepage extends GetView<HomePageController> {
                                 title: "HomepageMyreservationsTile".tr,
                                 svg: "assets/svg/reserve.svg",
                               ),
-                             controller.isMemberLoggedIn
-                                  ?  CustomTile(
-                                ontap: () =>
-                                    Get.toNamed(AppRoutesNames.planning),
-                                title: "HomepageMyplaningTile".tr,
-                                svg: "assets/svg/planning.svg",
-                              )  : const SizedBox.shrink(),
+                              controller.isMemberLoggedIn
+                                  ? CustomTile(
+                                      ontap: () =>
+                                          Get.toNamed(AppRoutesNames.planning),
+                                      title: "HomepageMyplaningTile".tr,
+                                      svg: "assets/svg/planning.svg",
+                                    )
+                                  : const SizedBox.shrink(),
                               SizedBox(
                                 height: AppSize.appheight * .01,
                               ),
@@ -200,8 +200,7 @@ class Homepage extends GetView<HomePageController> {
                                 svg: "assets/svg/contact.svg",
                               ),
                               CustomTile(
-                                ontap: () =>
-                                    Get.toNamed(AppRoutesNames.about),
+                                ontap: () => Get.toNamed(AppRoutesNames.about),
                                 title: "HomepageAboutTile".tr,
                                 svg: "assets/svg/about.svg",
                               ),
@@ -233,32 +232,42 @@ class Homepage extends GetView<HomePageController> {
                                     width: AppSize.appheight * .02,
                                   ),
                                   GestureDetector(
-                                    onTap: ()=>controller.launchCustomUrl("https://www.facebook.com/profile.php?id=61552410582334"),
-                                    child: SvgPicture.asset("assets/svg/fb.svg")),
+                                      onTap: () => controller.launchCustomUrl(
+                                          "https://www.facebook.com/profile.php?id=61552410582334"),
+                                      child: SvgPicture.asset(
+                                          "assets/svg/fb.svg")),
                                   SizedBox(
                                     width: AppSize.appheight * .02,
                                   ),
                                   GestureDetector(
-                                    onTap: ()=>controller.launchCustomUrl("https://www.instagram.com/afrah_algerie/"),
-                                    child: SvgPicture.asset("assets/svg/ig.svg")),
+                                      onTap: () => controller.launchCustomUrl(
+                                          "https://www.instagram.com/afrah_algerie/"),
+                                      child: SvgPicture.asset(
+                                          "assets/svg/ig.svg")),
                                   SizedBox(
                                     width: AppSize.appheight * .02,
                                   ),
                                   GestureDetector(
-                                    onTap: ()=>controller.launchCustomUrl("https://www.youtube.com/@Afrah_DZ"),
-                                    child: SvgPicture.asset("assets/svg/youtube.svg")),
+                                      onTap: () => controller.launchCustomUrl(
+                                          "https://www.youtube.com/@Afrah_DZ"),
+                                      child: SvgPicture.asset(
+                                          "assets/svg/youtube.svg")),
                                   SizedBox(
                                     width: AppSize.appheight * .02,
                                   ),
                                   GestureDetector(
-                                    onTap: ()=>controller.launchCustomUrl("https://x.com/AfrahnaDZ"),
-                                    child: SvgPicture.asset("assets/svg/x.svg")),
-                                     SizedBox(
+                                      onTap: () => controller.launchCustomUrl(
+                                          "https://x.com/AfrahnaDZ"),
+                                      child:
+                                          SvgPicture.asset("assets/svg/x.svg")),
+                                  SizedBox(
                                     width: AppSize.appheight * .02,
                                   ),
                                   GestureDetector(
-                                    onTap: ()=>controller.launchCustomUrl("https://www.tiktok.com/@afrah.dz"),
-                                    child: SvgPicture.asset("assets/svg/tiktok.svg")),
+                                      onTap: () => controller.launchCustomUrl(
+                                          "https://www.tiktok.com/@afrah.dz"),
+                                      child: SvgPicture.asset(
+                                          "assets/svg/tiktok.svg")),
                                 ],
                               ),
                               SizedBox(
@@ -343,7 +352,7 @@ class Homepage extends GetView<HomePageController> {
                             var newLocale = Get.locale?.languageCode == 'ar'
                                 ? const Locale('fr', 'FR')
                                 : const Locale('ar', 'EG');
-    
+
                             Get.updateLocale(newLocale);
                             box.write('locale',
                                 newLocale.languageCode); // Save locale
@@ -457,22 +466,23 @@ class Homepage extends GetView<HomePageController> {
                                 animateToClosest: true,
                                 initialPage: 0,
                                 viewportFraction:
-                                    Get.locale!.languageCode == "ar"
-                                        ? .6
-                                        : .7,
-                                enlargeStrategy:
-                                    CenterPageEnlargeStrategy.zoom,
+                                    Get.locale!.languageCode == "ar" ? .63 : .7,
+                                enlargeStrategy: CenterPageEnlargeStrategy.zoom,
                                 padEnds: true,
-                                enlargeFactor: .45,
+                                enlargeFactor: Get.locale!.languageCode == "ar"
+                                    ? .28
+                                    : .45,
                                 autoPlay: true,
-                                aspectRatio: 4 / 3,
+                                aspectRatio: Get.locale!.languageCode == "ar"
+                                    ? 4 / 3
+                                    : 4 / 3,
                                 onPageChanged: (index, reason) {
                                   controller.updatePageIndex(index);
                                 },
                                 enlargeCenterPage: true,
                               ),
-                              items: List.generate(controller.vipAds.length,
-                                  (i) {
+                              items:
+                                  List.generate(controller.vipAds.length, (i) {
                                 final ad = controller.vipAds[i];
                                 return AnimatedOpacity(
                                   duration: 100.milliseconds,
@@ -483,8 +493,7 @@ class Homepage extends GetView<HomePageController> {
                                   child: GestureDetector(
                                       onTap: () => ad.id == 130
                                           ? null
-                                          : Get.to(
-                                              () => AdDetail(adId: ad.id),
+                                          : Get.to(() => AdDetail(adId: ad.id),
                                               transition: Transition.zoom),
                                       child: PremiumCard(
                                         name: ad.name,

@@ -13,7 +13,7 @@ class SplashScreen extends StatelessWidget {
     final controller = Get.find<LoginController>();
 
     // Use GetX to handle the delay and navigation
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), ()  {
       if (controller.isLoggedIn) {
         controller.autoLogin();
       }

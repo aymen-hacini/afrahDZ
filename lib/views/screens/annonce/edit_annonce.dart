@@ -72,6 +72,34 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                     controller.video.value != null) {
                                   return Stack(
                                     children: [
+                                      // ✅ Counter in bottom-left
+                                      Positioned(
+                                        bottom: 12,
+                                        left: 16,
+                                        child: Obx(() {
+                                          final current = controller
+                                                  .currentContainerPageIndex
+                                                  .value +
+                                              1;
+                                          return Container(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 8, vertical: 4),
+                                            decoration: BoxDecoration(
+                                              color: Colors.black54,
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                            ),
+                                            child: Text(
+                                              "$current/${controller.images.length + (controller.video.value != null ? 1 : 0)}",
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          );
+                                        }),
+                                      ),
                                       PageView.builder(
                                         physics: const ClampingScrollPhysics(),
                                         onPageChanged: (index) {
@@ -221,13 +249,107 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                     ],
                                   );
                                 } else {
-                                  return ClipRRect(
-                                    borderRadius: BorderRadius.circular(24),
-                                    child: Image.network(
-                                      "${ApiLinkNames.serverimage}${controller.selectedAdDetails.value!.imageFullPath}",
-                                      fit: BoxFit.cover,
-                                    ),
-                                  );
+                                  return Obx(() {
+                                    final adDetails =
+                                        controller.selectedAdDetails.value!;
+                                    final additionalImages = adDetails
+                                        .images; // Assume List<String> (relative URLs)
+                                    final videoPath = adDetails
+                                        .videoFullPath; // Assume nullable String
+
+                                    final totalItems = 1 +
+                                        (additionalImages.length ?? 0) +
+                                        (videoPath != null ? 1 : 0);
+
+                                    return PageView.builder(
+                                      itemCount: totalItems,
+                                      physics: const ClampingScrollPhysics(),
+                                      onPageChanged: (index) {
+                                        controller.currentContainerPageIndex
+                                            .value = index;
+
+                                        // Initialize video if it's the last item
+                                        if (index == totalItems - 1) {
+                                          controller
+                                              .initializeVideoControllerNetwork(
+                                                  videoPath);
+                                        } else {
+                                          controller.disposeVideoController();
+                                        }
+                                      },
+                                      itemBuilder: (context, index) {
+                                        if (index == 0) {
+                                          // First image: imageFullPath
+                                          return ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(24),
+                                            child: Image.network(
+                                              "${ApiLinkNames.serverimage}${adDetails.imageFullPath}",
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                            ),
+                                          );
+                                        }
+
+                                        final imageIndex = index - 1;
+
+                                        if (imageIndex <
+                                            (additionalImages.length ?? 0)) {
+                                          // Additional images
+                                          return ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(24),
+                                            child: Image.network(
+                                              "${ApiLinkNames.serverimage}${additionalImages[imageIndex].imagePath}",
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                            ),
+                                          );
+                                        }
+
+                                        // Else: Show video
+                                        return Obx(() {
+                                          if (controller
+                                                  .videoController.value !=
+                                              null) {
+                                            return ValueListenableBuilder(
+                                              valueListenable: controller
+                                                  .videoController.value!,
+                                              builder: (context,
+                                                  VideoPlayerValue value,
+                                                  child) {
+                                                if (value.isInitialized) {
+                                                  return ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            24),
+                                                    child: AspectRatio(
+                                                      aspectRatio:
+                                                          value.aspectRatio,
+                                                      child: VideoPlayer(
+                                                          controller
+                                                              .videoController
+                                                              .value!),
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return const Center(
+                                                      child:
+                                                          CircularProgressIndicator());
+                                                }
+                                              },
+                                            );
+                                          } else {
+                                            return const Center(
+                                                child:
+                                                    CircularProgressIndicator());
+                                          }
+                                        });
+                                      },
+                                    );
+                                  });
                                 }
                               }),
                             ),

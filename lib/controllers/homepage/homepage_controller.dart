@@ -273,6 +273,7 @@ class HomePageController extends GetxController
     storage.remove('password');
     storage.remove('userType');
     storage.remove('token');
+    storage.write('rememberMe',false);
     Get.offAllNamed(AppRoutesNames.homepage, arguments: {"isMember": false});
   }
 
@@ -381,16 +382,15 @@ class HomePageController extends GetxController
                     onPressed: () {
                       Get.back();
                       goldAds.clear();
-                      print(selectedCat);
                       fetchGoldads(selectedWilaya.value, selectedCat ?? "",
                           selectedFete.value);
                       fetchNormalads(selectedWilaya.value, categoryname,
                           selectedFete.value);
 
-                      // selectedWilaya.isEmpty
-                      //     ? fetchVipAds()
-                      //     : fetchSpecificVipAds(selectedWilaya.value,
-                      //         categoryname, selectedFete.value);
+                      selectedWilaya.isEmpty
+                          ? fetchVipAds()
+                          : fetchSpecificVipAds(selectedWilaya.value,
+                              categoryname, selectedFete.value);
                       Get.to(
                         () => const HomepageAllproducts(),
                       );

@@ -530,7 +530,7 @@ class _CategoriePopupState extends State<CategoriePopup> {
         onSelected: (CategorieModel value) {
           // Update the selected category in the controller
           setState(() {
-            controller.selectedCategorie = value.name;
+            controller.selectedCategorie = value.name.replaceAll(" ", "-");
             controller.selectedCategoriearab = value.arabname;
           });
         },
@@ -583,28 +583,28 @@ class EditCategoriePopup extends GetView<EditAnnonceController> {
   const EditCategoriePopup({super.key});
 
 // List of all fetes in Algeria
-  final List<String> categories = const [
-    "Salle-Des-Fetes",
-    "NEGAFETTE",
-    "Location-de-Voiture",
-    "DJ",
-    "CHEDDA-et-ROBES",
-    "Patisserie-et-Gateaux",
-    "Karkabou-et-Groupes",
-    "Groupes-Motos",
-    "Voyage-de-Noces",
-    "COSTUME-HOMME",
-    "Camera-et-photographe",
-    "Chef-Cuisinier",
-    "Coiffure-et-Esthetique",
-    "Cheval-et-Bernous",
-    "Decorations-et-Fleurs",
-    "Hotels-et-Nuit-de-Noces",
-    "Bijoux-et-Accessoires",
-    "groupes-photos-interdits",
-    "jhaz",
-    "organisateur"
-  ];
+  // final List<String> categories = const [
+  //   "Salle-Des-Fetes",
+  //   "NEGAFETTE",
+  //   "Location-de-Voiture",
+  //   "DJ",
+  //   "CHEDDA-et-ROBES",
+  //   "Patisserie-et-Gateaux",
+  //   "Karkabou-et-Groupes",
+  //   "Groupes-Motos",
+  //   "Voyage-de-Noces",
+  //   "COSTUME-HOMME",
+  //   "Camera-et-photographe",
+  //   "Chef-Cuisinier",
+  //   "Coiffure-et-Esthetique",
+  //   "Cheval-et-Bernous",
+  //   "Decorations-et-Fleurs",
+  //   "Hotels-et-Nuit-de-Noces",
+  //   "Bijoux-et-Accessoires",
+  //   "groupes-photos-interdits",
+  //   "jhaz",
+  //   "organisateur"
+  // ];
   @override
   Widget build(BuildContext context) {
     EditAnnonceController controller = Get.find();
@@ -612,7 +612,7 @@ class EditCategoriePopup extends GetView<EditAnnonceController> {
     return PopupMenuButton<CategorieModel>(
       onSelected: (CategorieModel value) {
         // Update the selected category in the controller
-        controller.selectedCategorie = value.name;
+        controller.selectedCategorie = value.name.replaceAll(" ", "-");
         controller.selectedCategoriearab = value.arabname;
       },
       itemBuilder: (BuildContext context) {
@@ -791,9 +791,6 @@ class _SignupWilayapickerState extends State<SignupWilayapicker> {
   }
 }
 
-
-
-
 class TopAdswilayapicker extends StatefulWidget {
   const TopAdswilayapicker({super.key});
 
@@ -871,7 +868,8 @@ class _TopAdswilayapickerState extends State<TopAdswilayapicker> {
     return PopupMenuButton<String>(
       onSelected: (String value) {
         setState(() {
-          controller.topAdsSelectedWilaya = value; // Update the selected province
+          controller.topAdsSelectedWilaya =
+              value; // Update the selected province
         });
       },
       itemBuilder: (BuildContext context) {

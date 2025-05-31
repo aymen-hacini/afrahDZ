@@ -69,13 +69,13 @@ class MemberReservationController extends GetxController
   // Method to move a reservation from "en attente" to "validé"
   void moveReservationToValide(ReservationModel reservation) async {
     await reservationService.updateReservation(
-        reservationId: reservation.id, etat: "valide");
+        reservationId: reservation.id, etat: "active");
 
     // Remove the reservation from the "en attente" list
     reservationsEnattente.remove(reservation);
 
     // Update the reservation's status to "valide"
-    reservation.etat = 'valide';
+    reservation.etat = 'active';
 
     // Add the reservation to the "validé" list
     reservationsValide.add(reservation);
@@ -87,13 +87,13 @@ class MemberReservationController extends GetxController
   // Method to move a reservation from "en attente" to "validé"
   void moveReservationToAnnuler(ReservationModel reservation) async {
     await reservationService.updateReservation(
-        reservationId: reservation.id, etat: "annule");
+        reservationId: reservation.id, etat: "inactive");
 
     // Remove the reservation from the "en attente" list
     reservationsEnattente.remove(reservation);
 
     // Update the reservation's status to "valide"
-    reservation.etat = 'annule';
+    reservation.etat = 'inactive';
 
     // Add the reservation to the "validé" list
     reservationsAnnuler.add(reservation);

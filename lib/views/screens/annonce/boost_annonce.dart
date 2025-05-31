@@ -67,7 +67,7 @@ class BoostAnnonce extends StatelessWidget {
                 children: [
                   GoldBoostCard(
                     isVIP: true,
-                    type: 'Gold',
+                    type: 'gold',
                     desc: "GoldDesc".tr,
                     advantages: [
                       "avantage1".tr,
@@ -81,7 +81,7 @@ class BoostAnnonce extends StatelessWidget {
                     height: AppSize.appheight * .03,
                   ),
                   SilverBoostCard(
-                    type: "Silver",
+                    type: "silver",
                     desc: "SilverDesc".tr,
                     advantages: [
                       "Silveravantage1".tr,
