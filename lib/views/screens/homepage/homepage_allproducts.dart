@@ -5,7 +5,6 @@ import 'package:afrahdz/views/screens/details/ad_detail.dart';
 import 'package:afrahdz/views/widgets/homepage/custom_textfield.dart';
 import 'package:afrahdz/views/widgets/homepage/full_details.dart';
 import 'package:afrahdz/views/widgets/homepage/generic_card.dart';
-import 'package:afrahdz/views/widgets/homepage/premium_card.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -85,65 +84,8 @@ class HomepageAllproducts extends GetView<HomePageController> {
                     ],
                   ),
 
-                  controller.vipAds.isEmpty
-                      ? const SizedBox.shrink()
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            "GoldTitleText".tr,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
-                              fontFamily: 'Poppins',
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                  SizedBox(
-                    height: AppSize.appheight * .01,
-                  ),
-                  controller.vipAds.isEmpty
-                      ? const SizedBox.shrink()
-                      : SizedBox(
-                          width: Get.width,
-                          height: Get.height * .3,
-                          child: SmartRefresher(
-                            scrollDirection: Axis.horizontal,
-                            controller: RefreshController(),
-                            onLoading: () =>
-                                controller.fetchSpecificVipAdswithNextpage(
-                                    controller.selectedWilaya.value,
-                                    controller.selectedCat!,
-                                    controller.selectedFete.value),
-                            child: CarouselSlider(
-                                items: List.generate(
-                                  controller.vipAds.length,
-                                  (i) {
-                                    final ad = controller.vipAds[i];
-                                    return GestureDetector(
-                                      onTap: () => Get.to(
-                                          () => AdDetail(
-                                                adId: ad.id,
-                                              ),
-                                          transition: Transition.fadeIn),
-                                      child: GenericServiceCard(
-                                        selectedAd: ad,
-                                      ),
-                                    );
-                                  },
-                                ),
-                                options: CarouselOptions(
-                                    enableInfiniteScroll: false,
-                                    disableCenter: false,
-                                    animateToClosest: true,
-                                    viewportFraction: .65,
-                                    autoPlay: true,
-                                    padEnds: false,
-                                    height: AppSize.appheight * .31,
-                                    autoPlayCurve: Curves.easeInOut,
-                                    scrollDirection: Axis.horizontal)),
-                          ),
-                        ),
+                 
+                  
                   SizedBox(height: AppSize.appheight * .02),
                   controller.goldAds.isEmpty
                       ? const SizedBox.shrink()
@@ -222,12 +164,12 @@ class HomepageAllproducts extends GetView<HomePageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: List.generate(
                       controller.selectedWilaya.value == ""
-                          ? controller.normalAds.length
-                          : controller.normalAds.length,
+                          ? controller.vipAds.length
+                          : controller.vipAds.length,
                       (i) {
                         final ad = controller.selectedWilaya.value == ""
-                            ? controller.normalAds[i]
-                            : controller.normalAds[i];
+                            ? controller.vipAds[i]
+                            : controller.vipAds[i];
                         return GestureDetector(
                           onTap: () => Get.to(
                               () => AdDetail(

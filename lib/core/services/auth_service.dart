@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:afrahdz/core/constants/api.dart';
 import 'package:dio/dio.dart';
+import 'package:get/get.dart' hide FormData, Response, MultipartFile;
 import 'package:get_storage/get_storage.dart';
 
 class AuthService {
@@ -328,8 +329,12 @@ class AuthService {
   Future<String?> loginClient(
       String email, String password, String deviceToken) async {
     try {
-      final formData = FormData.fromMap(
-          {'email': email, 'password': password, "fcm": deviceToken});
+      final formData = FormData.fromMap({
+        if (GetUtils.isEmail(email)) 'email': email,
+        'password': password,
+        "fcm": deviceToken,
+        if (GetUtils.isPhoneNumber(email)) 'phone': email,
+      });
 
       final response = await dio.post(
         ApiLinkNames.loginclient,
@@ -358,8 +363,14 @@ class AuthService {
   Future<String?> loginMember(
       String email, String password, String deviceToken) async {
     try {
-      final formData = FormData.fromMap(
-          {'email': email, 'password': password, "fcm": deviceToken});
+      final formData = FormData.fromMap({
+        if (GetUtils.isEmail(email)) 'email': email,
+        'password': password,
+        "fcm": deviceToken,
+        if (GetUtils.isPhoneNumber(email)) 'phone': email,
+      });
+
+      print("this if form data : ${formData.fields}");
 
       final response = await dio.post(
         ApiLinkNames.loginmember,

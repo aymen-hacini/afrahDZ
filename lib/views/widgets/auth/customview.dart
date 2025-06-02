@@ -31,7 +31,7 @@ class CustomView extends GetView<LoginController> {
         CustomTextField(
           controller: emailcontroller,
           validator: (value) {
-            if (!GetUtils.isEmail(value!)) {
+            if (!GetUtils.isEmail(value!) && !GetUtils.isPhoneNumber(value)) {
               return "Email non valide".tr;
             }
             return null;

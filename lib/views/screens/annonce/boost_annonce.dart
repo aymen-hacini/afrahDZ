@@ -75,7 +75,7 @@ class BoostAnnonce extends StatelessWidget {
                       "avantage3".tr,
                       "avantage4".tr,
                     ],
-                    price: 7500.00,
+                    price: 5000.00,
                   ),
                   SizedBox(
                     height: AppSize.appheight * .03,
@@ -89,7 +89,7 @@ class BoostAnnonce extends StatelessWidget {
                       "Silveravantage3".tr,
                     ],
                     isVIP: false,
-                    price: 5000.00,
+                    price: 2000.00,
                   ),
                 ],
               ),

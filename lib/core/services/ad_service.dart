@@ -116,9 +116,6 @@ class AdService {
       String? imageBase64;
       List<String>? imagesBase64;
 
-
-      
-
       if (image != null && (images != null || images!.isNotEmpty)) {
         // Convert files to Base64 strings
         final imageBytes = await image.readAsBytes();
@@ -203,6 +200,7 @@ class AdService {
           'per_page': perPage,
           if (wilaya.isNotEmpty) 'city': wilaya,
           if (event.isNotEmpty) 'eventType': event,
+          if (cat.isNotEmpty) 'category': cat,
         },
       );
 
@@ -530,7 +528,7 @@ class AdService {
       }
       // Retrieve the idMember (sub) from the token
 
-         final imageFile = await downloadImage(imageUrl);
+      final imageFile = await downloadImage(imageUrl);
 
       // Create FormData for the multipart request
       final formData = FormData.fromMap({

@@ -29,6 +29,7 @@ class HomePageController extends GetxController
 
   final Rx<UserModel?> userDetails = Rx<UserModel?>(null);
   var vipAds = <AdModel>[].obs; // Observable list of vip ads
+  var vipSalledesfetesAds = <AdModel>[].obs; // Observable list of vip ads
   var vipAdsfilter = <AdModel>[].obs; // Observable list of vip ads
   var goldAds = <AdModel>[].obs; // Observable list of gold ads
   var normalAds = <AdModel>[].obs; // Observable list of normal ads
@@ -81,6 +82,7 @@ class HomePageController extends GetxController
       // Your refresh logic here
       await fetchUserDetails();
       await fetchVipAds();
+      await fetchVipsalledesfetesAds();
       await fetchCategories();
       refreshController.refreshCompleted();
     } catch (e) {
@@ -126,6 +128,20 @@ class HomePageController extends GetxController
         page: currentPage,
       ); // Call AdService to fetch ads
       vipAds.value = fetchedAds; // Update the observable list
+    } catch (e) {
+      Get.snackbar('Error', 'Impossible de récupérer les annonces Gold');
+    } finally {
+      isLoading(false); // Set loading to false
+    }
+  }
+    // Function to fetch vip salle des fetes ads
+  Future<void> fetchVipsalledesfetesAds() async {
+    try {
+      isLoading(true); // Set loading to true
+      final fetchedAds = await adService.getVipAds(cat: 'Salle-Des-Fetes',
+        page: currentPage,
+      ); // Call AdService to fetch ads
+      vipSalledesfetesAds.value = fetchedAds; // Update the observable list
     } catch (e) {
       Get.snackbar('Error', 'Impossible de récupérer les annonces Gold');
     } finally {
@@ -243,7 +259,7 @@ class HomePageController extends GetxController
       isLoading(true); // Set loading to true
       final fetchedAds = await adService.searchAdsbyName(
           adname, selectedWilaya.value, catname); // Call AdService to fetch ads
-      normalAds.value = fetchedAds; // Update the observable list
+      vipAds.value = fetchedAds; // Update the observable list it was normalAds at first but changed to vipAds
     } catch (e) {
       Get.snackbar('Error', 'Impossible de récupérer les annonces normales');
     } finally {
@@ -432,6 +448,7 @@ class HomePageController extends GetxController
       Get.offAllNamed('/no-internet');
     } else {
       fetchVipAds();
+      fetchVipsalledesfetesAds();
       fetchCategories();
       if (Get.arguments['isMember'] != null) {
         isMemberLoggedIn = Get.arguments['isMember'];

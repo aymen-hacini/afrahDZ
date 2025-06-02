@@ -261,6 +261,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                         (additionalImages.length ?? 0) +
                                         (videoPath != null ? 1 : 0);
 
+
                                     return PageView.builder(
                                       itemCount: totalItems,
                                       physics: const ClampingScrollPhysics(),

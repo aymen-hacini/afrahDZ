@@ -367,6 +367,139 @@ class Homepage extends GetView<HomePageController> {
               SizedBox(
                 height: AppSize.appheight * .025,
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "HomepageTitlepart1".tr,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "HomepageTitlepart2".tr,
+                            style: const TextStyle(
+                              color: Color(0xFFC628BC),
+                              fontSize: 14,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "HomepageTitlepartsalledesfetes".tr,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontFamily: 'Poppins',
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 12,
+                    )
+                  ],
+                ),
+              ),
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      enabled: true,
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          autoPlayAnimationDuration: 100.milliseconds,
+                          animateToClosest: true,
+                          viewportFraction: .7,
+                          enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+                          padEnds: true,
+                          enlargeFactor: .45,
+                          autoPlay: true,
+                          aspectRatio: 4 / 3,
+                          onPageChanged: (index, reason) {
+                            controller.updatePageIndex(index);
+                          },
+                          enlargeCenterPage: true,
+                        ),
+                        items: List.generate(
+                            4,
+                            (i) => const PremiumCard(
+                                name: "", image: "", rating: 0)),
+                      ));
+                } else {
+                  return controller.vipSalledesfetesAds.isEmpty
+                      ? Center(
+                          child: Text("Noads".tr),
+                        )
+                      : AnimatedOpacity(
+                          duration: 400.milliseconds,
+                          opacity: controller.carouselOpacity.value,
+                          child: Transform.scale(
+                            scale: controller.carouselScale.value,
+                            child: CarouselSlider(
+                              options: CarouselOptions(
+                                autoPlayAnimationDuration: 100.milliseconds,
+                                animateToClosest: true,
+                                initialPage: 0,
+                                viewportFraction:
+                                    Get.locale!.languageCode == "ar" ? .63 : .7,
+                                enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+                                padEnds: true,
+                                enlargeFactor: Get.locale!.languageCode == "ar"
+                                    ? .28
+                                    : .45,
+                                autoPlay: true,
+                                aspectRatio: Get.locale!.languageCode == "ar"
+                                    ? 4 / 3
+                                    : 4 / 3,
+                                onPageChanged: (index, reason) {
+                                  controller.updatePageIndex(index);
+                                },
+                                enlargeCenterPage: true,
+                              ),
+                              items: List.generate(
+                                  controller.vipSalledesfetesAds.length, (i) {
+                                final ad = controller.vipSalledesfetesAds[i];
+                                return AnimatedOpacity(
+                                  duration: 100.milliseconds,
+                                  opacity:
+                                      i == controller.currentPageIndex.value
+                                          ? 1
+                                          : 0.5,
+                                  child: GestureDetector(
+                                      onTap: () => ad.id == 130
+                                          ? null
+                                          : Get.to(() => AdDetail(adId: ad.id),
+                                              transition: Transition.zoom),
+                                      child: PremiumCard(
+                                        name: ad.name,
+                                        image: ad.imageFullPath,
+                                        rating: ad.rating,
+                                      )),
+                                );
+                              }),
+                            ),
+                          ),
+                        );
+                }
+              }),
+              SizedBox(
+                height: AppSize.appheight * .02,
+              ),
               GestureDetector(
                 onTap: () => Get.to(() => const AllVipAds(),
                     transition: Transition.upToDown),
