@@ -68,6 +68,8 @@ class HomepageService {
               location: user.location,
               phone: user.phone,
               age: user.age,
+              code: user.code,
+              codeuse: user.codeuse,
               profilePicture: profilePictureBytes, // Add profile picture
             );
           } else {
@@ -140,6 +142,8 @@ class HomepageService {
               phone: user.phone,
               fixe: user.fixe,
               age: user.age,
+              code: user.code,
+              codeuse: user.codeuse,
               profilePicture: profilePictureBytes, // Add profile picture
             );
           } else {

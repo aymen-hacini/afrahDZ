@@ -17,4 +17,5 @@ class AppRoutesNames {
   static const String planning = '/planning';
   static const String categorie = '/categorie';
   static const String favorites = '/favorites';
+  static const String wallet = '/wallet';
 }

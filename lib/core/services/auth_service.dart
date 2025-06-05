@@ -249,6 +249,7 @@ class AuthService {
     String password,
     File? image,
     String deviceToken,
+    {String? code}
   ) async {
     try {
       final formData = FormData.fromMap({
@@ -260,6 +261,7 @@ class AuthService {
         'mobail': mobile,
         "fcm": deviceToken,
         'password': password,
+        if(code != null || code!.isNotEmpty) 'code': code,
         'image': await MultipartFile.fromFile(image!.path,
             filename: image.path.split('/').last),
       });

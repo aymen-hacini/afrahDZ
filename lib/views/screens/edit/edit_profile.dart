@@ -248,42 +248,50 @@ class EditProfile extends GetView<EditProfileController> {
                             SizedBox(
                               height: AppSize.appheight * .01,
                             ),
-                            Text(
-                              'EditprofileDateofbirth'.tr,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w700,
-                                height: 0.88,
-                              ),
-                            ),
-                            SizedBox(
-                              height: AppSize.appheight * .01,
-                            ),
-                            TextFormField(
-                              controller: controller.agecontroller,
-                              onChanged: (value) {
-                                controller.agecontroller.text = value;
-                              },
-                              keyboardType: TextInputType.number,
-                              style: const TextStyle(
-                                color: Color(0xFF534C4C),
-                                fontSize: 14,
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w500,
-                                height: 0.88,
-                              ),
-                              decoration: InputDecoration(
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide:
-                                          const BorderSide(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(6)),
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide:
-                                          const BorderSide(color: Colors.grey),
-                                      borderRadius: BorderRadius.circular(6))),
-                            ),
+                            controller.isMemberLoggedIn
+                                ? const SizedBox.shrink()
+                                : Text(
+                                    'EditprofileDateofbirth'.tr,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 16,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w700,
+                                      height: 0.88,
+                                    ),
+                                  ),
+                            controller.isMemberLoggedIn
+                                ? const SizedBox.shrink()
+                                : SizedBox(
+                                    height: AppSize.appheight * .01,
+                                  ),
+                            controller.isMemberLoggedIn
+                                ? const SizedBox.shrink()
+                                : TextFormField(
+                                    controller: controller.agecontroller,
+                                    onChanged: (value) {
+                                      controller.agecontroller.text = value;
+                                    },
+                                    keyboardType: TextInputType.number,
+                                    style: const TextStyle(
+                                      color: Color(0xFF534C4C),
+                                      fontSize: 14,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w500,
+                                      height: 0.88,
+                                    ),
+                                    decoration: InputDecoration(
+                                        enabledBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.grey),
+                                            borderRadius:
+                                                BorderRadius.circular(6)),
+                                        focusedBorder: OutlineInputBorder(
+                                            borderSide: const BorderSide(
+                                                color: Colors.grey),
+                                            borderRadius:
+                                                BorderRadius.circular(6))),
+                                  ),
                             SizedBox(
                               height: AppSize.appheight * .01,
                             ),

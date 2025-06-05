@@ -55,6 +55,7 @@ class LoginController extends GetxController
   late TextEditingController memberrepeatpasswordController;
   late TextEditingController memberphoneController;
   late TextEditingController memberfixeController;
+  late TextEditingController referralCodeController;
 
   //Text editing controllers  for member login
 
@@ -80,6 +81,7 @@ class LoginController extends GetxController
     memberphoneController = TextEditingController();
     memberfixeController = TextEditingController();
     memberlocationController = TextEditingController();
+    referralCodeController = TextEditingController();
 
     clientloginPasswordController = TextEditingController();
     clientloginEmailController = TextEditingController();
@@ -106,6 +108,7 @@ class LoginController extends GetxController
     memberpasswordController.dispose();
     memberrepeatpasswordController.dispose();
     memberphoneController.dispose();
+    referralCodeController.dispose();
 
     clientloginPasswordController.dispose();
     clientloginEmailController.dispose();
@@ -221,6 +224,7 @@ class LoginController extends GetxController
             memberphoneController.text.trim(),
             memberpasswordController.text.trim(),
             selectedImage.value,
+            code: referralCodeController.text.trim(),
             deviceToken!);
         Get.snackbar('Success', 'Inscription réussie !');
         Get.offAllNamed(AppRoutesNames.homepage,

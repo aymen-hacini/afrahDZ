@@ -27,6 +27,30 @@ class MyTranslations extends Translations {
           "SignupFixe": "هاتف الثابت",
           "SignupCity": "المدينة",
           "SignupAdrress": "العنوان",
+          "SignupRefcode": "رمز الإحالة",
+          "Invitez et gagnez des points": "دعوة و ربح نقاط",
+          "Recevez ": "إستقبل ",
+          "100 points": "100 نقطة",
+          " dès qu’un ami rejoint via votre code.\nÀ ":
+              "كلما إنضم صديق جديد عبر رمزك.\nفي ",
+          "1 000 points": "1,000 نقطة",
+          ", un boost gratuit vous attend !": "، إنتظر ترويج مجاني !",
+          "Votre code de parrainage": "رمز الإحالة الخاص بك",
+          "Partagez ce code avec vos amis. Ils devront le saisir lors de leur inscription.":
+              "شارك هذا الرمز مع أصدقائك. يجب عليهم إدخاله عند التسجيل.",
+          "code copié dans le presse-papiers": "تم نسخ الرمز إلى الحافظة",
+          "Copier": "نسخ",
+          "Inviter": "دعوة",
+          "Vous avez": "لديك ",
+          "Plus que ": "أكثر من ",
+          " pour débloquer votre boost gratuit":
+              "لإلغاء قفل الترويج المجاني الخاص بك",
+          "Félicitations ! \nVous avez gagné un ": "تهانينا ! \nلقد ربحت ",
+          "boost gratuit ": "ترويج مجاني ",
+          "Utilisez-le pour mettre en avant l’une de vos publications.":
+              "استخدمه لتسليط الضوء على أحد منشوراتك.",
+          "Utiliser mon boost": "استخدم ترويجي",
+
           "Signup2BtnText": "تسجيل",
           "SignupAge": "السن",
           "SignupTitle1": "مرحبـاً بكـم",
@@ -38,6 +62,7 @@ class MyTranslations extends Translations {
           "HomepageMyAdsTile": "إعلاناتي",
           "HomepageMyreservationsTile": "حجوزاتي",
           "HomepageMyplaningTile": "جدول أعمالي",
+          "HomepageMyWalletTile": "دعوة و ربح",
           "HomepageContactTile": "تواصل معنا",
           "HomepageAboutTile": "حولنـا",
           "HomepageLogoutTile": "خـروج",
@@ -301,10 +326,35 @@ class MyTranslations extends Translations {
           "SignupFixe": "Téléphone fixe",
           "SignupCity": "Wilaya",
           "SignupAdrress": "Adresse",
+          "SignupRefcode": "code de parrainage",
           "Signup2BtnText": "S'inscrire",
           "SignupAge": "Age",
           "SignupTitle1": "Commencez",
           "SignupTitle2": "en créant un compte gratuit",
+          "Invitez et gagnez des points": "Invitez et gagnez des points",
+          "Recevez ": "Recevez ",
+          "100 points": "100 points",
+          " dès qu’un ami rejoint via votre code.\nÀ ":
+              " dès qu’un ami rejoint via votre code.\nÀ ",
+          "1 000 points": "1 000 points",
+          ", un boost gratuit vous attend !": 
+              ", un boost gratuit vous attend !",
+          "Votre code de parrainage": "Votre code de parrainage",
+          "Partagez ce code avec vos amis. Ils devront le saisir lors de leur inscription.":
+              "Partagez ce code avec vos amis. Ils devront le saisir lors de leur inscription.",
+          "code copié dans le presse-papiers": 
+              "code copié dans le presse-papiers",
+          "Copier": "Copier",
+          "Inviter": "Inviter",
+          "Vous avez": "Vous avez ",
+          "Plus que ": "Plus que ",
+          " pour débloquer votre boost gratuit":
+              " pour débloquer votre boost gratuit",
+          "Félicitations ! \nVous avez gagné un ": "Félicitations ! \nVous avez gagné un ",
+          "boost gratuit ": "boost gratuit ",
+          "Utilisez-le pour mettre en avant l’une de vos publications.":
+              "Utilisez-le pour mettre en avant l’une de vos publications.",
+          "Utiliser mon boost": "Utiliser mon boost",
           //End of Auth=================================================================
           "HomepageFavoriteTile": "Favoris",
           "HomepageAddAdTile": "Ajouter Annonce",
@@ -312,6 +362,7 @@ class MyTranslations extends Translations {
           "HomepageMyAdsTile": "Mes Annonces",
           "HomepageMyreservationsTile": "Mes réservations",
           "HomepageMyplaningTile": "Mon planning",
+          "HomepageMyWalletTile": "Inviter et gagner",
           "HomepageContactTile": "Contact",
           "HomepageAboutTile": "A propos",
           "HomepageLogoutTile": "Déconnexion",

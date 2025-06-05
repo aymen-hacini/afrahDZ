@@ -188,6 +188,14 @@ class Homepage extends GetView<HomePageController> {
                               SizedBox(
                                 height: AppSize.appheight * .01,
                               ),
+                              controller.isMemberLoggedIn
+                                  ? CustomTile(
+                                      ontap: () =>
+                                          Get.toNamed(AppRoutesNames.wallet,arguments: {"code": controller.userDetails.value!.code,"codeuse": controller.userDetails.value!.codeuse}),
+                                      title: "HomepageMyWalletTile".tr,
+                                      svg: "assets/svg/wallet.svg",
+                                    )
+                                  : const SizedBox.shrink(),
                               Divider(
                                   color: const Color(0x99535353),
                                   thickness: 1,
@@ -218,14 +226,6 @@ class Homepage extends GetView<HomePageController> {
                                 svg: "assets/svg/exit.svg",
                               ),
                               const Spacer(),
-                              SizedBox(
-                                height: AppSize.appheight * .02,
-                              ),
-                              Divider(
-                                  color: const Color(0x99535353),
-                                  thickness: 1,
-                                  indent: AppSize.appwidth * .02,
-                                  endIndent: AppSize.appwidth * .02),
                               Row(
                                 children: [
                                   SizedBox(

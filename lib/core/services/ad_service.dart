@@ -72,6 +72,9 @@ class AdService {
         MapEntry('details', description),
       ]);
 
+      dio.interceptors.add(LogInterceptor(
+          request: true, requestBody: true, error: true, responseBody: true));
+
       // Send the POST request using Dio
       final response = await dio.post(
         url,
@@ -84,6 +87,8 @@ class AdService {
 
       // Check the response
       if (response.statusCode == 200 || response.statusCode == 201) {
+        // Successfully created the ad
+        print("Ad created successfully: ${response.data}");
       } else {
         throw Exception("Impossible de créer l'annonce");
       }
@@ -559,6 +564,39 @@ class AdService {
       if (response.statusCode == 200) {
       } else {
         throw Exception("Impossible de booster l'annonce");
+      }
+    } on DioException catch (e) {
+      throw e.response?.data['message'] ?? "Impossible de booster l'annonce";
+    }
+  }
+
+  // Boost an ad with points
+  Future<void> boostAdwithPoints({
+    required int idAnnonce,
+  }) async {
+    try {
+      // Retrieve the JWT token from local storage
+      final token = GetStorage().read('token');
+      if (token == null) {
+        throw Exception('No token found. Please log in again.');
+      }
+      // Retrieve the idMember (sub) from the token
+
+      dio.interceptors.add(LogInterceptor(
+          request: true, requestBody: true, error: true, responseBody: true));
+
+      // Send the multipart POST request to boost the ad
+      final response = await dio.post(
+        "https://www.afrahdz.com/api/boostbypoint/$idAnnonce", // Replace with your API endpoint
+        options: Options(headers: {
+          // Set content type for multipart request
+          "Authorization": "Bearer $token"
+        }, preserveHeaderCase: true),
+      );
+
+      // Check if the request was successful
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Successfully boosted the ad
       }
     } on DioException catch (e) {
       throw e.response?.data['message'] ?? "Impossible de booster l'annonce";

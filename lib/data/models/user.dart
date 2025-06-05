@@ -9,6 +9,8 @@ class UserModel {
   final String? location;
   final String? fixe;
   final int? age;
+  final int? codeuse;
+  final String? code;
   final Uint8List? profilePicture; // Binary data for the profile picture
 
   UserModel(
@@ -19,6 +21,8 @@ class UserModel {
       required this.location,
       required this.phone,
       required this.age,
+      required this.code,
+      required this.codeuse,
       
       this.fixe,
       this.profilePicture});
@@ -33,6 +37,8 @@ class UserModel {
       location: json['location'] ?? "",
       phone: json['phone'],
       age: json['age'] ?? 0,
+      code: json['code'] ?? "",
+      codeuse: json['code_use'] ?? 0,
       fixe: json['mobail'] ?? "",
       profilePicture: null, // Profile picture will be fetched separately
     );
@@ -48,6 +54,8 @@ class UserModel {
       'location': location ?? "",
       'phone': phone,
       'age': age ?? 0,
+      'code': code ?? "",
+      'code_use': codeuse ?? 0,
       'mobail': fixe ?? "",
       'profilePicture': profilePicture, // Binary data (nullable)
     };

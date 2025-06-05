@@ -1,38 +1,43 @@
-import 'package:afrahdz/core/constants/api.dart';
-import 'package:afrahdz/core/services/ad_service.dart';
-import 'package:afrahdz/data/models/annonce.dart';
-import 'package:afrahdz/views/widgets/annonces/annonce_popup_picker.dart';
-import 'package:get/get.dart';
 import 'dart:ui';
 
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/size.dart';
-import 'package:afrahdz/views/widgets/annonces/duree_popup.dart';
+import 'package:afrahdz/core/services/ad_service.dart';
+import 'package:afrahdz/data/models/annonce.dart';
+import 'package:afrahdz/views/widgets/annonces/annonce_popup_picker.dart';
 import 'package:afrahdz/views/widgets/annonces/felictation.dart';
 import 'package:afrahdz/views/widgets/auth/gradient_text.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class BoostAdController extends GetxController {
+class WalletController extends GetxController {
+  // Define your variables and methods here
+  var balance = 0.0.obs; // Example observable variable for wallet balance
   final AdService adService = AdService();
   final announces = <AdModel>[].obs;
-
-  Rx<int?> selectedduration = 0.obs;
-
-  final selectedAd = Rx<AdModel?>(null);
-
   final isLoading = false.obs;
+  final selectedAd = Rx<AdModel?>(null);
+  late String code;
+  late int codeuse;
 
+  void addFunds(double amount) {
+    if (amount > 0) {
+      balance.value += amount;
+    }
+  }
 
-  Future<void> boostAd(String type, double finalprice) async {
+  void withdrawFunds(double amount) {
+    if (amount > 0 && amount <= balance.value) {
+      balance.value -= amount;
+    }
+  }
+
+  Future<void> boostAdwithPoints() async {
     try {
       isLoading(true);
-      await adService.boostAd(
-          duration: selectedduration.value!,
-          price: finalprice,
-          idAnnonce: selectedAd.value!.id,
-          imageUrl:
-              "${ApiLinkNames.serverimage}${selectedAd.value!.imageFullPath}",
-          type: type);
+      await adService.boostAdwithPoints(
+        idAnnonce: selectedAd.value!.id,
+      );
       Get.back();
 
       Get.snackbar('Success', 'Annonce boostée avec succès');
@@ -45,7 +50,7 @@ class BoostAdController extends GetxController {
     }
   }
 
-  showBoostOptions(BuildContext context, double price, String type) {
+  showBoostOptions(BuildContext context) {
     Get.bottomSheet(
       isScrollControlled: true,
       isDismissible: true,
@@ -64,7 +69,7 @@ class BoostAdController extends GetxController {
         filter: ImageFilter.blur(sigmaX: .5, sigmaY: .5),
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: AppSize.appwidth * .04),
-          height: AppSize.appheight * .65,
+          height: AppSize.appheight * .4,
           width: AppSize.appwidth,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,60 +122,8 @@ class BoostAdController extends GetxController {
                 ),
               ),
               SizedBox(height: AppSize.appheight * .01),
-              const AnnoncePopupPicker(),
+              const AnnonceWalletPopupPicker(),
               SizedBox(height: AppSize.appheight * .02),
-              Text(
-                'La Durée'.tr,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w700,
-                  height: 0.88,
-                ),
-              ),
-              SizedBox(height: AppSize.appheight * .01),
-              const DureePopupButton(),
-              SizedBox(height: AppSize.appheight * .02),
-              Text(
-                'Tarif'.tr,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontFamily: 'Inter',
-                  fontWeight: FontWeight.w700,
-                  height: 0.88,
-                ),
-              ),
-              SizedBox(height: AppSize.appheight * .01),
-              // Dynamic price update with Obx
-              Obx(
-                () => TextFormField(
-                  controller: TextEditingController(
-                    text:
-                        "${(price * (selectedduration.value! / 5)).toStringAsFixed(2)} DA",
-                  ),
-                  enableInteractiveSelection: false,
-                  enabled: false,
-                  style: const TextStyle(
-                    color: Color(0xFF534C4C),
-                    fontSize: 14,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w500,
-                    height: 0.88,
-                  ),
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    disabledBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.grey.withOpacity(.8)),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                  ),
-                ),
-              ),
-              const Spacer(),
               Obx(
                 () => Center(
                   child: AnimatedContainer(
@@ -185,8 +138,9 @@ class BoostAdController extends GetxController {
                         shadowColor: Colors.black,
                         elevation: 4,
                       ),
-                      onPressed: () =>
-                          boostAd(type, price * (selectedduration.value! / 5)),
+                      onPressed: () {
+                        boostAdwithPoints();
+                      },
                       child: Ink(
                         height: AppSize.appheight * .06,
                         decoration: BoxDecoration(
@@ -221,6 +175,11 @@ class BoostAdController extends GetxController {
     );
   }
 
+  // Update the selected ad
+  void updateSelectedAd(AdModel ad) {
+    selectedAd.value = ad;
+  }
+
   Future<void> fetchAnnounces() async {
     isLoading(true);
     try {
@@ -233,20 +192,14 @@ class BoostAdController extends GetxController {
     }
   }
 
-  // Update the selected ad
-  void updateSelectedAd(AdModel ad) {
-    selectedAd.value = ad;
-  }
-
   @override
   void onInit() {
     super.onInit();
-    fetchAnnounces();
-  }
+    code = Get.arguments['code'];
+    codeuse = Get.arguments['codeuse'];
 
-  @override
-  void onClose() {
-    super.onClose();
-    Get.delete();
+    print("code use : $codeuse");
+
+    fetchAnnounces();
   }
 }

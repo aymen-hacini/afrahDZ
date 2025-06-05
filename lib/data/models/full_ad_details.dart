@@ -56,9 +56,9 @@ class FullAdDetails {
     // }
 
     String videoPath = json['video_full_path'];
-    if (videoPath.startsWith('/api')) {
-      videoPath = videoPath.replaceFirst('/api', '');
-    }
+    // if (videoPath.startsWith('/api')) {
+    //   videoPath = videoPath.replaceFirst('/api', '');
+    // }
 
     // Handle the boost field
     Map<String, dynamic> boostData = {};

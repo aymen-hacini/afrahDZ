@@ -17,6 +17,7 @@ import 'package:afrahdz/views/screens/reservations/member_reservations.dart';
 import 'package:afrahdz/views/screens/splashscreen/splashscreen.dart';
 import 'package:afrahdz/views/screens/support/about.dart';
 import 'package:afrahdz/views/screens/support/contact.dart';
+import 'package:afrahdz/views/screens/wallet/wallet.dart';
 import 'package:get/get.dart';
 
 List<GetPage> pages = [
@@ -91,4 +92,8 @@ List<GetPage> pages = [
     name: '/no-internet',
     page: () => const NoInternetScreen(),
   ),
+    GetPage(
+      name: AppRoutesNames.wallet,
+      page: () => const Wallet(),
+      transition: Transition.leftToRightWithFade),
 ];

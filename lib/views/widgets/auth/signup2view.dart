@@ -67,6 +67,15 @@ class Signup2view extends StatelessWidget {
                 hint: "SignupAdrress".tr,
                 image: AppImages.locationIcon,
               ),
+              
+              SizedBox(
+                height: height * .02,
+              ),
+              CustomTextField(
+                controller: controller.referralCodeController,
+                hint: "SignupRefcode".tr,
+                image: "assets/svg/refcode.svg",
+              ),
               SizedBox(
                 height: height * .03,
               ),

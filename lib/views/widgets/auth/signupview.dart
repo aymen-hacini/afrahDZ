@@ -60,7 +60,7 @@ class Signupview extends GetView<LoginController> {
                   }
                   return null;
                 },
-                hint: "emailHinttext".tr,
+                hint: "Ex: test@gmail.com",
                 image: AppImages.mailIcon,
               ),
               SizedBox(
@@ -281,7 +281,7 @@ class Signupview extends GetView<LoginController> {
               CustomTextField(
                 controller: controller.emailController,
                 keyboardtype: TextInputType.emailAddress,
-                hint: "emailHinttext".tr,
+                hint: "Ex: test@gmail.com",
                 validator: (value) {
                   if (!GetUtils.isEmail(value!)) {
                     return "Email non valide".tr;
