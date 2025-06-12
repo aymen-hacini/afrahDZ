@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/routes_names.dart';
 import 'package:afrahdz/core/constants/size.dart';
@@ -51,6 +54,9 @@ class HomePageController extends GetxController
   final RxDouble carouselScale = 1.0.obs;
   final RxDouble carouselOpacity = 1.0.obs;
 
+  final Uint8List defaultprofileimage = base64Decode(
+      "iVBORw0KGgoAAAANSUhEUgAAALQAAACUCAMAAAANv/M2AAAAMFBMVEXk5ueutLff4uOorrLn6eqrsbXq7O25vsHGy82xt7q+w8XX2tvS1dfKztDc3+C0ur2k4UqjAAAER0lEQVR4nO2c25KkIAxABQLI1f//20W7p7fvzSUSrPK87Oy8zKlUCKCJ03RycnJycnJycnJycnJyIABAAVBbZJNMeXQhzPMcvON8+83QwBT9rI0QckMIsdjg+cgxh8nbhUnJ7knu2vpRww0qGPYofBNnxqshtb18b3xBsPGiDV5/U960tRvKGqb5Q2I8JkmgFr0D+M8wX7U1teoNcBlhvloLTm17xeUqb/ghEtuXKLNU/OitodA5QV5EoCw3NkQkduai2DllSKSNdWate8JSKsNc5cwk4S5TsQj/rAkTZKkLdJJeqKQh1Dona6pqDfXOjC1EzrbBmbFAEurY5Mw0xRZTW+7+kJ5AOvcM/VGaYIcB3+ZMcwRpzI4U6rn7UuSm0Tmdm1Rv6VhzvHuk+9WrtXasyN6lWlUfO+6wnfNDtWdH2so7R7rqxvKM6Vz0HIZ05ytuy6n0jr7nU4ziwXqf9GDGcO68JyqNIm2PKH1Gupf0ISPdV/qQ1eOYdbr5srXS+/k6ytnD9H68jiLd+epyyPM0Ss3rfXOZEFai6P7kFOM23lk5sTRLL92fexzyCRO41kBLitfkB3xqmu62jZGmeD498bZAa5ImisbHCDTvXCZocabqsQFfv8EIuv6J6gIidf+N5Up9rTZUylN92SN5HfcfW5UgM6nzBFWdNbTOdVsMdeNVuuIWvpuTC3EH00ppCel+BX9P2SVmgDhvcJNdQ8wwnfbAcysfca17wuf0TxvaPeWFFOwfmS0FaQvhe1TUX6ItmY5kZ6QvAHhr3g4zSGmsG2YFPgGTC1qIpzkXIW1ww01e3JHUYoq3uI4UpX+Z9QeYhErZrdTk/ErkasyZnBdgI5mry09jW6/TfFOMzodtRm4dkwvBOxf5OuY3nnsK7DYftxhj2MOxL/0n/U6va3GgVFnnD12wQjyXjee9RQg9r4uSfFX+zR9mHj1S+Vtm7yjnEwFieJ0//CkuTYo4TbhBTWH5NH/405uZOfbO8PTnXNr6aoRv4oLNvGO817RYctP4mzebU3p3cnY2/6byS1t3yW7FbV0if9be/8hqEfLiEWHcnsIQc6ZSy5F2t8cKAAGjK/atNbP7rEiYUFqAPmkvu6R2KNz5ShHowf592W5HMtwFCX6vbH4E81lO/QhfIYhz5bB/atyskYYbeqTzPSglu3XcqRSUvrfOzgnXXLF32be/0/o2t3duXGmzrntN2EzLuQ+pDbbGut65ocugkeoRbUBovatG1Paw9DlvfKKqXNMl9IWaHqf2vrtGRM2Rj6ja3VFc93D655uQxb2oilqZlW/nSKN7jZjCAtI+YI1BUdlr7iPFobCHlr50bJQ0tEBpi89eyJJaPcQyXCn53sog2VH0ZQo+inPBlwcIz9EvZH+ZQg2THSk/ciOtBqkdK9lJjTJMhkT2qBTKxxmQyJ7gwfk4AxKZk3QQxEDknvR45OPwbiH+A/AaPEb6e3AlAAAAAElFTkSuQmCC");
+
   // Observable current page index
   final RxInt currentPageIndex = 0.obs;
 
@@ -61,7 +67,6 @@ class HomePageController extends GetxController
     _checkInternetConnection();
 
     super.onInit();
-    print(userDetails.value);
 
     // Initialize the AnimationController
     animationController = AnimationController(
@@ -134,11 +139,13 @@ class HomePageController extends GetxController
       isLoading(false); // Set loading to false
     }
   }
-    // Function to fetch vip salle des fetes ads
+
+  // Function to fetch vip salle des fetes ads
   Future<void> fetchVipsalledesfetesAds() async {
     try {
       isLoading(true); // Set loading to true
-      final fetchedAds = await adService.getVipAds(cat: 'Salle-Des-Fetes',
+      final fetchedAds = await adService.getVipAds(
+        cat: 'Salle-Des-Fetes',
         page: currentPage,
       ); // Call AdService to fetch ads
       vipSalledesfetesAds.value = fetchedAds; // Update the observable list
@@ -259,7 +266,8 @@ class HomePageController extends GetxController
       isLoading(true); // Set loading to true
       final fetchedAds = await adService.searchAdsbyName(
           adname, selectedWilaya.value, catname); // Call AdService to fetch ads
-      vipAds.value = fetchedAds; // Update the observable list it was normalAds at first but changed to vipAds
+      vipAds.value =
+          fetchedAds; // Update the observable list it was normalAds at first but changed to vipAds
     } catch (e) {
       Get.snackbar('Error', 'Impossible de récupérer les annonces normales');
     } finally {
@@ -289,7 +297,7 @@ class HomePageController extends GetxController
     storage.remove('password');
     storage.remove('userType');
     storage.remove('token');
-    storage.write('rememberMe',false);
+    storage.write('rememberMe', false);
     Get.offAllNamed(AppRoutesNames.homepage, arguments: {"isMember": false});
   }
 

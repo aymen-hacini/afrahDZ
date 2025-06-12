@@ -57,8 +57,9 @@ class Homepage extends GetView<HomePageController> {
                                         "isMember": controller.isMemberLoggedIn
                                       })),
                                   child: HomepageProfileAvatar(
-                                    profileImage: controller
-                                        .userDetails.value!.profilePicture!,
+                                    profileImage: controller.userDetails.value!
+                                            .profilePicture ??
+                                        controller.defaultprofileimage,
                                     borderSvg: AppImages.avatarNoCamSvg,
                                   ),
                                 ),
@@ -190,8 +191,14 @@ class Homepage extends GetView<HomePageController> {
                               ),
                               controller.isMemberLoggedIn
                                   ? CustomTile(
-                                      ontap: () =>
-                                          Get.toNamed(AppRoutesNames.wallet,arguments: {"code": controller.userDetails.value!.code,"codeuse": controller.userDetails.value!.codeuse}),
+                                      ontap: () => Get.toNamed(
+                                          AppRoutesNames.wallet,
+                                          arguments: {
+                                            "code": controller
+                                                .userDetails.value!.code,
+                                            "codeuse": controller
+                                                .userDetails.value!.codeuse
+                                          }),
                                       title: "HomepageMyWalletTile".tr,
                                       svg: "assets/svg/wallet.svg",
                                     )
@@ -298,6 +305,7 @@ class Homepage extends GetView<HomePageController> {
                               return IconButton(
                                   onPressed: () {
                                     loginController.clearControllers();
+
                                     Get.toNamed(AppRoutesNames.login);
                                   },
                                   icon: const Icon(

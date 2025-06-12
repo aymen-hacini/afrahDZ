@@ -30,10 +30,10 @@ class MyTranslations extends Translations {
           "SignupRefcode": "رمز الإحالة",
           "Invitez et gagnez des points": "دعوة و ربح نقاط",
           "Recevez ": "إستقبل ",
-          "100 points": "100 نقطة",
+          "10 points": "10 نقاط",
           " dès qu’un ami rejoint via votre code.\nÀ ":
               "كلما إنضم صديق جديد عبر رمزك.\nفي ",
-          "1 000 points": "1,000 نقطة",
+          "1 point": "1 نقطة",
           ", un boost gratuit vous attend !": "، إنتظر ترويج مجاني !",
           "Votre code de parrainage": "رمز الإحالة الخاص بك",
           "Partagez ce code avec vos amis. Ils devront le saisir lors de leur inscription.":
@@ -333,10 +333,10 @@ class MyTranslations extends Translations {
           "SignupTitle2": "en créant un compte gratuit",
           "Invitez et gagnez des points": "Invitez et gagnez des points",
           "Recevez ": "Recevez ",
-          "100 points": "100 points",
+          "10 points": "10 points",
           " dès qu’un ami rejoint via votre code.\nÀ ":
               " dès qu’un ami rejoint via votre code.\nÀ ",
-          "1 000 points": "1 000 points",
+          "1 point": "1 point",
           ", un boost gratuit vous attend !": 
               ", un boost gratuit vous attend !",
           "Votre code de parrainage": "Votre code de parrainage",

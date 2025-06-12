@@ -7,6 +7,7 @@ import 'package:afrahdz/data/static/auth.dart';
 import 'package:dio/dio.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AdService {
   final GetStorage storage = GetStorage();
@@ -561,8 +562,18 @@ class AdService {
       );
 
       // Check if the request was successful
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Successfully boosted the ad
+      final paymentUrl = response.data['payment_url'];
+        if (await canLaunchUrl(Uri.parse(paymentUrl))) {
+        await launchUrl(Uri.parse(paymentUrl), mode: LaunchMode.inAppBrowserView);
       } else {
+        throw Exception("Impossible d'ouvrir le lien : $paymentUrl");
+      }
+    } 
+
+
+       else {
         throw Exception("Impossible de booster l'annonce");
       }
     } on DioException catch (e) {

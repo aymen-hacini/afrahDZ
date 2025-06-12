@@ -37,7 +37,6 @@ class BoostAdController extends GetxController {
 
       Get.snackbar('Success', 'Annonce boostée avec succès');
       Get.back();
-      showFelictations();
     } catch (e) {
       Get.snackbar('Erreur', "Impossible de booster l'annonce");
     } finally {

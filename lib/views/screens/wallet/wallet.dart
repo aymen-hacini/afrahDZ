@@ -91,7 +91,7 @@ class Wallet extends GetView<WalletController> {
                                 ),
                               ),
                               TextSpan(
-                                text: '100 points'.tr,
+                                text: '1 point'.tr,
                                 style: const TextStyle(
                                   color: Color(0xFFBD2BBD),
                                   fontSize: 20,
@@ -113,7 +113,7 @@ class Wallet extends GetView<WalletController> {
                                 ),
                               ),
                               TextSpan(
-                                text: '1 000 points'.tr,
+                                text: '10 points'.tr,
                                 style: const TextStyle(
                                   color: Color(0xFFC229BC),
                                   fontSize: 20,
@@ -142,7 +142,7 @@ class Wallet extends GetView<WalletController> {
                 SizedBox(
                   height: size.maxHeight * .04,
                 ),
-                (controller.codeuse * 100) >= 1000
+                controller.codeuse >= 10
                     ? UseBoostCard(controller: controller, size: size)
                     : PointsCard(
                         controller: controller,
@@ -268,7 +268,7 @@ class Wallet extends GetView<WalletController> {
                                           subject: "Parrainage Afrah",
                                           title: "Parrainage Afrah",
                                           text:
-                                              'Salut ! Rejoins-moi sur Afrah et utilise mon code de parrainage ${controller.code} pour gagner 100 points ! https://play.google.com/store/apps/details?id=com.afrahdz1&pcampaignid=web_share'));
+                                              'Salut ! Rejoins-moi sur Afrah et utilise mon code de parrainage ${controller.code} pour gagner 1 point ! https://play.google.com/store/apps/details?id=com.afrahdz1&pcampaignid=web_share'));
                                     },
                                     child: Ink(
                                       height: AppSize.appheight * .06,
@@ -364,7 +364,7 @@ class PointsCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("${controller.codeuse * 100}",
+                Text("${controller.codeuse}",
                     style: const TextStyle(
                       color: Colors.black,
                       fontSize: 24,
@@ -394,7 +394,7 @@ class PointsCard extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: '${1000 - (controller.codeuse * 100)} pts ',
+                    text: '${10 - controller.codeuse} pts ',
                     style: const TextStyle(
                       color: Color(0xFFB72CBF),
                       fontSize: 14,

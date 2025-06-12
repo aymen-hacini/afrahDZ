@@ -88,36 +88,36 @@ class HomepageService {
     }
   }
 
-  // Function to fetch user details using userID
-  Future<UserModel?> fetchMemberDetails(int userId) async {
-    print("this is membre");
+ Future<UserModel?> fetchMemberDetails(int userId) async {
+  print("this is membre");
 
-    final url =
-        '${ApiLinkNames.getMemberInfo}/$userId'; // Replace with your API URL
-    final profilePictureUrl =
-        '${ApiLinkNames.getMemberInfo}/image/$userId'; // Replace with your API URL
+  final url = '${ApiLinkNames.getMemberInfo}/$userId';
+  final profilePictureUrl = '${ApiLinkNames.getMemberInfo}/image/$userId';
 
-    dio.interceptors.add(LogInterceptor(
-        request: true,
-        responseBody: true,
-        error: true,
-        responseHeader: true,
-        requestBody: true));
-    try {
-      // Fetch user details
-      final response = await dio.get(
-        url,
-        options: Options(headers: {
+  dio.interceptors.add(LogInterceptor(
+    request: true,
+    responseBody: true,
+    error: true,
+    responseHeader: true,
+    requestBody: true,
+  ));
+
+  try {
+    final response = await dio.get(
+      url,
+      options: Options(
+        headers: {
           'Authorization': 'Bearer ${storage.read('token')}',
-        }),
-      );
+        },
+      ),
+    );
 
-      if (response.statusCode == 200) {
-        final data = response.data;
-        if (data['status'] == 'success') {
-          final user = UserModel.fromJson(data['data']); // Return UserModel
+    if (response.statusCode == 200) {
+      final data = response.data;
+      if (data['status'] == 'success') {
+        final user = UserModel.fromJson(data['data']);
 
-          // Fetch profile picture
+        try {
           final profilePictureResponse = await dio.get(
             profilePictureUrl,
             options: Options(
@@ -125,14 +125,16 @@ class HomepageService {
                 'Authorization': 'Bearer ${storage.read('token')}',
               },
               preserveHeaderCase: true,
-
-              responseType: ResponseType.bytes, // Get response as bytes
+              responseType: ResponseType.bytes,
             ),
           );
 
-          if (profilePictureResponse.statusCode == 200) {
+          if (profilePictureResponse.statusCode == 200 ||
+              profilePictureResponse.statusCode == 201 ||
+              profilePictureResponse.statusCode == 204) {
             final profilePictureBytes =
                 profilePictureResponse.data as Uint8List;
+
             return UserModel(
               id: user.id,
               name: user.name,
@@ -144,26 +146,31 @@ class HomepageService {
               age: user.age,
               code: user.code,
               codeuse: user.codeuse,
-              profilePicture: profilePictureBytes, // Add profile picture
+              profilePicture: profilePictureBytes,
             );
-          } else {
-            // If profile picture fails, return user details without the picture
-            return user;
           }
-        } else {
-          throw Exception(data['message'] ?? "Quelque chose s'est mal passé");
+        } catch (e) {
+          // If an error occurs (e.g., 500), just return the user without profile picture
+          print("Error fetching profile picture: $e");
         }
+
+        return user;
       } else {
-        throw Exception("Impossible de récupérer les détails de l'utilisateur");
+        throw Exception(data['message'] ?? "Quelque chose s'est mal passé");
       }
-    } on DioException catch (e) {
-      throw e.response?.data['message'] ?? "Quelque chose s'est mal passé";
+    } else {
+      throw Exception("Impossible de récupérer les détails de l'utilisateur");
     }
+  } on DioException catch (e) {
+    throw e.response?.data['message'] ?? "Quelque chose s'est mal passé";
   }
+}
+
 
   // Function to get userID and fetch user details
   Future<UserModel?> getUserDetails(bool isMember) async {
     final userId = getUserIdFromToken();
+    print("User ID: $userId, Is Member: $isMember");
 
     if (userId != null && isMember) {
       return await fetchMemberDetails(userId);
