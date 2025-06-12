@@ -69,8 +69,6 @@ class AdDetail extends GetView<AdDetailController> {
                                             : 0), // Include imageFullPath, additional images, and video
                                     itemBuilder: (context, index) {
                                       if (index == 0) {
-                                        print(
-                                            '${ApiLinkNames.serverimage}${ad.imageFullPath} kjlflkjfdslkfjds');
 
                                         // Display the main image (imageFullPath) as the first item
                                         return ClipRRect(

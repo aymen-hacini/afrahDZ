@@ -268,7 +268,9 @@ class EditProfile extends GetView<EditProfileController> {
                             controller.isMemberLoggedIn
                                 ? const SizedBox.shrink()
                                 : TextFormField(
-                                    controller: controller.agecontroller,
+                                    initialValue: controller
+                                        .userDetails.value!.age
+                                        .toString(),
                                     onChanged: (value) {
                                       controller.agecontroller.text = value;
                                     },
@@ -371,10 +373,9 @@ class EditProfile extends GetView<EditProfileController> {
               ),
               InkWell(
                 onTap: () async {
-                  await controller.fetchUserDetails();
-
                   Get.offAllNamed(AppRoutesNames.homepage,
                       arguments: {"isMember": controller.isMemberLoggedIn});
+                  await controller.fetchUserDetails();
                 },
                 child: Container(
                   height: 40,

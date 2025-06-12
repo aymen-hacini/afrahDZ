@@ -198,7 +198,6 @@ class WalletController extends GetxController {
     code = Get.arguments['code'];
     codeuse = Get.arguments['codeuse'];
 
-    print("code use : $codeuse");
 
     fetchAnnounces();
   }

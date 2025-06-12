@@ -19,7 +19,7 @@ class MemberReservations extends GetView<MemberReservationController> {
         backgroundColor: Appcolors.primaryColor,
         color: Colors.white,
       ),
-      onRefresh: ()=>controller.fetchReservations(),
+      onRefresh: () => controller.fetchReservations(),
       child: Scaffold(
         body: SafeArea(
           child: Container(
@@ -35,7 +35,7 @@ class MemberReservations extends GetView<MemberReservationController> {
                       padding: EdgeInsets.only(top: AppSize.appheight * .02),
                       child: Center(
                         child: GradientText(
-                          text:"ClientReservaitonsTitle".tr,
+                          text: "ClientReservaitonsTitle".tr,
                           gradient: Appcolors.primaryGradient,
                           style: const TextStyle(
                             fontSize: 20,
@@ -68,7 +68,12 @@ class MemberReservations extends GetView<MemberReservationController> {
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
                           ),
-                          tabs: memberReservationsTabs),
+                          tabs: [
+                            Tab(text: 'Tous'.tr),
+                            Tab(text: 'En Attente'.tr),
+                            Tab(text: 'Valide'.tr),
+                            Tab(text: 'Annule'.tr),
+                          ]),
                     ),
                     SizedBox(
                       height: AppSize.appheight * .01,

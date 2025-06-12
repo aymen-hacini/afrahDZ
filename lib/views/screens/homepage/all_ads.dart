@@ -62,7 +62,7 @@ class AllVipAds extends GetView<TopadsController> {
                               wilaya: controller.topAdsSelectedWilaya!),
                           child:  Text(
                             "SearchHint".tr,
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           )),
                       const SizedBox(
                         width: 10,

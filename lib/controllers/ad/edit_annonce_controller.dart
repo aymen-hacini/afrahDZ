@@ -162,7 +162,6 @@ class EditAnnonceController extends GetxController {
   }
 
   void initializeVideoControllerNetwork(String videoFilePath) async {
-    print("Video file path: ${ApiLinkNames.serverimage}$videoFilePath");
     videoController.value = VideoPlayerController.networkUrl(
         Uri.parse("${ApiLinkNames.serverimage}$videoFilePath"))
       ..initialize().then((_) {

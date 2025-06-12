@@ -1,7 +1,6 @@
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/images.dart';
 import 'package:afrahdz/core/constants/routes_names.dart';
-import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/data/static/auth.dart';
 import 'package:afrahdz/views/widgets/auth/customtextfield.dart';
 import 'package:afrahdz/views/widgets/edit/ville_picker.dart';

@@ -176,8 +176,6 @@ class LoginController extends GetxController
 
     if (passwordController.text == repeatpasswordController.text) {
       try {
-        print(emailController.text);
-        print(passwordController.text);
         isLoading(true); // Start loading
         final token = await authService.signupClient(
             nameController.text.trim(),

@@ -8,7 +8,6 @@ import 'dart:ui';
 import 'package:afrahdz/core/constants/color.dart';
 import 'package:afrahdz/core/constants/size.dart';
 import 'package:afrahdz/views/widgets/annonces/duree_popup.dart';
-import 'package:afrahdz/views/widgets/annonces/felictation.dart';
 import 'package:afrahdz/views/widgets/auth/gradient_text.dart';
 import 'package:flutter/material.dart';
 

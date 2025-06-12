@@ -104,7 +104,6 @@ class AdDetailController extends GetxController
 
   // Function to fetch full ad details by ID
   Future<void> fetchFullAdDetails(int adId) async {
-    print(userType);
     try {
       isLoading(true); // Set loading to true
       final adDetails = await adService
@@ -127,7 +126,6 @@ class AdDetailController extends GetxController
       isLoading(false); // Set loading to false
     }
 
-    print(selectedAdDetails.value.id);
   }
 
   // Function to fetch vip ads
@@ -187,7 +185,6 @@ class AdDetailController extends GetxController
       final Map<String, dynamic> data = json.decode(response.body);
       if (data['status'] == 'success') {
         final List<dynamic> reservations = data['data'];
-        print(reservations);
         // Extract reservationDate from each reservation
         return reservations
             .map(
@@ -203,7 +200,6 @@ class AdDetailController extends GetxController
         .toString(); // Replace with actual member ID
     final List<DateTime> reservedDates = await fetchReservedDates(memberID);
 
-    print(reservedDates);
     final DateTime? picked = await showDialog<DateTime>(
       context: context,
       builder: (BuildContext context) {

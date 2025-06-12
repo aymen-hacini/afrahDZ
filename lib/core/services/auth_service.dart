@@ -126,27 +126,18 @@ class AuthService {
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
         // Log the request URL, method, and body
-        print('Request URL: ${options.uri}');
-        print('Request Method: ${options.method}');
-        print('Request Headers: ${options.headers}');
-        print('Request Body: ${options.data}');
 
         // Continue with the request
         handler.next(options);
       },
       onResponse: (Response response, ResponseInterceptorHandler handler) {
         // Log the response status code and data
-        print('Response Status Code: ${response.statusCode}');
-        print('Response Data: ${response.data}');
 
         // Continue with the response
         handler.next(response);
       },
       onError: (DioException error, ErrorInterceptorHandler handler) {
         // Log the error details
-        print('Error: ${error.message}');
-        print('Error Status Code: ${error.response?.statusCode}');
-        print('Error Response Data: ${error.response?.data}');
 
         // Handle HTTP 422 errors specifically
         if (error.response?.statusCode == 422) {
@@ -175,7 +166,7 @@ class AuthService {
       final formData = FormData.fromMap({
         'name': name,
         'wilaya': wilaya,
-        'age': age.toString(),
+        'age': age,
         'email': email,
         "fcm": deviceToken,
         'phone': phone,
@@ -192,8 +183,6 @@ class AuthService {
         data: formData,
       );
 
-      print('Response Status Code: ${response.statusCode}');
-      print('Response Data: ${response.data}');
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         final data = response.data;
@@ -240,17 +229,16 @@ class AuthService {
   }
 
   Future<String?> signupMember(
-    String name,
-    String email,
-    String wilaya,
-    String location,
-    String phone,
-    String mobile,
-    String password,
-    File? image,
-    String deviceToken,
-    {String? code}
-  ) async {
+      String name,
+      String email,
+      String wilaya,
+      String location,
+      String phone,
+      String mobile,
+      String password,
+      File? image,
+      String deviceToken,
+      {String? code}) async {
     try {
       final formData = FormData.fromMap({
         'name': name,
@@ -261,7 +249,7 @@ class AuthService {
         'mobail': mobile,
         "fcm": deviceToken,
         'password': password,
-        if(code != null || code!.isNotEmpty) 'code': code,
+        if (code != null || code!.isNotEmpty) 'code': code,
         'image': await MultipartFile.fromFile(image!.path,
             filename: image.path.split('/').last),
       });
@@ -372,7 +360,6 @@ class AuthService {
         if (GetUtils.isPhoneNumber(email)) 'phone': email,
       });
 
-      print("this if form data : ${formData.fields}");
 
       final response = await dio.post(
         ApiLinkNames.loginmember,

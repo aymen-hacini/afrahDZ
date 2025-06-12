@@ -46,7 +46,7 @@ Future<dynamic> showFelictations() {
                   children: [
                      Text(
                       'Félicitations ! '.tr,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 20,
                         fontFamily: 'Mulish',
@@ -69,7 +69,7 @@ Future<dynamic> showFelictations() {
                   children: [
                     TextSpan(
                       text: '          Votre achat a été validé avec '.tr,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14,
                         fontFamily: 'Inter',
@@ -78,14 +78,14 @@ Future<dynamic> showFelictations() {
                     ),
                     TextSpan(
                       text: 'Success'.tr,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Color(0xFFC628BC),
                         fontSize: 14,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: '.\nVotre ',
                       style: TextStyle(
                         color: Colors.black,
@@ -94,7 +94,7 @@ Future<dynamic> showFelictations() {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    TextSpan(
+                    const TextSpan(
                       text: 'annonce',
                       style: TextStyle(
                         color: Color(0xFFC628BC),
@@ -106,7 +106,7 @@ Future<dynamic> showFelictations() {
                     TextSpan(
                       text:
                           ' sera désormais promue selon les conditions de l’offre sélectionnée. Merci de votre confiance !'.tr,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.black,
                         fontSize: 14,
                         fontFamily: 'Inter',

@@ -25,7 +25,6 @@ class HomepageService {
 
   // Function to fetch user details using userID
   Future<UserModel?> fetchClientDetails(int userId) async {
-    print("this is client");
     final url =
         '${ApiLinkNames.getClientInfo}/$userId'; // Replace with your API URL
     final profilePictureUrl =
@@ -89,7 +88,6 @@ class HomepageService {
   }
 
  Future<UserModel?> fetchMemberDetails(int userId) async {
-  print("this is membre");
 
   final url = '${ApiLinkNames.getMemberInfo}/$userId';
   final profilePictureUrl = '${ApiLinkNames.getMemberInfo}/image/$userId';
@@ -151,7 +149,6 @@ class HomepageService {
           }
         } catch (e) {
           // If an error occurs (e.g., 500), just return the user without profile picture
-          print("Error fetching profile picture: $e");
         }
 
         return user;
@@ -170,7 +167,6 @@ class HomepageService {
   // Function to get userID and fetch user details
   Future<UserModel?> getUserDetails(bool isMember) async {
     final userId = getUserIdFromToken();
-    print("User ID: $userId, Is Member: $isMember");
 
     if (userId != null && isMember) {
       return await fetchMemberDetails(userId);
