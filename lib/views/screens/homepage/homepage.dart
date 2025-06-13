@@ -430,7 +430,7 @@ class Homepage extends GetView<HomePageController> {
                       enabled: true,
                       child: CarouselSlider(
                         options: CarouselOptions(
-                          autoPlayAnimationDuration: 100.milliseconds,
+                          autoPlayAnimationDuration: 200.milliseconds,
                           animateToClosest: true,
                           viewportFraction: .7,
                           enlargeStrategy: CenterPageEnlargeStrategy.zoom,
@@ -460,7 +460,7 @@ class Homepage extends GetView<HomePageController> {
                             scale: controller.carouselScale.value,
                             child: CarouselSlider(
                               options: CarouselOptions(
-                                autoPlayAnimationDuration: 100.milliseconds,
+                                autoPlayAnimationDuration: 200.milliseconds,
                                 animateToClosest: true,
                                 initialPage: 0,
                                 viewportFraction:
@@ -573,7 +573,7 @@ class Homepage extends GetView<HomePageController> {
                       enabled: true,
                       child: CarouselSlider(
                         options: CarouselOptions(
-                          autoPlayAnimationDuration: 100.milliseconds,
+                          autoPlayAnimationDuration: 200.milliseconds,
                           animateToClosest: true,
                           viewportFraction: .7,
                           enlargeStrategy: CenterPageEnlargeStrategy.zoom,
@@ -603,7 +603,7 @@ class Homepage extends GetView<HomePageController> {
                             scale: controller.carouselScale.value,
                             child: CarouselSlider(
                               options: CarouselOptions(
-                                autoPlayAnimationDuration: 100.milliseconds,
+                                autoPlayAnimationDuration: 200.milliseconds,
                                 animateToClosest: true,
                                 initialPage: 0,
                                 viewportFraction:

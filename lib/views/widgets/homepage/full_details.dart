@@ -15,7 +15,7 @@ class FullDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppSize.appheight * .17,
+      height: AppSize.appheight * .19,
       width: AppSize.appwidth,
       padding:
           EdgeInsets.symmetric(horizontal: AppSize.appwidth * .01, vertical: 8),
@@ -39,7 +39,7 @@ class FullDetails extends StatelessWidget {
               borderRadius: BorderRadius.circular(20),
               child: SizedBox(
                 width: AppSize.appwidth * .3,
-                height: AppSize.appheight * .7,
+                height: AppSize.appheight * .72,
                 child: Image.network(
                   "${ApiLinkNames.serverimage}${selectedad.imageFullPath}",
                   errorBuilder: (context, _, i) => const Center(
@@ -56,13 +56,16 @@ class FullDetails extends StatelessWidget {
               SizedBox(
                 height: AppSize.appheight * .02,
               ),
-              Text(selectedad.name,
-                  style: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 19.98,
-                    fontFamily: 'Inter',
-                    fontWeight: FontWeight.w500,
-                  )),
+              SizedBox(
+                width: AppSize.appwidth * .5,
+                child: Text(selectedad.name,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 18,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w500,
+                    )),
+              ),
               RatingStars(
                 valueLabelMargin: EdgeInsets.zero,
                 valueLabelPadding: EdgeInsets.zero,
@@ -96,13 +99,17 @@ class FullDetails extends StatelessWidget {
                   const SizedBox(
                     width: 4,
                   ),
-                  Text(
-                    '${selectedad.address} / ${selectedad.city}',
-                    style: const TextStyle(
-                      color: Color(0xFF525252),
-                      fontSize: 9.94,
-                      fontFamily: 'Inter',
-                      fontWeight: FontWeight.w200,
+                  SizedBox(
+                    width: AppSize.appwidth * .5,
+                    child: Text(
+                      '${selectedad.address} / ${selectedad.city}',
+                      overflow: TextOverflow.fade,
+                      style: const TextStyle(
+                        color: Color(0xFF525252),
+                        fontSize: 9.94,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.w200,
+                      ),
                     ),
                   ),
                 ],
@@ -254,4 +261,3 @@ class FavoritesFulldetails extends StatelessWidget {
     );
   }
 }
-

@@ -15,7 +15,7 @@ class FullAdDetails {
   final int likes;
   final int idmobmre;
   final String imageFullPath;
-  final String videoFullPath;
+  final String? videoFullPath;
   final Map<String, dynamic> boost; // Updated to Map<String, dynamic>
   final List<AdImage> images;
   final List<String> actions; // New field
@@ -55,7 +55,7 @@ class FullAdDetails {
     //   imagePath = imagePath.replaceFirst('/api/', '');
     // }
 
-    String videoPath = json['video_full_path'];
+    String videoPath = json['video_full_path'] ?? '';
     // if (videoPath.startsWith('/api')) {
     //   videoPath = videoPath.replaceFirst('/api', '');
     // }

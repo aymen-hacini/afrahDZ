@@ -64,12 +64,11 @@ class AdDetail extends GetView<AdDetailController> {
                                     scrollDirection: Axis.horizontal,
                                     itemCount: 1 +
                                         ad.images.length +
-                                        (ad.videoFullPath.isNotEmpty
+                                        (ad.videoFullPath!.isNotEmpty
                                             ? 1
                                             : 0), // Include imageFullPath, additional images, and video
                                     itemBuilder: (context, index) {
                                       if (index == 0) {
-
                                         // Display the main image (imageFullPath) as the first item
                                         return ClipRRect(
                                           borderRadius: const BorderRadius.only(
@@ -146,7 +145,9 @@ class AdDetail extends GetView<AdDetailController> {
                                     children: List.generate(
                                       1 +
                                           ad.images.length +
-                                          (ad.videoFullPath.isNotEmpty ? 1 : 0),
+                                          (ad.videoFullPath!.isNotEmpty
+                                              ? 1
+                                              : 0),
                                       (index) {
                                         return AnimatedContainer(
                                           duration:

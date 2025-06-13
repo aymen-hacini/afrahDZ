@@ -82,20 +82,19 @@ class AdDetailController extends GetxController
   void onPageChanged(int page) {
     currentPage.value = page;
     // Play the video if the user scrolls to the video page
-    if (selectedAdDetails.value.videoFullPath.isNotEmpty &&
+    if (selectedAdDetails.value.videoFullPath!.isNotEmpty &&
         page == selectedAdDetails.value.images.length + 1) {
       videoController?.play();
       videoController?.setLooping(true); // Loop the video
-    } else if (selectedAdDetails.value.videoFullPath.isNotEmpty) {
+    } else if (selectedAdDetails.value.videoFullPath!.isNotEmpty) {
       videoController?.pause(); // Pause the video when scrolling away
     }
-
   }
 
   @override
   void onClose() {
     pageController.dispose();
-    if (selectedAdDetails.value.videoFullPath.isNotEmpty) {
+    if (selectedAdDetails.value.videoFullPath!.isNotEmpty) {
       videoController?.dispose();
     }
 
@@ -109,7 +108,7 @@ class AdDetailController extends GetxController
       final adDetails = await adService
           .getFullAdDetails(adId); // Call AdService to fetch ad details
       selectedAdDetails.value = adDetails;
-      if (selectedAdDetails.value.videoFullPath.isNotEmpty) {
+      if (selectedAdDetails.value.videoFullPath!.isNotEmpty) {
         final videoUrl =
             '${ApiLinkNames.serverimage}${selectedAdDetails.value.videoFullPath}';
 
@@ -125,7 +124,6 @@ class AdDetailController extends GetxController
     } finally {
       isLoading(false); // Set loading to false
     }
-
   }
 
   // Function to fetch vip ads

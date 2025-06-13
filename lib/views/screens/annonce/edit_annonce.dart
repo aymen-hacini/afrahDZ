@@ -273,7 +273,7 @@ class EditAnnonce extends GetView<EditAnnonceController> {
                                         if (index == totalItems - 1) {
                                           controller
                                               .initializeVideoControllerNetwork(
-                                                  videoPath);
+                                                  videoPath ?? "");
                                         } else {
                                           controller.disposeVideoController();
                                         }

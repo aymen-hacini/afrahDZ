@@ -185,8 +185,8 @@ class AdService {
       String cat = "",
       String event = ''}) async {
     try {
-      // dio.interceptors.add(LogInterceptor(
-      //     request: true, requestBody: true, error: true, responseBody: true));
+      dio.interceptors.add(LogInterceptor(
+          request: true, requestBody: true, error: true, responseBody: true));
       // Add pagination parameters to the request
       final response = await dio.get(
         ApiLinkNames.getVipads, // Replace with your API endpoint
@@ -343,14 +343,16 @@ class AdService {
   Future<List<AdModel>> getNormalads(
       String location, String category, String fete) async {
     try {
-      // dio.interceptors.add(LogInterceptor(
-      //     request: true, requestBody: true, error: true, responseBody: true));
+      final formattedCategory = category.replaceAll(' ', '-');
+      print("Formatted Category: $formattedCategory");
 
-      final response = await dio
-          .get(ApiLinkNames.getAllads, // Replace with your API endpoint
-              queryParameters: {
+      dio.interceptors.add(LogInterceptor(
+          request: true, requestBody: true, error: true, responseBody: true));
+
+      final response = await dio.get(
+          "${ApiLinkNames.getAllads}?category=$formattedCategory", // Replace with your API endpoint
+          queryParameters: {
             if (location.isNotEmpty) 'city': location,
-            'category': category,
             if (fete.isNotEmpty) 'eventType': fete,
           });
 

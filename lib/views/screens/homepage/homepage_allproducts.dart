@@ -83,9 +83,6 @@ class HomepageAllproducts extends GetView<HomePageController> {
                       ),
                     ],
                   ),
-
-                 
-                  
                   SizedBox(height: AppSize.appheight * .02),
                   controller.goldAds.isEmpty
                       ? const SizedBox.shrink()
@@ -164,12 +161,12 @@ class HomepageAllproducts extends GetView<HomePageController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: List.generate(
                       controller.selectedWilaya.value == ""
-                          ? controller.vipAds.length
-                          : controller.vipAds.length,
+                          ? controller.normalAds.length
+                          : controller.normalAds.length,
                       (i) {
                         final ad = controller.selectedWilaya.value == ""
-                            ? controller.vipAds[i]
-                            : controller.vipAds[i];
+                            ? controller.normalAds[i]
+                            : controller.normalAds[i];
                         return GestureDetector(
                           onTap: () => Get.to(
                               () => AdDetail(
@@ -178,7 +175,7 @@ class HomepageAllproducts extends GetView<HomePageController> {
                               arguments: {"id": ad.id},
                               transition: Transition.rightToLeftWithFade),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding: const EdgeInsets.all(4.0),
                             child: FullDetails(
                               selectedad: ad,
                             ),
