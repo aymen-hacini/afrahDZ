@@ -106,7 +106,7 @@ class FullDetails extends StatelessWidget {
                       overflow: TextOverflow.fade,
                       style: const TextStyle(
                         color: Color(0xFF525252),
-                        fontSize: 9.94,
+                        fontSize: 11,
                         fontFamily: 'Inter',
                         fontWeight: FontWeight.w200,
                       ),
