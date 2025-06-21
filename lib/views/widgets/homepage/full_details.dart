@@ -15,7 +15,7 @@ class FullDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: AppSize.appheight * .19,
+      height: AppSize.appheight * .21,
       width: AppSize.appwidth,
       padding:
           EdgeInsets.symmetric(horizontal: AppSize.appwidth * .01, vertical: 8),
@@ -57,7 +57,7 @@ class FullDetails extends StatelessWidget {
                 height: AppSize.appheight * .02,
               ),
               SizedBox(
-                width: AppSize.appwidth * .5,
+                width: AppSize.appwidth * .55,
                 child: Text(selectedad.name,
                     style: const TextStyle(
                       color: Colors.black,
